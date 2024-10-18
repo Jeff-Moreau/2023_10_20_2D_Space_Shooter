@@ -14,6 +14,7 @@
  ****************************************************************************************/
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TrenchWars
 {
@@ -128,9 +129,37 @@ namespace TrenchWars
 		}*/
 
         #endregion
-        #region Public Methods/Functions
+        #region Public Button Methods/Functions
 
-        //Public made functions go here
+        public void ExitGameButton()
+        {
+            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+        }
+
+        public void StartGameButton()
+        {
+            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+            SceneManager.LoadScene("LevelOne");
+        }
+
+        public void SettingsButton()
+        {
+            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+            MainMenuScreen.SetActive(false);
+            SettingsScreen.SetActive(true);
+        }
+
+        public void HighScoreButton()
+        {
+            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+            MainMenuScreen.SetActive(false);
+            HighScoreScreen.SetActive(true);
+        }
 
         #endregion
         #region Closing Methods/Functions

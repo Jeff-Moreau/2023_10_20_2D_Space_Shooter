@@ -244,6 +244,11 @@ namespace TrenchWars.Manager
             }
         }
 
+        public void AdjustMasterVolume(float aAmount)
+        {
+        
+        }
+
         public void AdjustMusicVolume(float aAmount)
         {
             mCurrentMusicVolume = aAmount;
