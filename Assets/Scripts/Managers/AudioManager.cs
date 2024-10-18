@@ -30,7 +30,8 @@ public enum eSoundFX
 {
     None,
     UIButtonClick,
-    UIHoverButton
+    UIHoverButton,
+    UIExitButton
 }
 
 public enum eSoundFXSource
@@ -39,7 +40,6 @@ public enum eSoundFXSource
     EchoNormal,
     Ambient,
     EchoAmbient,
-    UI
 }
 
 public enum eMusicSource
@@ -107,6 +107,8 @@ namespace TrenchWars.Manager
 
         #endregion
 
+        public AudioSource GetSoundFXSource => SoundFXSources[(int)eSoundFXSource.Normal];
+
         //FUNCTIONS
         #region Initialization Methods/Functions
 
@@ -147,10 +149,6 @@ namespace TrenchWars.Manager
 
                     case eSoundFXSource.EchoAmbient:
                         SoundFXSources[(int)eSoundFXSource.EchoAmbient].PlayOneShot(TheAudioData.GetSoudFXList[(int)aSoundToPlay]);
-                        break;
-
-                    case eSoundFXSource.UI:
-                        SoundFXSources[(int)eSoundFXSource.UI].PlayOneShot(TheAudioData.GetSoudFXList[(int)aSoundToPlay]);
                         break;
                 }
             }
@@ -263,7 +261,6 @@ namespace TrenchWars.Manager
         {
             mCurrentSoundFXVolume = aAmount;
 
-            SoundFXSources[(int)eSoundFXSource.UI].volume = mCurrentSoundFXVolume;
             SoundFXSources[(int)eSoundFXSource.Normal].volume = mCurrentSoundFXVolume;
             SoundFXSources[(int)eSoundFXSource.EchoNormal].volume = mCurrentSoundFXVolume;
         }

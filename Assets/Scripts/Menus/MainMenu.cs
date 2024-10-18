@@ -13,6 +13,7 @@
  * Known Bugs:
  ****************************************************************************************/
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -133,12 +134,27 @@ namespace TrenchWars
 
         public void ExitGameButton()
         {
-            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
-        #if UNITY_EDITOR
+            Manager.AudioManager.Access.PlaySound(eSoundFX.UIExitButton, eSoundFXSource.Normal);
+            StartCoroutine(WaitForSoundToFinish());
+        }
+
+        private static void ExitGame()
+        {
+#if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#else
             Application.Quit();
-        #endif
+#endif
+        }
+
+        private IEnumerator WaitForSoundToFinish()
+        {
+            while (Manager.AudioManager.Access.GetSoundFXSource.isPlaying)
+            {
+                yield return null;
+            }
+
+            ExitGame();
         }
 
         public void StartGameButton()
