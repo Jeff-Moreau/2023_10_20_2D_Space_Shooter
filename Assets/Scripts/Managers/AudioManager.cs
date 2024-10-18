@@ -15,6 +15,7 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 //ENUMERATORS
 #region Public Enums
@@ -31,7 +32,8 @@ public enum eSoundFX
     None,
     UIButtonClick,
     UIHoverButton,
-    UIExitButton
+    UIExitButton,
+    UIStartGame
 }
 
 public enum eSoundFXSource
@@ -88,6 +90,7 @@ namespace TrenchWars.Manager
         [Space(10)]
         [Header("DATA REQUIRED >======================---")]
         [SerializeField] private Data.AudioData TheAudioData = null;
+        [SerializeField] private AudioMixer MainAudioMixer = null;
         [Space(10)]
         [Header("MUSIC SOURCES >======================---")]
         [NonReorderable]
@@ -100,10 +103,6 @@ namespace TrenchWars.Manager
         #region Private Variables/Fields used in this Class Only
 
         private Coroutine mFadeMusic;
-
-        private float mCurrentMusicVolume;
-        private float mCurrentSoundFXVolume;
-        private float mCurrentAmbientVolume;
 
         #endregion
 
@@ -121,9 +120,7 @@ namespace TrenchWars.Manager
 
         private void InitializeVariables()
         {
-            mCurrentMusicVolume = MAX_VOLUME;
-            mCurrentSoundFXVolume = MAX_VOLUME;
-            mCurrentAmbientVolume = MAX_VOLUME;
+
         }
 
         #endregion
@@ -183,11 +180,6 @@ namespace TrenchWars.Manager
                 }
             }
 
-            foreach (AudioSource aSource in MusicSources)
-            {
-                aSource.volume = mCurrentMusicVolume;
-            }
-
             if (aShouldFadeIn)
             {
                 foreach (AudioSource aSource in MusicSources)
@@ -202,14 +194,9 @@ namespace TrenchWars.Manager
                     StopCoroutine(mFadeMusic);
                 }
 
-                mFadeMusic = StartCoroutine(FadeInMusic(TheAudioData.GetMusicFadeDuration, mCurrentMusicVolume, aSourceToUse));
+                mFadeMusic = StartCoroutine(FadeInMusic(TheAudioData.GetMusicFadeDuration, MAX_VOLUME, aSourceToUse));
 
                 return;
-            }
-
-            foreach (AudioSource aSource in MusicSources)
-            {
-                aSource.volume = mCurrentMusicVolume;
             }
 
             PlayNewMusic(aMusicToPlay, aSourceToUse);
@@ -244,33 +231,22 @@ namespace TrenchWars.Manager
 
         public void AdjustMasterVolume(float aAmount)
         {
-        
+            MainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(aAmount) * 20);
         }
 
         public void AdjustMusicVolume(float aAmount)
         {
-            mCurrentMusicVolume = aAmount;
-
-            foreach (AudioSource aSource in MusicSources)
-            {
-                aSource.volume = mCurrentMusicVolume;
-            }
+            MainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(aAmount) * 20);
         }
 
-        public void AdjustSoudFXVolume(float aAmount)
+        public void AdjustSoundFXVolume(float aAmount)
         {
-            mCurrentSoundFXVolume = aAmount;
-
-            SoundFXSources[(int)eSoundFXSource.Normal].volume = mCurrentSoundFXVolume;
-            SoundFXSources[(int)eSoundFXSource.EchoNormal].volume = mCurrentSoundFXVolume;
+            MainAudioMixer.SetFloat("SoundFXVolume", Mathf.Log10(aAmount) * 20);
         }
 
         public void AdjustAmbientVolume(float aAmount)
         {
-            mCurrentAmbientVolume = aAmount;
-
-            SoundFXSources[(int)eSoundFXSource.Ambient].volume = mCurrentAmbientVolume;
-            SoundFXSources[(int)eSoundFXSource.EchoAmbient].volume = mCurrentAmbientVolume;
+            MainAudioMixer.SetFloat("AmbientVolume", Mathf.Log10(aAmount) * 20);
         }
 
         #endregion
