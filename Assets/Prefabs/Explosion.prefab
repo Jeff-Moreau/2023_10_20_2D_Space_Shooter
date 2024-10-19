@@ -205,7 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mPlaySFX: {fileID: -6714196165388737492}
   mExplosionSound: {fileID: 8300000, guid: 1c6a79ca6e44f9f4d91f0fa053bce9c7, type: 3}
-  mDelay: 0.2
+  mDelay: 1
 --- !u!82 &-6714196165388737492
 AudioSource:
   m_ObjectHideFlags: 0

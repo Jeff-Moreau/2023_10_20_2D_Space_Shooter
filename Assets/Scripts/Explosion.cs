@@ -35,6 +35,8 @@ public class Explosion : MonoBehaviour
 
     private void Update()
     {
+        transform.position -= new Vector3(0, (1 * Time.deltaTime), 0);
+
         mWaitTime += Time.deltaTime;
 
         if (mWaitTime >= mDelay)

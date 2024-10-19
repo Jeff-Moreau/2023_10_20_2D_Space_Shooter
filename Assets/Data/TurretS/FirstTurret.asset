@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fe301fbd862ba4e9aa9529b234c562, type: 3}
   m_Name: FirstTurret
   m_EditorClassIdentifier: 
-  rateOfFire: 0
-  health: 2
-  projectileUsed: {fileID: 2267739600030115732, guid: d43e1e62356ac064bb7fba2b4fa3d35a, type: 3}
-  moveSpeed: 4.2
+  mRateOfFire: 2
+  mHealth: 3
+  mMoveSpeed: 1
+  mProjectileUsed: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
+  mLaser: {fileID: 0}
