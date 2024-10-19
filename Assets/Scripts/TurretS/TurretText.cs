@@ -16,40 +16,43 @@
 using TMPro;
 using UnityEngine;
 
-public class TurretText : MonoBehaviour
+namespace TrenchWars
 {
-    [SerializeField] private TextMeshProUGUI mKillText = null;
-
-    private int mCurrentKills;
-
-    public int GetturretKills => mCurrentKills;
-
-    private void Start()
+    public class TurretText : MonoBehaviour
     {
-        mCurrentKills = 0;
-    }
+        [SerializeField] private TextMeshProUGUI mKillText = null;
 
-    private void OnEnable()
-    {
-        Actions.KillCount += AddScore;
-    }
+        private int mCurrentKills;
 
-    private void OnDisable()
-    {
-        Actions.KillCount -= AddScore;
-    }
+        public int GetturretKills => mCurrentKills;
 
-    public void AddScore(int amount)
-    {
-        if (amount == 0)
+        private void Start()
         {
             mCurrentKills = 0;
-            mKillText.text = mCurrentKills.ToString();
         }
-        else
+
+        private void OnEnable()
         {
-            mCurrentKills += amount;
-            mKillText.text = mCurrentKills.ToString();
+            UIActions.KillCount += AddScore;
+        }
+
+        private void OnDisable()
+        {
+            UIActions.KillCount -= AddScore;
+        }
+
+        public void AddScore(int amount)
+        {
+            if (amount == 0)
+            {
+                mCurrentKills = 0;
+                mKillText.text = mCurrentKills.ToString();
+            }
+            else
+            {
+                mCurrentKills += amount;
+                mKillText.text = mCurrentKills.ToString();
+            }
         }
     }
 }

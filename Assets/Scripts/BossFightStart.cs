@@ -17,44 +17,47 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class BossFightStart : MonoBehaviour
+namespace TrenchWars
 {
-    [SerializeField] private GameObject mBossSpawn = null;
-    [SerializeField] private GameObject mSharkBoss = null;
-    [SerializeField] private TurretText mCurrentKills = null;
-    [SerializeField] private TextMeshProUGUI mTurretKills = null;
-    [SerializeField] private Light2D mGlobalLight = null;
-    [SerializeField] private AudioSource mSoundSource = null;
-    [SerializeField] private AudioClip mBossFight = null;
-    [SerializeField] private AudioClip mBossIncoming = null;
-
-    private int mBossCount;
-
-    private void Start()
+    public class BossFightStart : MonoBehaviour
     {
-        mBossCount = 0;
-    }
+        [SerializeField] private GameObject mBossSpawn = null;
+        [SerializeField] private GameObject mSharkBoss = null;
+        [SerializeField] private TurretText mCurrentKills = null;
+        [SerializeField] private TextMeshProUGUI mTurretKills = null;
+        [SerializeField] private Light2D mGlobalLight = null;
+        [SerializeField] private AudioSource mSoundSource = null;
+        [SerializeField] private AudioClip mBossFight = null;
+        [SerializeField] private AudioClip mBossIncoming = null;
 
-    private void Update()
-    {
-        if (mCurrentKills.GetturretKills >= 20 && mBossCount <= 0)
+        private int mBossCount;
+
+        private void Start()
         {
-            mGlobalLight.color = Color.red;
-            mBossCount = 1;
-            mSoundSource.PlayOneShot(mBossFight);
-            Invoke("SpawnBoss", 4);
+            mBossCount = 0;
         }
-    }
 
-    private void SpawnBoss()
-    {
-
-        if (!mSharkBoss.activeInHierarchy && mBossCount == 1)
+        private void Update()
         {
-            mSoundSource.PlayOneShot(mBossIncoming);
-            mSharkBoss.transform.position = mBossSpawn.transform.position;
-            Instantiate(mSharkBoss);
-            Debug.Log("Im a Shark");
+            if (mCurrentKills.GetturretKills >= 20 && mBossCount <= 0)
+            {
+                mGlobalLight.color = Color.red;
+                mBossCount = 1;
+                mSoundSource.PlayOneShot(mBossFight);
+                Invoke("SpawnBoss", 4);
+            }
+        }
+
+        private void SpawnBoss()
+        {
+
+            if (!mSharkBoss.activeInHierarchy && mBossCount == 1)
+            {
+                mSoundSource.PlayOneShot(mBossIncoming);
+                mSharkBoss.transform.position = mBossSpawn.transform.position;
+                Instantiate(mSharkBoss);
+                Debug.Log("Im a Shark");
+            }
         }
     }
 }

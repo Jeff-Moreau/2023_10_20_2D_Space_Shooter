@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RightWallTwo
   m_EditorClassIdentifier: 
   mBackgroundImage: {fileID: 2800000, guid: 5b492a24fb645ba4fbbe7bba05d78948, type: 3}
-  mScrollSpeed: -0.1
+  mScrollSpeed: -0.15
   mImageTint: {r: 1, g: 1, b: 1, a: 1}

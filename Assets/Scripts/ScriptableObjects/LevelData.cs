@@ -1,22 +1,37 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: Actions.cs
- * Date Created: October 20, 2023
+ * Script: LevelData.cs
+ * Date Created:
  * Created By: Jeff Moreau
  * Used On:
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified:
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
-
-using System;
+ 
 using UnityEngine;
 
-public class Actions : MonoBehaviour
+namespace TrenchWars.Data
 {
-    public static Action<int> KillCount;
+	[CreateAssetMenu(fileName = "LevelData", menuName = "Data/New LevelData", order = 0)]
+	public class LevelData : ScriptableObject
+	{
+		//VARIABLES
+		#region Inspector Variable Declarations and Initializations
+
+		[SerializeField] private eMusic LevelMusic = eMusic.None;
+		
+		#endregion
+		
+		//GETTERS
+		#region Accessors/Getters
+		
+		public eMusic GetLevelMusic => LevelMusic;
+		
+		#endregion
+	}
 }

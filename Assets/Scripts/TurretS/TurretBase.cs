@@ -15,48 +15,51 @@
 
 using UnityEngine;
 
-public class TurretBase : MonoBehaviour
+namespace TrenchWars
 {
-    [SerializeField] private TurretSO mTurretData = null;
-    [SerializeField] private GameObject mExplosion = null;
-
-    private float mCurrentHealth;
-
-    private void Start()
+    public class TurretBase : MonoBehaviour
     {
-        mCurrentHealth = mTurretData.GetHealth;
-    }
+        [SerializeField] private TurretSO mTurretData = null;
+        [SerializeField] private GameObject mExplosion = null;
 
-    private void Update()
-    {
-        transform.position -= new Vector3(0, (mTurretData.GetMoveSpeed * Time.deltaTime), 0);
+        private float mCurrentHealth;
 
-        if (mCurrentHealth <= 0)
+        private void Start()
         {
-            Actions.KillCount?.Invoke(1);
-            Instantiate(mExplosion, transform.position, transform.rotation);
-            TurretDie();
+            mCurrentHealth = mTurretData.GetHealth;
         }
-    }
 
-    private void TurretDie()
-    {
-        gameObject.SetActive(false);
-        mCurrentHealth = mTurretData.GetHealth;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == 7)
+        private void Update()
         {
-            mCurrentHealth -= 1;
-            collision.gameObject.SetActive(false);
-        }
-    }
+            transform.position -= new Vector3(0, (mTurretData.GetMoveSpeed * Time.deltaTime), 0);
 
-    private void OnBecameInvisible()
-    {
-        gameObject.SetActive(false);
-        mCurrentHealth = mTurretData.GetHealth;
+            if (mCurrentHealth <= 0)
+            {
+                UIActions.KillCount?.Invoke(1);
+                Instantiate(mExplosion, transform.position, transform.rotation);
+                TurretDie();
+            }
+        }
+
+        private void TurretDie()
+        {
+            gameObject.SetActive(false);
+            mCurrentHealth = mTurretData.GetHealth;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.layer == 7)
+            {
+                mCurrentHealth -= 1;
+                collision.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnBecameInvisible()
+        {
+            gameObject.SetActive(false);
+            mCurrentHealth = mTurretData.GetHealth;
+        }
     }
 }
