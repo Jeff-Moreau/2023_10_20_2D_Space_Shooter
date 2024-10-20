@@ -49,34 +49,38 @@ namespace TrenchWars.Manager
 		}
 	
 		public static GameManager Access => mInstance;
-		
+
 		#endregion
-		
+
 		//ENUMERATORS
 		#region Private Enumerator Declarations Only
-		
+
 		// private enum eEnumName  // Example
 		// {
 		// 		Hey,
 		//		You
 		// }
-		
+
 		#endregion
-		
+
 		//VARIABLES
 		#region Constant Variable Declarations and Initializations
-		
+
 		// private const int MY_AGE = 44;  // Example
-		
+
 		#endregion
 		#region Inspector Variable Declarations and Initializations to empty or null
-		
-		// [SerializeField] private GameObject MyObject = null;  // Example
-		
+
+		[SerializeField] private GameObject TheEssentials = null;
+		[SerializeField] private GameObject TheSaveLoadManager = null;
+		[SerializeField] private GameObject TheAudioManager = null;
+		[SerializeField] private GameObject TheCamera = null;
+
 		#endregion
 		#region Private Variable Declarations Only
-		
-		// private int mMyInt;  // Example
+
+		private int mCurrentLevel;
+		private int mCurrentScore;
 		
 		#endregion
 		
@@ -92,22 +96,63 @@ namespace TrenchWars.Manager
 		#region Initialization Methods/Functions
 		
 		private void Awake() => InitializeSingleton();
-		
+
 		/*private void OnEnable()
 		{
 			
 		}*/
-		
+
 		/*private void OnDisable()
 		{
 			
 		}*/
-		
-		private void Start() => InitializeVariables();
-		
+
+		private void Start()
+		{
+			LoadEssentials();
+			InitializeVariables();
+		}
+
+		private void LoadEssentials()
+		{
+			if (!TheEssentials.activeInHierarchy)
+			{
+                if (TheEssentials != null)
+                {
+					Instantiate(TheEssentials);
+					TheEssentials.SetActive(true);
+				}
+			}
+            if (!TheSaveLoadManager.activeInHierarchy)
+            {
+                if (TheSaveLoadManager != null)
+                {
+                    Instantiate(TheSaveLoadManager);
+                    TheSaveLoadManager.SetActive(true);
+                }
+            }
+            if (!TheAudioManager.activeInHierarchy)
+            {
+                if (TheAudioManager != null)
+                {
+                    Instantiate(TheAudioManager);
+                    TheAudioManager.SetActive(true);
+                }
+            }
+            if (!TheCamera.activeInHierarchy)
+            {
+                if (TheCamera != null)
+                {
+                    Instantiate(TheCamera);
+                    TheCamera.SetActive(true);
+                }
+            }
+        }
+
 		private void InitializeVariables()
 		{
-			
+			mCurrentLevel = 1;
+			mCurrentScore = 0;
 		}
 		
 		#endregion
