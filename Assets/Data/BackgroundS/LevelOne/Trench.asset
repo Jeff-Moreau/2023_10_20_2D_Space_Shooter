@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc3de6bf31a3e348920c2873706748a, type: 3}
   m_Name: Trench
   m_EditorClassIdentifier: 
-  mBackgroundImage: {fileID: 2800000, guid: 2dcf4d3cab6685448a2acead549de536, type: 3}
-  mScrollSpeed: 0.025
-  mImageTint: {r: 1, g: 1, b: 1, a: 1}
+  ImageToUse: {fileID: 2800000, guid: 2dcf4d3cab6685448a2acead549de536, type: 3}
+  ScrollSpeed: 0.023
+  ImageTint: {r: 1, g: 1, b: 1, a: 1}

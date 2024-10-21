@@ -13,6 +13,8 @@
  * Known Bugs:
  ****************************************************************************************/
 
+using TrenchWars;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
@@ -21,6 +23,7 @@ public class Explosion : MonoBehaviour
     [SerializeField] private AudioClip mExplosionSound = null;
     [SerializeField] private float mDelay = 0.0f;
 
+    private ScreenShake shakeMe;
     private float mWaitTime;
 
     private void OnEnable()
@@ -31,6 +34,8 @@ public class Explosion : MonoBehaviour
     private void Start()
     {
         mWaitTime = 0.0f;
+        shakeMe = Camera.main.GetComponent<ScreenShake>();
+        shakeMe.TriggerShake(0.1f);
     }
 
     private void Update()

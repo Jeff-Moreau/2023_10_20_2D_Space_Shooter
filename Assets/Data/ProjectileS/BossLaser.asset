@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14215236cc4cf944d9bc5cf401b018b7, type: 3}
   m_Name: BossLaser
   m_EditorClassIdentifier: 
-  fireSound: {fileID: 8300000, guid: bcd3eddc5fdb8b847a8917c39b78c8c6, type: 3}
-  travelSpeed: 15
+  ProjectileSound: 0
+  MovementSpeed: 5

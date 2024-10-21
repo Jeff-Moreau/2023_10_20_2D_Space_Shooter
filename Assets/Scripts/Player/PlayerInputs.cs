@@ -118,7 +118,7 @@ namespace TrenchWars
                     newLaser.SetActive(true);
                 }
 
-                mSoundLasers.PlayOneShot(mLaser.GetSound);
+                //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mShootTimer = 0;
             }
             if (Input.GetMouseButtonDown(1) && mPowerShotTimer <= 0)
@@ -140,7 +140,7 @@ namespace TrenchWars
                     }
                 }
 
-                mSoundLasers.PlayOneShot(mLaser.GetSound);
+                //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mPowerShotTimer = 5;
             }
 

@@ -13,9 +13,9 @@
  * Known Bugs:
  ****************************************************************************************/
 
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace TrenchWars
 {

@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: October 20, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -23,10 +23,12 @@ namespace TrenchWars
         [SerializeField] private GameObject mExplosion = null;
 
         private float mCurrentHealth;
+        private bool mCanTakeDamage;
 
         private void Start()
         {
             mCurrentHealth = mTurretData.GetHealth;
+            mCanTakeDamage = false;
         }
 
         private void Update()
@@ -49,16 +51,22 @@ namespace TrenchWars
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.layer == 7)
+            if (collision.gameObject.layer == 7 && mCanTakeDamage)
             {
                 mCurrentHealth -= 1;
                 collision.gameObject.SetActive(false);
             }
         }
 
+        private void OnBecameVisible()
+        {
+            mCanTakeDamage = true;
+        }
+
         private void OnBecameInvisible()
         {
             gameObject.SetActive(false);
+            mCanTakeDamage = false;
             mCurrentHealth = mTurretData.GetHealth;
         }
     }

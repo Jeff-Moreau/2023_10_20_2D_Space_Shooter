@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14215236cc4cf944d9bc5cf401b018b7, type: 3}
   m_Name: GreenLaser
   m_EditorClassIdentifier: 
-  mFireSound: {fileID: 0}
-  mSpeed: 10
+  ProjectileSound: 0
+  MovementSpeed: 5

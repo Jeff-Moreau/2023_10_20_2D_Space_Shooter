@@ -73,6 +73,7 @@ namespace TrenchWars.Manager
 
 		[SerializeField] private GameObject TheSaveLoadManager = null;
 		[SerializeField] private GameObject TheAudioManager = null;
+		[SerializeField] private GameObject[] TheLevels = null;
 
 		#endregion
 		#region Private Variable Declarations Only
