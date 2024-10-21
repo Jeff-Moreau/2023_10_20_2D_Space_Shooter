@@ -1,13 +1,13 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
  * Script: LevelData.cs
- * Date Created:
+ * Date Created: October 20, 2024
  * Created By: Jeff Moreau
  * Used On:
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified:
+ * Date Last Modified: October 20, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -30,7 +30,7 @@ namespace TrenchWars.Data
 		//GETTERS
 		#region Accessors/Getters
 		
-		public eMusic GetLevelMusic => LevelMusic;
+		public eMusic GetMusic => LevelMusic;
 		
 		#endregion
 	}

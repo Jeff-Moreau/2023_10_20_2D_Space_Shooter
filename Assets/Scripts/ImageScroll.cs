@@ -1,6 +1,6 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: LaserOne.cs
+ * Script: ImageScroll.cs
  * Date Created: October 20, 2023
  * Created By: Jeff Moreau
  * Used On:
@@ -14,21 +14,23 @@
  ****************************************************************************************/
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TrenchWars
 {
-    public class LaserOne : MonoBehaviour
+    public class ImageScroll : MonoBehaviour
     {
-        [SerializeField] private Data.ProjectileData mProjectileData = null;
+        [SerializeField] private Data.ImageScrollData mScrollData = null;
+        [SerializeField] private RawImage mBackgroundImage = null;
 
+        private void Start()
+        {
+            mBackgroundImage.texture = mScrollData.GetImage;
+            mBackgroundImage.color = mScrollData.GetImageTint;
+        }
         private void Update()
         {
-            transform.position += new Vector3(0, (mProjectileData.GetMovementSpeed * Time.deltaTime), 0);
-        }
-
-        private void OnBecameInvisible()
-        {
-            gameObject.SetActive(false);
+            mBackgroundImage.uvRect = new Rect(mBackgroundImage.uvRect.position + new Vector2(mScrollData.GetScrollSpeed, 0) * Time.deltaTime, mBackgroundImage.uvRect.size);
         }
     }
 }

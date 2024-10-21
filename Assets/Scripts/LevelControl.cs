@@ -58,7 +58,7 @@ namespace TrenchWars
 
         private void InitializeVariables()
         {
-            Manager.AudioManager.Access.PlayMusic(MyLevelData.GetLevelMusic, eMusicSource.Normal, true);
+            Manager.AudioManager.Access.PlayMusic(MyLevelData.GetMusic, eMusicSource.Normal, true);
         }
 
         #endregion

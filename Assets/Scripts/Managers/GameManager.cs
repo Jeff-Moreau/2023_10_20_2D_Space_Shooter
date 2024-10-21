@@ -71,10 +71,8 @@ namespace TrenchWars.Manager
 		#endregion
 		#region Inspector Variable Declarations and Initializations to empty or null
 
-		[SerializeField] private GameObject TheEssentials = null;
 		[SerializeField] private GameObject TheSaveLoadManager = null;
 		[SerializeField] private GameObject TheAudioManager = null;
-		[SerializeField] private GameObject TheCamera = null;
 
 		#endregion
 		#region Private Variable Declarations Only
@@ -115,14 +113,6 @@ namespace TrenchWars.Manager
 
 		private void LoadEssentials()
 		{
-			if (!TheEssentials.activeInHierarchy)
-			{
-                if (TheEssentials != null)
-                {
-					Instantiate(TheEssentials);
-					TheEssentials.SetActive(true);
-				}
-			}
             if (!TheSaveLoadManager.activeInHierarchy)
             {
                 if (TheSaveLoadManager != null)
@@ -137,14 +127,6 @@ namespace TrenchWars.Manager
                 {
                     Instantiate(TheAudioManager);
                     TheAudioManager.SetActive(true);
-                }
-            }
-            if (!TheCamera.activeInHierarchy)
-            {
-                if (TheCamera != null)
-                {
-                    Instantiate(TheCamera);
-                    TheCamera.SetActive(true);
                 }
             }
         }

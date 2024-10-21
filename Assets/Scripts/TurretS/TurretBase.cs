@@ -19,7 +19,7 @@ namespace TrenchWars
 {
     public class TurretBase : MonoBehaviour
     {
-        [SerializeField] private TurretSO mTurretData = null;
+        [SerializeField] private Data.TurretData mTurretData = null;
         [SerializeField] private GameObject mExplosion = null;
 
         private float mCurrentHealth;

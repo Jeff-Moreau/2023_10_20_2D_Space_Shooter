@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: October 20, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -15,22 +15,25 @@
 
 using UnityEngine;
 
-public class EnemyLaser : MonoBehaviour
+namespace TrenchWars
 {
-    [SerializeField] private ProjectileSO mProjectileData = null;
-    [SerializeField] private Rigidbody2D mRigidbody = null;
-
-    private GameObject mPlayer;
-
-    private void OnEnable()
+    public class EnemyLaser : MonoBehaviour
     {
-        mPlayer = GameObject.FindGameObjectWithTag("Player");
-        var direction = mPlayer.transform.position - transform.position;
-        mRigidbody.velocity = new Vector2(direction.x, direction.y).normalized * mProjectileData.GetSpeed;
-    }
+        [SerializeField] private Data.ProjectileData mProjectileData = null;
+        [SerializeField] private Rigidbody2D mRigidbody = null;
 
-    private void OnBecameInvisible()
-    {
-        gameObject.SetActive(false);
+        private GameObject mPlayer;
+
+        private void OnEnable()
+        {
+            mPlayer = GameObject.FindGameObjectWithTag("Player");
+            var direction = mPlayer.transform.position - transform.position;
+            mRigidbody.velocity = new Vector2(direction.x, direction.y).normalized * mProjectileData.GetMovementSpeed;
+        }
+
+        private void OnBecameInvisible()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

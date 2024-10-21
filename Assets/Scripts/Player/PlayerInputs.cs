@@ -7,15 +7,15 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: October 20, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace TrenchWars
 {
@@ -37,7 +37,7 @@ namespace TrenchWars
         [SerializeField] private GameObject mPlayScreenUI = null;
         [SerializeField] private GameObject mManagers = null;
         [SerializeField] private LaserPool mLaserPool = null;
-        [SerializeField] private ProjectileSO mLaser = null;
+        [SerializeField] private Data.ProjectileData mLaser = null;
         [SerializeField] private List<GameObject> mSpawnPoints = null;
         [SerializeField] private TextMeshProUGUI mPowerShotTimeText = null;
         [SerializeField] private GameObject ScrapeLeft = null;
@@ -118,7 +118,7 @@ namespace TrenchWars
                     newLaser.SetActive(true);
                 }
 
-                mSoundLasers.PlayOneShot(mLaser.GetFireSound);
+                mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mShootTimer = 0;
             }
             if (Input.GetMouseButtonDown(1) && mPowerShotTimer <= 0)
@@ -140,7 +140,7 @@ namespace TrenchWars
                     }
                 }
 
-                mSoundLasers.PlayOneShot(mLaser.GetFireSound);
+                mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mPowerShotTimer = 5;
             }
 
