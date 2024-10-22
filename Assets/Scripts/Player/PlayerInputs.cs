@@ -16,6 +16,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace TrenchWars
 {
@@ -59,29 +60,59 @@ namespace TrenchWars
         private float mNewXPos;
         private float mNewYPos;
         private float mShootTimer;
-        private float mPowerShotTimer;
+        //private float mPowerShotTimer;
+        private Coroutine mFillSpecialMeter;
 
         public float GetHealth => mCurrentHealth;
 
         void Start()
         {
+            mFillSpecialMeter = null;
             mCurrentHealth = 5;
             mShipXPos = 0.0f;
             mShipYPos = 0.0f;
             mNewXPos = 0.0f;
             mNewYPos = 0.0f;
             mShootTimer = 0.3f;
-            mPowerShotTimer = 5;
+            //mPowerShotTimer = 5;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
+
+            FillSpecial();
+        }
+
+        private void FillSpecial()
+        {
+            if (mFillSpecialMeter != null)
+            {
+                StopCoroutine(mFillSpecialMeter);
+            }
+
+            mFillSpecialMeter = StartCoroutine(FillSlider());
+        }
+
+        private IEnumerator FillSlider()
+        {
+            float elapsedTime = 0f;
+            HUDActions.UpdateSpecial(0);
+
+            while (elapsedTime < 5)
+            {
+                HUDActions.UpdateSpecial(Mathf.Lerp(0f, 1f, elapsedTime / 5));
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            HUDActions.UpdateSpecial(1);
+            mFillSpecialMeter = null;
         }
 
         void Update()
         {
             mShootTimer += Time.deltaTime;
-            mPowerShotTimer -= Time.deltaTime;
+            //mPowerShotTimer -= Time.deltaTime;
 
-            if (Mathf.Floor(mPowerShotTimer) <= 0)
+            /*if (Mathf.Floor(mPowerShotTimer) <= 0)
             {
                 mPowerShotTimer = 0;
             }
@@ -93,7 +124,7 @@ namespace TrenchWars
             else
             {
                 mPowerShotTimeText.text = Mathf.Floor(mPowerShotTimer).ToString();
-            }
+            }*/
 
             mShipXPos = Input.mousePosition.x;
             mShipYPos = Input.mousePosition.y;
@@ -121,7 +152,7 @@ namespace TrenchWars
                 //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mShootTimer = 0;
             }
-            if (Input.GetMouseButtonDown(1) && mPowerShotTimer <= 0)
+            if (Input.GetMouseButtonDown(1)/* && mPowerShotTimer <= 0*/)
             {
                 var newLaser = new GameObject[3];
 
@@ -139,9 +170,9 @@ namespace TrenchWars
                         newLaser[i].SetActive(true);
                     }
                 }
-
+                FillSpecial();
                 //mSoundLasers.PlayOneShot(mLaser.GetSound);
-                mPowerShotTimer = 5;
+                //mPowerShotTimer = 5;
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
