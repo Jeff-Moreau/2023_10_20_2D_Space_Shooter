@@ -13,46 +13,35 @@
  * Known Bugs:
  ****************************************************************************************/
 
-using TMPro;
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace TrenchWars
 {
     public class PlayerInputs : MonoBehaviour
     {
+        #region Old Code
+
+        private enum eProjectileSpawn
+        {
+            Left,
+            Middle,
+            Right
+        }
+
         [Header("Player Information")]
-        [SerializeField] private GameObject mPlayer = null;
         [SerializeField] private Animator mAnimator = null;
         [SerializeField] private Rigidbody2D mRigidbody = null;
         [SerializeField] private GameObject mLaserAmmo = null;
-        [SerializeField] private GameObject mBulletSpawnMiddle = null;
-        [SerializeField] private GameObject mBulletSpawnLeft = null;
-        [SerializeField] private GameObject mBulletSpawnRight = null;
 
         [Header("Object Refrences")]
         [SerializeField] private GameObject mExplosion = null;
-        [SerializeField] private GameObject mMainMenu = null;
-        [SerializeField] private GameObject mPlayScreen = null;
-        [SerializeField] private GameObject mPlayScreenUI = null;
-        [SerializeField] private GameObject mManagers = null;
+        [SerializeField] private GameObject ScrapeLeft = null;
+        [SerializeField] private GameObject ScrapeRight = null;
         [SerializeField] private LaserPool mLaserPool = null;
         [SerializeField] private Data.ProjectileData mLaser = null;
         [SerializeField] private List<GameObject> mSpawnPoints = null;
-        [SerializeField] private TextMeshProUGUI mPowerShotTimeText = null;
-        [SerializeField] private GameObject ScrapeLeft = null;
-        [SerializeField] private GameObject ScrapeRight = null;
-
-        [Header("Sound Effects")]
-        [SerializeField] private AudioSource mSoundEffects = null;
-        [SerializeField] private AudioSource mSoundLasers = null;
-        [SerializeField] private AudioSource mSoundPower = null;
-        [SerializeField] private AudioClip mWallImpactSound = null;
-        [SerializeField] private AudioClip mPowerOffSound = null;
-        [SerializeField] private AudioClip mWarningBeepSound = null;
-        [SerializeField] private AudioClip mFullHealthSound = null;
-        //[SerializeField] private AudioSource thisMusic;
 
         private float mCurrentHealth;
         private float mShipXPos;
@@ -60,7 +49,8 @@ namespace TrenchWars
         private float mNewXPos;
         private float mNewYPos;
         private float mShootTimer;
-        //private float mPowerShotTimer;
+        private bool mCanSpecial;
+        private int mCurrentFirePosition;
         private Coroutine mFillSpecialMeter;
 
         public float GetHealth => mCurrentHealth;
@@ -74,7 +64,9 @@ namespace TrenchWars
             mNewXPos = 0.0f;
             mNewYPos = 0.0f;
             mShootTimer = 0.3f;
-            //mPowerShotTimer = 5;
+            mCurrentFirePosition = 0;
+            mCanSpecial = mFillSpecialMeter == null ? false : true;
+
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
 
@@ -104,27 +96,13 @@ namespace TrenchWars
             }
 
             HUDActions.UpdateSpecial(1);
+            mCanSpecial = true;
             mFillSpecialMeter = null;
         }
 
         void Update()
         {
             mShootTimer += Time.deltaTime;
-            //mPowerShotTimer -= Time.deltaTime;
-
-            /*if (Mathf.Floor(mPowerShotTimer) <= 0)
-            {
-                mPowerShotTimer = 0;
-            }
-
-            if (mPowerShotTimer == 0)
-            {
-                mPowerShotTimeText.text = "RDY";
-            }
-            else
-            {
-                mPowerShotTimeText.text = Mathf.Floor(mPowerShotTimer).ToString();
-            }*/
 
             mShipXPos = Input.mousePosition.x;
             mShipYPos = Input.mousePosition.y;
@@ -141,7 +119,9 @@ namespace TrenchWars
 
                 if (newLaser != null)
                 {
-                    newLaser.transform.position = mBulletSpawnMiddle.transform.position;
+                    
+                    newLaser.transform.position = mSpawnPoints[mCurrentFirePosition].transform.position;
+                    mCurrentFirePosition = (mCurrentFirePosition + 1) % mSpawnPoints.Count;
                 }
 
                 for (int i = 0 ; i < mLaserPool.GetLaserProjectiles.Count ; i++)
@@ -152,7 +132,7 @@ namespace TrenchWars
                 //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mShootTimer = 0;
             }
-            if (Input.GetMouseButtonDown(1)/* && mPowerShotTimer <= 0*/)
+            if (Input.GetMouseButtonDown(1) && mCanSpecial)
             {
                 var newLaser = new GameObject[3];
 
@@ -170,29 +150,20 @@ namespace TrenchWars
                         newLaser[i].SetActive(true);
                     }
                 }
+                mCanSpecial = false;
                 FillSpecial();
                 //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 //mPowerShotTimer = 5;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                //thisMusic.Stop();
-                mMainMenu.SetActive(true);
-                mManagers.SetActive(false);
-                mPlayScreen.SetActive(false);
-                mPlayScreenUI.SetActive(false);
-                mPlayer.SetActive(false);
             }
 
             mRigidbody.position = Camera.main.ScreenToWorldPoint(new Vector3(mNewXPos, mNewYPos, -Camera.main.transform.position.z));
 
             if (mCurrentHealth <= 0)
             {
-                if (!mSoundPower.isPlaying)
+                /*if (!mSoundPower.isPlaying)
                 {
                     mSoundPower.PlayOneShot(mPowerOffSound);
-                }
+                }*/
 
                 Instantiate(mExplosion, transform.position, transform.rotation);
                 UIActions.KillCount?.Invoke(0);
@@ -271,7 +242,7 @@ namespace TrenchWars
             if (collision.gameObject.layer == 9)
             {
                 mCurrentHealth = 5;
-                mSoundPower.PlayOneShot(mFullHealthSound);
+                //mSoundPower.PlayOneShot(mFullHealthSound);
                 collision.gameObject.SetActive(false);
             }
         }
@@ -281,19 +252,19 @@ namespace TrenchWars
         {
             if (collision.gameObject.CompareTag("LeftWall"))
             {
-                if (!mSoundEffects.isPlaying)
+                /*if (!mSoundEffects.isPlaying)
                 {
                     mSoundEffects.PlayOneShot(mWallImpactSound);
-                }
+                }*/
                 ScrapeLeft.SetActive(true);
             }
 
             if (collision.gameObject.CompareTag("RightWall"))
             {
-                if (!mSoundEffects.isPlaying)
+                /*if (!mSoundEffects.isPlaying)
                 {
                     mSoundEffects.PlayOneShot(mWallImpactSound);
-                }
+                }*/
                 ScrapeRight.SetActive(true);
             }
         }
@@ -304,22 +275,22 @@ namespace TrenchWars
             {
                 mCurrentHealth -= 1;
 
-                if (!mSoundEffects.isPlaying)
+                /*if (!mSoundEffects.isPlaying)
                 {
                     mSoundEffects.PlayOneShot(mWarningBeepSound);
                     mSoundEffects.PlayOneShot(mWallImpactSound);
-                }
+                }*/
             }
 
             if (collision.gameObject.CompareTag("RightWall"))
             {
                 mCurrentHealth -= 1;
 
-                if (!mSoundEffects.isPlaying)
+                /*if (!mSoundEffects.isPlaying)
                 {
                     mSoundEffects.PlayOneShot(mWarningBeepSound);
                     mSoundEffects.PlayOneShot(mWallImpactSound);
-                }
+                }*/
             }
         }
 
@@ -335,10 +306,12 @@ namespace TrenchWars
                 ScrapeRight.SetActive(false);
             }
 
-            if (mSoundEffects.isPlaying)
+            /*if (mSoundEffects.isPlaying)
             {
                 mSoundEffects.Stop();
-            }
+            }*/
         }
+
+        #endregion
     }
 }

@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace TrenchWars
 {
-    public class TurretBase : MonoBehaviour
+    public class TurretBase : MonoBehaviour, ITakeDamage
     {
         [SerializeField] private Data.TurretData mTurretData = null;
         [SerializeField] private GameObject mExplosion = null;
@@ -35,28 +35,29 @@ namespace TrenchWars
         {
             transform.position -= new Vector3(0, (mTurretData.GetMoveSpeed * Time.deltaTime), 0);
 
-            if (mCurrentHealth <= 0)
+            /*if (mCurrentHealth <= 0)
             {
                 UIActions.KillCount?.Invoke(1);
                 Instantiate(mExplosion, transform.position, transform.rotation);
                 TurretDie();
-            }
+            }*/
         }
 
         private void TurretDie()
         {
+            LevelActions.UpdateEnemiesKilled?.Invoke();
             gameObject.SetActive(false);
             mCurrentHealth = mTurretData.GetHealth;
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        /*private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.layer == 7 && mCanTakeDamage)
             {
                 mCurrentHealth -= 1;
                 collision.gameObject.SetActive(false);
             }
-        }
+        }*/
 
         private void OnBecameVisible()
         {
@@ -68,6 +69,23 @@ namespace TrenchWars
             gameObject.SetActive(false);
             mCanTakeDamage = false;
             mCurrentHealth = mTurretData.GetHealth;
+        }
+
+        public void TakeDamage(float aDamage)
+        {
+            if (mCanTakeDamage)
+            {
+                if (mCurrentHealth <= 0)
+                {
+                    UIActions.KillCount?.Invoke(1);
+                    Instantiate(mExplosion, transform.position, transform.rotation);
+                    TurretDie();
+                }
+                else
+                {
+                    mCurrentHealth -= aDamage;
+                }
+            }
         }
     }
 }

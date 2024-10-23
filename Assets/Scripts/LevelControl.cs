@@ -7,12 +7,13 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 19, 2024
+ * Date Last Modified: October 22, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
+using System;
 using UnityEngine;
 
 namespace TrenchWars
@@ -28,11 +29,13 @@ namespace TrenchWars
         #region Inspector Variable Declarations and Initializations to empty or null
 
         [SerializeField] private Data.LevelData MyLevelData = null;
+        [SerializeField] private GameObject[] TurretSpawnLocations = null;
+        [SerializeField] private GameObject[] EnemySpawnLocations = null;
 
         #endregion
         #region Private Variable Declarations Only
 
-        // private int mMyInt;  // Example
+        private int mCurrentEnemyKills;
 
         #endregion
 
@@ -44,21 +47,27 @@ namespace TrenchWars
 			//used for when the object is FIRST activated and ONLY ONCE
 		}*/
 
-        /*private void OnEnable()
+        private void OnEnable()
 		{
-			//Anytime the Object is set to active this is called
-		}*/
+            LevelActions.UpdateEnemiesKilled += AddKills;
+		}
 
-        /*private void OnDisable()
+
+        private void OnDisable()
 		{
-			
-		}*/
+            LevelActions.UpdateEnemiesKilled -= AddKills;
+		}
 
         private void Start() => InitializeVariables();
 
         private void InitializeVariables()
         {
             Manager.AudioManager.Access.PlayMusic(MyLevelData.GetMusic, eMusicSource.Normal, true);
+            mCurrentEnemyKills = 0;
+        }
+        private void AddKills()
+        {
+            mCurrentEnemyKills += 1;
         }
 
         #endregion

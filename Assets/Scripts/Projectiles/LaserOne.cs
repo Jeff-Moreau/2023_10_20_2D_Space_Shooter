@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: October 22, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -19,11 +19,24 @@ namespace TrenchWars
 {
     public class LaserOne : MonoBehaviour
     {
-        [SerializeField] private Data.ProjectileData mProjectileData = null;
+        [SerializeField] private Data.ProjectileData MyProjectileData = null;
+
+        private Collider2D mShooter;
 
         private void Update()
         {
-            transform.position += new Vector3(0, (mProjectileData.GetMovementSpeed * Time.deltaTime), 0);
+            transform.position += new Vector3(0, (MyProjectileData.GetMovementSpeed * Time.deltaTime), 0);
+        }
+
+        private void OnTriggerEnter2D(Collider2D aTarget)
+        {
+            ITakeDamage hitTarget = aTarget.gameObject.GetComponent<ITakeDamage>();
+
+            if (hitTarget != null)
+            {
+                hitTarget.TakeDamage(MyProjectileData.GetDamage);
+                gameObject.SetActive(false);
+            }
         }
 
         private void OnBecameInvisible()

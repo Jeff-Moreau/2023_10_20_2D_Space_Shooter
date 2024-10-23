@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: GreenLaser
   m_EditorClassIdentifier: 
   ProjectileSound: 0
-  MovementSpeed: 5
+  MovementSpeed: 20
+  Damage: 1

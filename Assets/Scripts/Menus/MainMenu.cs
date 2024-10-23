@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: October 22, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -16,7 +16,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 namespace TrenchWars
 {
@@ -28,25 +27,35 @@ namespace TrenchWars
         [SerializeField] private GameObject MainMenuScreen = null;
         [SerializeField] private GameObject SettingsScreen = null;
         [SerializeField] private GameObject HighScoreScreen = null;
+        [SerializeField] private GameObject HUD = null;
         [SerializeField] private Slider MasterVolume = null;
         [SerializeField] private Slider MusicVolume = null;
         [SerializeField] private Slider SoundFXVolume = null;
-        //[SerializeField] private Slider AmbientVolume = null;
+        [SerializeField] private Slider AmbientVolume = null;
 
         #endregion
+        #region Private Variables/Fields used in this Class Only
 
+        private bool mButtonPushed;
+
+        #endregion
         //FUNCTIONS
         #region Initialization Methods/Functions
 
+        private void OnEnable()
+        {
+            mButtonPushed = false;
+        }
         private void Start() => InitializeVariables();
 
         private void InitializeVariables()
         {
+            mButtonPushed = false;
             Manager.AudioManager.Access.PlayMusic(eMusic.MainMenu, eMusicSource.Normal, true);
             MasterVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMasterVolume);
             MusicVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMusicVolume);
             SoundFXVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustSoundFXVolume);
-            //AmbientVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustAmbientVolume);
+            AmbientVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustAmbientVolume);
         }
 
         #endregion
@@ -54,8 +63,12 @@ namespace TrenchWars
 
         public void ExitGameButton()
         {
-            Manager.AudioManager.Access.PlaySound(eSoundFX.UIExitButton, eSoundFXSource.Normal);
-            StartCoroutine(WaitForExitSoundOver());
+            if (!mButtonPushed)
+            {
+                mButtonPushed = true;
+                Manager.AudioManager.Access.PlaySound(eSoundFX.UIExitButton, eSoundFXSource.Normal);
+                StartCoroutine(WaitForExitSoundOver());
+            }
         }
 
         private static void ExitGame()
@@ -74,6 +87,7 @@ namespace TrenchWars
                 yield return null;
             }
 
+            mButtonPushed = false;
             ExitGame();
         }
 
@@ -84,40 +98,49 @@ namespace TrenchWars
                 yield return null;
             }
 
+            mButtonPushed = false;
             StartGame();
         }
 
         private void StartGame()
         {
-            SceneManager.LoadScene("LevelOne");
+            Manager.GameManager.Access.StartGame();
+            HUD.SetActive(true);
         }
 
         public void StartGameButton()
         {
-            Manager.AudioManager.Access.PlaySound(eSoundFX.UIStartGame, eSoundFXSource.Normal);
-            StartCoroutine(WaitForStartSoundOver());
+            if (!mButtonPushed)
+            {
+                mButtonPushed = true;
+                Manager.AudioManager.Access.PlaySound(eSoundFX.UIStartGame, eSoundFXSource.Normal);
+                StartCoroutine(WaitForStartSoundOver());
+            }
         }
 
         public void SettingsButton()
         {
-            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
-            MainMenuScreen.SetActive(false);
-            SettingsScreen.SetActive(true);
+
+                Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+                MainMenuScreen.SetActive(false);
+                SettingsScreen.SetActive(true);
         }
 
         public void HighScoreButton()
         {
-            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
-            MainMenuScreen.SetActive(false);
-            HighScoreScreen.SetActive(true);
+
+                Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+                MainMenuScreen.SetActive(false);
+                HighScoreScreen.SetActive(true);
         }
 
         public void BackToMainMenuButton()
         {
-            Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
-            SettingsScreen.SetActive(false);
-            HighScoreScreen.SetActive(false);
-            MainMenuScreen.SetActive(true);
+
+                Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+                SettingsScreen.SetActive(false);
+                HighScoreScreen.SetActive(false);
+                MainMenuScreen.SetActive(true);
         }
 
         #endregion

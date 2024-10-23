@@ -55,11 +55,12 @@ namespace TrenchWars.Manager
 		//ENUMERATORS
 		#region Private Enumerator Declarations Only
 
-		// private enum eEnumName  // Example
-		// {
-		// 		Hey,
-		//		You
-		// }
+		private enum eLevel
+		{
+			None,
+			LevelOne,
+			LevelTwo
+		}
 
 		#endregion
 
@@ -78,17 +79,19 @@ namespace TrenchWars.Manager
 		#endregion
 		#region Private Variable Declarations Only
 
-		private int mCurrentLevel;
+		private GameObject mCurrentLevel;
 		private int mCurrentScore;
-		
+
 		#endregion
-		
+
 		//GETTERS AND SETTERS
 		#region Accessors/Getters
-		
+
 		#endregion
 		#region Mutators/Setters
-		
+
+		public int SetCurrentScore(int aAmount) => mCurrentScore += aAmount;
+
 		#endregion
 		
 		//FUNCTIONS
@@ -122,6 +125,7 @@ namespace TrenchWars.Manager
                     TheSaveLoadManager.SetActive(true);
                 }
             }
+
             if (!TheAudioManager.activeInHierarchy)
             {
                 if (TheAudioManager != null)
@@ -134,40 +138,43 @@ namespace TrenchWars.Manager
 
 		private void InitializeVariables()
 		{
-			mCurrentLevel = 1;
+			mCurrentLevel = TheLevels[(int)eLevel.LevelOne];
 			mCurrentScore = 0;
 		}
-		
+
 		#endregion
 		#region Implementation Methods/Functions
-		
+
 		/*private void Update()
 		{
 			
 		}*/
-		
+
 		/*private void LateUpdate()
 		{
 			
 		}*/
-		
+
 		#endregion
 		#region Private Methods/Functions
-		
+
 		/*private void Save()
 		{
 		
 		}*/
-		
+
 		/*private void Load()
 		{
 		
 		}*/
-		
+
 		#endregion
 		#region Public Methods/Functions
-		
-		//Public made functions go here
+
+		public void StartGame()
+		{
+			mCurrentLevel.SetActive(true);
+		}
 		
 		#endregion
 		#region Closing Methods/Functions

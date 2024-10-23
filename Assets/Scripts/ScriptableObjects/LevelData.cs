@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: October 22, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -24,6 +24,8 @@ namespace TrenchWars.Data
 		#region Inspector Variable Declarations and Initializations
 
 		[SerializeField] private eMusic LevelMusic = eMusic.None;
+		[SerializeField] private int PhaseTwoKillsNeeded = 20;
+		[SerializeField] private int PhaseBossKillsNeeded = 40;
 		
 		#endregion
 		
@@ -31,6 +33,8 @@ namespace TrenchWars.Data
 		#region Accessors/Getters
 		
 		public eMusic GetMusic => LevelMusic;
+		public int GetPhaseTwoKillsNeeded => PhaseTwoKillsNeeded;
+		public int GetPhaseBossKillsNeeded => PhaseBossKillsNeeded;
 		
 		#endregion
 	}
