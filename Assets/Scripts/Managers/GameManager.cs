@@ -74,6 +74,7 @@ namespace TrenchWars.Manager
 
 		[SerializeField] private GameObject TheSaveLoadManager = null;
 		[SerializeField] private GameObject TheAudioManager = null;
+		[SerializeField] private GameObject TheInputManager = null;
 		[SerializeField] private GameObject[] TheLevels = null;
 
 		#endregion
@@ -132,6 +133,15 @@ namespace TrenchWars.Manager
                 {
                     Instantiate(TheAudioManager);
                     TheAudioManager.SetActive(true);
+                }
+            }
+
+            if (!TheInputManager.activeInHierarchy)
+            {
+                if (TheInputManager != null)
+                {
+                    Instantiate(TheInputManager);
+                    TheInputManager.SetActive(true);
                 }
             }
         }

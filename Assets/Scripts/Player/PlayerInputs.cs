@@ -16,6 +16,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace TrenchWars
 {
@@ -49,13 +50,74 @@ namespace TrenchWars
         private float mNewXPos;
         private float mNewYPos;
         private float mShootTimer;
-        private bool mCanSpecial;
+        private bool mCanUseSpecial;
         private int mCurrentFirePosition;
         private Coroutine mFillSpecialMeter;
 
         public float GetHealth => mCurrentHealth;
 
-        void Start()
+        private void OnEnable()
+        {
+            InputActions.FireKey += Shoot;
+            InputActions.SpecialKey += Special;
+        }
+
+        private void OnDisable()
+        {
+            InputActions.FireKey -= Shoot;
+            InputActions.SpecialKey -= Special;
+        }
+
+        private void Special()
+        {
+            if (mCanUseSpecial)
+            {
+                var newLaser = new GameObject[3];
+
+                for (int i = 0 ; i < mSpawnPoints.Count ; i++)
+                {
+                    newLaser[i] = mLaserPool.GetLaserProjectile();
+
+                    if (newLaser[i] != null)
+                    {
+                        newLaser[i].transform.position = mSpawnPoints[i].transform.position;
+                    }
+
+                    for (int j = 0 ; j < mLaserPool.GetLaserProjectiles.Count ; j++)
+                    {
+                        newLaser[i].SetActive(true);
+                    }
+                }
+                mCanUseSpecial = false;
+                FillSpecial();
+                //mSoundLasers.PlayOneShot(mLaser.GetSound);
+                //mPowerShotTimer = 5;
+            }
+        }
+
+        private void Shoot()
+        {
+            if (mShootTimer >= 0.3f)
+            {
+                var newLaser = mLaserPool.GetLaserProjectile();
+
+                if (newLaser != null)
+                {
+                    newLaser.transform.position = mSpawnPoints[mCurrentFirePosition].transform.position;
+                    mCurrentFirePosition = (mCurrentFirePosition + 1) % mSpawnPoints.Count;
+                }
+
+                for (int i = 0 ; i < mLaserPool.GetLaserProjectiles.Count ; i++)
+                {
+                    newLaser.SetActive(true);
+                }
+
+                //mSoundLasers.PlayOneShot(mLaser.GetSound);
+                mShootTimer = 0;
+            }
+        }
+
+        private void Start()
         {
             mFillSpecialMeter = null;
             mCurrentHealth = 5;
@@ -65,7 +127,7 @@ namespace TrenchWars
             mNewYPos = 0.0f;
             mShootTimer = 0.3f;
             mCurrentFirePosition = 0;
-            mCanSpecial = mFillSpecialMeter == null ? false : true;
+            mCanUseSpecial = mFillSpecialMeter == null ? false : true;
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
@@ -96,7 +158,7 @@ namespace TrenchWars
             }
 
             HUDActions.UpdateSpecial(1);
-            mCanSpecial = true;
+            mCanUseSpecial = true;
             mFillSpecialMeter = null;
         }
 
@@ -113,13 +175,12 @@ namespace TrenchWars
 
             ChangeWeapons();
 
-            if (Input.GetMouseButton(0) && mShootTimer >= 0.3f)
+            /*if (Input.GetMouseButton(0) && mShootTimer >= 0.3f)
             {
                 var newLaser = mLaserPool.GetLaserProjectile();
 
                 if (newLaser != null)
                 {
-                    
                     newLaser.transform.position = mSpawnPoints[mCurrentFirePosition].transform.position;
                     mCurrentFirePosition = (mCurrentFirePosition + 1) % mSpawnPoints.Count;
                 }
@@ -131,8 +192,8 @@ namespace TrenchWars
 
                 //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mShootTimer = 0;
-            }
-            if (Input.GetMouseButtonDown(1) && mCanSpecial)
+            }*/
+            /*if (Input.GetMouseButtonDown(1) && mCanUseSpecial)
             {
                 var newLaser = new GameObject[3];
 
@@ -150,11 +211,11 @@ namespace TrenchWars
                         newLaser[i].SetActive(true);
                     }
                 }
-                mCanSpecial = false;
+                mCanUseSpecial = false;
                 FillSpecial();
                 //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 //mPowerShotTimer = 5;
-            }
+            }*/
 
             mRigidbody.position = Camera.main.ScreenToWorldPoint(new Vector3(mNewXPos, mNewYPos, -Camera.main.transform.position.z));
 
