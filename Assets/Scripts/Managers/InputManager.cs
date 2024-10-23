@@ -342,12 +342,11 @@ namespace TrenchWars.Manager
             if (Input.GetKeyDown(mInteractKey))
             {
                 InputActions.InteractKey?.Invoke();
-                //PlayerActions.InteractWith?.Invoke();
             }
 
             if (Input.GetKeyDown(mPauseMenuKey) || Input.GetKeyDown(mPauseMenuControllerKey))
             {
-                //UIActions.OpenPauseMenu?.Invoke();
+                
             }
 
             if (Input.GetKey(mFireKey))

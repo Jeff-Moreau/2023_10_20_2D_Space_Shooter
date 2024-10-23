@@ -16,11 +16,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 namespace TrenchWars
 {
-    public class PlayerInputs : MonoBehaviour
+    public class PlayerInputs : MonoBehaviour, ITakeDamage
     {
         #region Old Code
 
@@ -42,15 +41,15 @@ namespace TrenchWars
         [SerializeField] private GameObject ScrapeRight = null;
         [SerializeField] private LaserPool mLaserPool = null;
         [SerializeField] private Data.ProjectileData mLaser = null;
-        [SerializeField] private List<GameObject> mSpawnPoints = null;
+        [SerializeField] private List<GameObject> mProjectileSpawnPoints = null;
 
-        private float mCurrentHealth;
-        private float mShipXPos;
-        private float mShipYPos;
         private float mNewXPos;
         private float mNewYPos;
+        private float mShipXPos;
+        private float mShipYPos;
         private float mShootTimer;
         private bool mCanUseSpecial;
+        private float mCurrentHealth;
         private int mCurrentFirePosition;
         private Coroutine mFillSpecialMeter;
 
@@ -74,13 +73,13 @@ namespace TrenchWars
             {
                 var newLaser = new GameObject[3];
 
-                for (int i = 0 ; i < mSpawnPoints.Count ; i++)
+                for (int i = 0 ; i < mProjectileSpawnPoints.Count ; i++)
                 {
                     newLaser[i] = mLaserPool.GetLaserProjectile();
 
                     if (newLaser[i] != null)
                     {
-                        newLaser[i].transform.position = mSpawnPoints[i].transform.position;
+                        newLaser[i].transform.position = mProjectileSpawnPoints[i].transform.position;
                     }
 
                     for (int j = 0 ; j < mLaserPool.GetLaserProjectiles.Count ; j++)
@@ -90,8 +89,6 @@ namespace TrenchWars
                 }
                 mCanUseSpecial = false;
                 FillSpecial();
-                //mSoundLasers.PlayOneShot(mLaser.GetSound);
-                //mPowerShotTimer = 5;
             }
         }
 
@@ -103,8 +100,8 @@ namespace TrenchWars
 
                 if (newLaser != null)
                 {
-                    newLaser.transform.position = mSpawnPoints[mCurrentFirePosition].transform.position;
-                    mCurrentFirePosition = (mCurrentFirePosition + 1) % mSpawnPoints.Count;
+                    newLaser.transform.position = mProjectileSpawnPoints[mCurrentFirePosition].transform.position;
+                    mCurrentFirePosition = (mCurrentFirePosition + 1) % mProjectileSpawnPoints.Count;
                 }
 
                 for (int i = 0 ; i < mLaserPool.GetLaserProjectiles.Count ; i++)
@@ -112,12 +109,21 @@ namespace TrenchWars
                     newLaser.SetActive(true);
                 }
 
-                //mSoundLasers.PlayOneShot(mLaser.GetSound);
                 mShootTimer = 0;
             }
         }
 
         private void Start()
+        {
+            InitializeVariables();
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+
+            FillSpecial();
+        }
+
+        private void InitializeVariables()
         {
             mFillSpecialMeter = null;
             mCurrentHealth = 5;
@@ -128,11 +134,6 @@ namespace TrenchWars
             mShootTimer = 0.3f;
             mCurrentFirePosition = 0;
             mCanUseSpecial = mFillSpecialMeter == null ? false : true;
-
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
-
-            FillSpecial();
         }
 
         private void FillSpecial()
@@ -172,50 +173,6 @@ namespace TrenchWars
             ChangeAnimations();
 
             KeepPlayerInBounds();
-
-            ChangeWeapons();
-
-            /*if (Input.GetMouseButton(0) && mShootTimer >= 0.3f)
-            {
-                var newLaser = mLaserPool.GetLaserProjectile();
-
-                if (newLaser != null)
-                {
-                    newLaser.transform.position = mSpawnPoints[mCurrentFirePosition].transform.position;
-                    mCurrentFirePosition = (mCurrentFirePosition + 1) % mSpawnPoints.Count;
-                }
-
-                for (int i = 0 ; i < mLaserPool.GetLaserProjectiles.Count ; i++)
-                {
-                    newLaser.SetActive(true);
-                }
-
-                //mSoundLasers.PlayOneShot(mLaser.GetSound);
-                mShootTimer = 0;
-            }*/
-            /*if (Input.GetMouseButtonDown(1) && mCanUseSpecial)
-            {
-                var newLaser = new GameObject[3];
-
-                for (int i = 0 ; i < mSpawnPoints.Count ; i++)
-                {
-                    newLaser[i] = mLaserPool.GetLaserProjectile();
-
-                    if (newLaser[i] != null)
-                    {
-                        newLaser[i].transform.position = mSpawnPoints[i].transform.position;
-                    }
-
-                    for (int j = 0 ; j < mLaserPool.GetLaserProjectiles.Count ; j++)
-                    {
-                        newLaser[i].SetActive(true);
-                    }
-                }
-                mCanUseSpecial = false;
-                FillSpecial();
-                //mSoundLasers.PlayOneShot(mLaser.GetSound);
-                //mPowerShotTimer = 5;
-            }*/
 
             mRigidbody.position = Camera.main.ScreenToWorldPoint(new Vector3(mNewXPos, mNewYPos, -Camera.main.transform.position.z));
 
@@ -281,14 +238,6 @@ namespace TrenchWars
                 mAnimator.SetLayerWeight(0, 1);
                 mAnimator.SetLayerWeight(1, 0);
                 mAnimator.SetLayerWeight(2, 0);
-            }
-        }
-
-        public void ChangeWeapons()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                // Not implemented yet
             }
         }
 
@@ -372,6 +321,8 @@ namespace TrenchWars
                 mSoundEffects.Stop();
             }*/
         }
+
+        public void TakeDamage(float aDamage) => throw new System.NotImplementedException();
 
         #endregion
     }
