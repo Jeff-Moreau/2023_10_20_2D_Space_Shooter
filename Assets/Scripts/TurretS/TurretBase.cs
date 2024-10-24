@@ -75,7 +75,7 @@ namespace TrenchWars
         {
             if (mCanTakeDamage)
             {
-                if (mCurrentHealth <= 0)
+                if (mCurrentHealth - aDamage <= 0)
                 {
                     UIActions.KillCount?.Invoke(1);
                     Instantiate(mExplosion, transform.position, transform.rotation);

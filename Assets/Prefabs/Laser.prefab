@@ -94,10 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5045036956179512551}
   - component: {fileID: 1866676251519946118}
-  - component: {fileID: 6025276005947621868}
   - component: {fileID: 2083947586034586462}
   - component: {fileID: 4364296428143894316}
   - component: {fileID: -5872096704698785725}
+  - component: {fileID: 6025276005947621868}
   m_Layer: 7
   m_Name: Laser
   m_TagString: Untagged
@@ -114,8 +114,8 @@ Transform:
   m_GameObject: {fileID: 2267739600030115732}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0254, y: 0.31221232, z: 1}
+  m_LocalPosition: {x: 0, y: -0.1148, z: 0}
+  m_LocalScale: {x: 0.0254, y: 0.19744307, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 326341165313192552}
@@ -173,19 +173,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6025276005947621868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2267739600030115732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bebda2d51efdf148927a21e52d72e4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyProjectileData: {fileID: 11400000, guid: a4f7046b2b803574896afb24c99756c9, type: 2}
 --- !u!61 &2083947586034586462
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -278,13 +265,26 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 0000000077aff3b4e5ad677f
   m_ShapePath:
-  - {x: -5.5301156, y: -1.0777286, z: 0}
-  - {x: -2.6698537, y: 1.0616806, z: 0}
-  - {x: 5.1355963, y: 0.65646815, z: 0}
-  - {x: 5.5794296, y: -0.6644922, z: 0}
-  m_ShapePathHash: 618518118
+  - {x: -0.49850368, y: -1.0025425, z: 0}
+  - {x: -0.4107631, y: 0.9948485, z: 0}
+  - {x: 0.41204235, y: 0.98227435, z: 0}
+  - {x: 0.5478177, y: -0.98194444, z: 0}
+  m_ShapePathHash: 1136863779
   m_Mesh: {fileID: 0}
-  m_InstanceId: 41146
+  m_InstanceId: 46338
   m_LocalBounds:
-    m_Center: {x: 0.024656773, y: -0.0080240965, z: 0}
-    m_Extent: {x: 5.5547724, y: 1.0697045, z: 0}
+    m_Center: {x: 0.024657011, y: -0.003847003, z: 0}
+    m_Extent: {x: 0.5231607, y: 0.9986955, z: 0}
+--- !u!114 &6025276005947621868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2267739600030115732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bebda2d51efdf148927a21e52d72e4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyProjectileData: {fileID: 11400000, guid: a4f7046b2b803574896afb24c99756c9, type: 2}

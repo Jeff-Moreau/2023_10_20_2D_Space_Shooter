@@ -21,7 +21,7 @@ namespace TrenchWars
 {
     public class HealthDisplay : MonoBehaviour
     {
-        [SerializeField] private PlayerInputs mPlayer = null;
+        [SerializeField] private PlayerController mPlayer = null;
         [SerializeField] private Image mBackground = null;
         [SerializeField] private TextMeshProUGUI mHealthText = null;
         [SerializeField] private Color mColorFull = Color.white;
@@ -33,7 +33,7 @@ namespace TrenchWars
 
         private void Update()
         {
-            if (mPlayer.GetHealth == 5)
+            /*if (mPlayer.GetHealth == 5)
             {
                 mHealthText.text = "100%";
                 mBackground.color = mColorFull;
@@ -62,7 +62,7 @@ namespace TrenchWars
             {
                 mHealthText.text = "0%";
                 mBackground.color = mColorDead;
-            }
+            }*/
         }
     }
 }
