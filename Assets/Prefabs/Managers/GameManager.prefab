@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf6e462aa5317445bf31383d6b4d575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TheEssentials: {fileID: 1494705391964094040, guid: 40c0f851ce58aaf488f4848dfabd7cef, type: 3}
   TheSaveLoadManager: {fileID: 6282406683071960077, guid: 37d1322ee2348db45a5ae51df76913cb, type: 3}
   TheAudioManager: {fileID: 3244441777108639965, guid: 43905d5d384eb6b4297074f3b2d85a76, type: 3}
-  TheCamera: {fileID: 1391269740408842687, guid: 1efd853c75a64dc42bd76caa1dab58b4, type: 3}
+  TheInputManager: {fileID: 8382803661432227574, guid: ff51c6004736b944788ad4f2565feb1f, type: 3}
+  TheLevels:
+  - {fileID: 0}
+  - {fileID: 0}

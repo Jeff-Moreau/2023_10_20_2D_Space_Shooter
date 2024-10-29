@@ -13,9 +13,9 @@
  * Known Bugs:
  ****************************************************************************************/
 
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections;
 
 //ENUMERATORS
 #region Public Enums

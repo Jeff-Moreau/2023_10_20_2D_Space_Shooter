@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 23, 2024
+ * Date Last Modified: October 29, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -43,8 +43,7 @@ namespace TrenchWars
         [SerializeField] private GameObject ScrapeLeftAnimation = null;
         [SerializeField] private GameObject ScrapeRightAnimation = null;
         [SerializeField] private List<GameObject> ProjectileSpawnPoints = null;
-        [SerializeField] private LaserPool mLaserPool = null;
-        [SerializeField] private Data.ProjectileData mLaser = null;
+        [SerializeField] private GameObject ProjectilePrefab = null;
 
         #endregion
         #region Private Variables/Fields used in this Class Only
@@ -59,6 +58,7 @@ namespace TrenchWars
         private float mCurrentHealth;
         private int mCurrentFirePosition;
         private Coroutine mFillSpecialMeter;
+        private ObjectPoolManager mLevelObjectManager;
 
         #endregion
 
@@ -67,6 +67,13 @@ namespace TrenchWars
 
         private void OnEnable()
         {
+            mLevelObjectManager = FindObjectOfType<ObjectPoolManager>();
+
+            if (mLevelObjectManager == null)
+            {
+                Debug.LogError("ObjectPoolManager not found in the scene!");
+            }
+
             InputActions.FireKey += Shoot;
             InputActions.SpecialKey += Special;
         }
@@ -106,16 +113,9 @@ namespace TrenchWars
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            /*if (collision.gameObject.layer == 8)
-            {
-                mCurrentHealth -= 1;
-                collision.gameObject.SetActive(false);
-            }*/
-
             if (collision.gameObject.layer == 9)
             {
                 mCurrentHealth = 5;
-                //mSoundPower.PlayOneShot(mFullHealthSound);
                 collision.gameObject.SetActive(false);
             }
         }
@@ -125,19 +125,11 @@ namespace TrenchWars
         {
             if (collision.gameObject.CompareTag("LeftWall"))
             {
-                /*if (!mSoundEffects.isPlaying)
-                {
-                    mSoundEffects.PlayOneShot(mWallImpactSound);
-                }*/
                 ScrapeLeftAnimation.SetActive(true);
             }
 
             if (collision.gameObject.CompareTag("RightWall"))
             {
-                /*if (!mSoundEffects.isPlaying)
-                {
-                    mSoundEffects.PlayOneShot(mWallImpactSound);
-                }*/
                 ScrapeRightAnimation.SetActive(true);
             }
         }
@@ -147,23 +139,11 @@ namespace TrenchWars
             if (collision.gameObject.CompareTag("LeftWall"))
             {
                 mCurrentHealth -= 1;
-
-                /*if (!mSoundEffects.isPlaying)
-                {
-                    mSoundEffects.PlayOneShot(mWarningBeepSound);
-                    mSoundEffects.PlayOneShot(mWallImpactSound);
-                }*/
             }
 
             if (collision.gameObject.CompareTag("RightWall"))
             {
                 mCurrentHealth -= 1;
-
-                /*if (!mSoundEffects.isPlaying)
-                {
-                    mSoundEffects.PlayOneShot(mWarningBeepSound);
-                    mSoundEffects.PlayOneShot(mWallImpactSound);
-                }*/
             }
         }
 
@@ -178,11 +158,6 @@ namespace TrenchWars
             {
                 ScrapeRightAnimation.SetActive(false);
             }
-
-            /*if (mSoundEffects.isPlaying)
-            {
-                mSoundEffects.Stop();
-            }*/
         }
 
         #endregion
@@ -200,20 +175,6 @@ namespace TrenchWars
             KeepPlayerInBounds();
 
             MyRigidbody.position = Camera.main.ScreenToWorldPoint(new Vector3(mNewXPos, mNewYPos, -Camera.main.transform.position.z));
-
-            /*if (mCurrentHealth <= 0)
-            {
-                *//*if (!mSoundPower.isPlaying)
-                {
-                    mSoundPower.PlayOneShot(mPowerOffSound);
-                }*//*
-
-                Instantiate(ExplosionAnimation, transform.position, transform.rotation);
-                UIActions.KillCount?.Invoke(0);
-
-                mCurrentHealth = 5;
-                Debug.Log("Game Over");
-            }*/
         }
 
         private void KeepPlayerInBounds()
@@ -270,20 +231,17 @@ namespace TrenchWars
         {
             if (mCanUseSpecial)
             {
-                var newLaser = new GameObject[3];
+                GameObject[] myProjectile = new GameObject[3];
 
                 for (int i = 0 ; i < ProjectileSpawnPoints.Count ; i++)
                 {
-                    newLaser[i] = mLaserPool.GetLaserProjectile();
+                    myProjectile[i] = mLevelObjectManager.GetObject(ProjectilePrefab);
 
-                    if (newLaser[i] != null)
+                    if (myProjectile[i] != null)
                     {
-                        newLaser[i].transform.position = ProjectileSpawnPoints[i].transform.position;
-                    }
-
-                    for (int j = 0 ; j < mLaserPool.GetLaserProjectiles.Count ; j++)
-                    {
-                        newLaser[i].SetActive(true);
+                        myProjectile[i].transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
+                        mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
+                        myProjectile[i].SetActive(true);
                     }
                 }
                 mCanUseSpecial = false;
@@ -295,20 +253,15 @@ namespace TrenchWars
         {
             if (mShootTimer >= 0.3f)
             {
-                var newLaser = mLaserPool.GetLaserProjectile();
+                GameObject myProjectile = mLevelObjectManager.GetObject(ProjectilePrefab);
 
-                if (newLaser != null)
+                if (myProjectile != null)
                 {
-                    newLaser.transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
+                    myProjectile.transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
                     mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
+                    myProjectile.SetActive(true);
+                    mShootTimer = 0;
                 }
-
-                for (int i = 0 ; i < mLaserPool.GetLaserProjectiles.Count ; i++)
-                {
-                    newLaser.SetActive(true);
-                }
-
-                mShootTimer = 0;
             }
         }
 
