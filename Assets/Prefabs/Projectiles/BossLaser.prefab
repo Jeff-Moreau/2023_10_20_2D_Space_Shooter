@@ -94,10 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5045036956179512551}
   - component: {fileID: 1866676251519946118}
+  - component: {fileID: 7879148075020290211}
   - component: {fileID: 4364296428143894316}
   - component: {fileID: -5872096704698785725}
-  - component: {fileID: -2303104362792612714}
-  - component: {fileID: 7879148075020290211}
+  - component: {fileID: -6253153256358976786}
   m_Layer: 8
   m_Name: BossLaser
   m_TagString: Untagged
@@ -173,6 +173,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &7879148075020290211
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2267739600030115732}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!50 &4364296428143894316
 Rigidbody2D:
   serializedVersion: 4
@@ -230,7 +265,7 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0.024656773, y: -0.0080240965, z: 0}
     m_Extent: {x: 5.5547724, y: 1.0697045, z: 0}
---- !u!114 &-2303104362792612714
+--- !u!114 &-6253153256358976786
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,43 +274,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2267739600030115732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afe218e771a7b8f4083aa1ddb4307b3c, type: 3}
+  m_Script: {fileID: 11500000, guid: 30709af6e8e27e74fa114c24babe105f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mProjectileData: {fileID: 11400000, guid: 59c38d5517fa7bb4cac32eefb6f2c9f1, type: 2}
-  mRigidbody: {fileID: 4364296428143894316}
---- !u!58 &7879148075020290211
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2267739600030115732}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  MyData: {fileID: 11400000, guid: 59c38d5517fa7bb4cac32eefb6f2c9f1, type: 2}
+  MyRigidbody: {fileID: 4364296428143894316}
+  MyAnimator: {fileID: 0}

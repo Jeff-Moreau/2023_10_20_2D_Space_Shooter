@@ -19,29 +19,29 @@ namespace TrenchWars
 {
     public class TurretBase : MonoBehaviour, ITakeDamage
     {
-        [SerializeField] private Data.TurretData mTurretData = null;
-        [SerializeField] private GameObject mExplosion = null;
+        [SerializeField] private Data.TurretData MyTurretData = null;
+        [SerializeField] private AudioSource MyAudioSource = null;
 
         private float mCurrentHealth;
         private bool mCanTakeDamage;
 
         private void Start()
         {
-            mCurrentHealth = mTurretData.GetHealth;
+            mCurrentHealth = MyTurretData.GetHealth;
             mCanTakeDamage = false;
         }
 
         private void Update()
         {
-            transform.position -= new Vector3(0, mTurretData.GetMoveSpeed * Time.deltaTime, 0);
+            transform.position -= new Vector3(0, MyTurretData.GetMoveSpeed * Time.deltaTime, 0);
         }
 
         private void TurretDie()
         {
             LevelActions.UpdateEnemiesKilled?.Invoke();
-            Instantiate(mExplosion, transform.position, transform.rotation);
+            Instantiate(MyTurretData.GetExplosionAnimation, transform.position, transform.rotation);
             gameObject.SetActive(false);
-            mCurrentHealth = mTurretData.GetHealth;
+            mCurrentHealth = MyTurretData.GetHealth;
         }
 
         private void OnBecameVisible() => mCanTakeDamage = true;
@@ -50,7 +50,7 @@ namespace TrenchWars
         {
             gameObject.SetActive(false);
             mCanTakeDamage = false;
-            mCurrentHealth = mTurretData.GetHealth;
+            mCurrentHealth = MyTurretData.GetHealth;
         }
 
         public void TakeDamage(float aDamage)
@@ -63,6 +63,7 @@ namespace TrenchWars
                 }
                 else
                 {
+                    MyAudioSource.PlayOneShot(MyTurretData.GetTakeDamageSound);
                     mCurrentHealth -= aDamage;
                 }
             }

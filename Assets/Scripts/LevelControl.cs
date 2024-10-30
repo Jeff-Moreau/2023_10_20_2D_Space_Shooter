@@ -1,6 +1,6 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: PlayScreen.cs
+ * Script: LevelControl.cs
  * Date Created: October 20, 2023
  * Created By: Jeff Moreau
  * Used On:
@@ -28,13 +28,19 @@ namespace TrenchWars
         #region Inspector Variable Declarations and Initializations to empty or null
 
         [SerializeField] private Data.LevelData MyLevelData = null;
-        //[SerializeField] private GameObject[] TurretSpawnLocations = null;
+        [SerializeField] private GameObject PlayerSpawnLocation = null;
+        [SerializeField] private GameObject ThePlayer = null;
+        [SerializeField] private GameObject[] TurretSpawnLocations = null;
+        [SerializeField] private ObjectPoolManager mLevelObjectManager = null;
+        [SerializeField] private GameObject TheTurret = null;
         //[SerializeField] private GameObject[] EnemySpawnLocations = null;
 
         #endregion
         #region Private Variable Declarations Only
 
         private int mCurrentEnemyKills;
+        private float mSpawnTimer;
+        private float mSpawnTimeLimit;
 
         #endregion
 
@@ -46,7 +52,11 @@ namespace TrenchWars
 			//used for when the object is FIRST activated and ONLY ONCE
 		}*/
 
-        private void OnEnable() => LevelActions.UpdateEnemiesKilled += AddKills;
+        private void OnEnable()
+        {
+            Instantiate(ThePlayer, PlayerSpawnLocation.transform.position, PlayerSpawnLocation.transform.rotation);
+            LevelActions.UpdateEnemiesKilled += AddKills;
+        }
 
         private void OnDisable() => LevelActions.UpdateEnemiesKilled -= AddKills;
 
@@ -56,6 +66,8 @@ namespace TrenchWars
         {
             Manager.AudioManager.Access.PlayMusic(MyLevelData.GetMusic, eMusicSource.Normal, true);
             mCurrentEnemyKills = 0;
+            mSpawnTimeLimit = 5;
+            mSpawnTimer = mSpawnTimeLimit;
         }
 
         private void AddKills() => mCurrentEnemyKills += 1;
@@ -101,10 +113,24 @@ namespace TrenchWars
         #endregion
         #region Implementation Methods/Functions
 
-        /*private void Update()
+        private void Update()
 		{
-			#NOTRIM#
-		}*/
+            mSpawnTimer += Time.deltaTime;
+
+            if (mSpawnTimer >= mSpawnTimeLimit)
+            {
+                GameObject newTurret = mLevelObjectManager.GetObject(TheTurret);
+                int randomSpawn = Random.Range(0, 3);
+
+                if (newTurret != null)
+                {
+                    newTurret.transform.position = TurretSpawnLocations[randomSpawn].transform.position;
+                    newTurret.SetActive(true);
+                    mSpawnTimer = 0;
+                    mSpawnTimeLimit = Random.Range(3, 10);
+                }
+            }
+        }
 
         /*private void LateUpdate()
 		{
@@ -141,25 +167,6 @@ namespace TrenchWars
 		{
 			#NOTRIM#
 		}*/
-
-        #endregion
-        #region Old Code
-
-        /*[SerializeField] private AudioSource mSoundSource = null;
-        [SerializeField] private AudioClip mStartVoice = null;
-        [SerializeField] private AudioClip mPowerUp = null;
-
-        private void OnEnable()
-        {
-            UIActions.KillCount?.Invoke(0);
-            mSoundSource.PlayOneShot(mPowerUp);
-            Invoke("PlaySound", 2.1f);
-        }
-
-        private void PlaySound()
-        {
-            mSoundSource.PlayOneShot(mStartVoice);
-        }*/
 
         #endregion
     }

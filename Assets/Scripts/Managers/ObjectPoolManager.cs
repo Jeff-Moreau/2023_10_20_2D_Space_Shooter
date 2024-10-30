@@ -23,7 +23,7 @@ namespace TrenchWars
         //VARIABLES
         #region Private Variables/Fields Exposed to Inspector for Editing
 
-        [SerializeField] private List<Data.ObjectPoolData> Pools = null;
+        [SerializeField] private List<PoolStruct> Pools = null;
 
         #endregion
         #region Private Variables/Fields used in this Class Only
@@ -41,14 +41,14 @@ namespace TrenchWars
         {
             mPoolLookup = new Dictionary<GameObject, ObjectPool>();
 
-            foreach (Data.ObjectPoolData aPool in Pools)
+            foreach (PoolStruct aPool in Pools)
             {
                 ObjectPool objectPool = gameObject.AddComponent<ObjectPool>();
-                objectPool.SetPrefab(aPool.GetPrefab);
-                objectPool.SetPoolSize(aPool.GetMinimumSize);
-                objectPool.SetMaxPoolSize(aPool.GetMaximumSize);
+                objectPool.SetPrefab(aPool.ThePrefab);
+                objectPool.SetPoolSize(aPool.MaxSize);
+                objectPool.SetMaxPoolSize(aPool.MaxSize);
 
-                mPoolLookup.Add(aPool.GetPrefab, objectPool);
+                mPoolLookup.Add(aPool.ThePrefab, objectPool);
             }
         }
 

@@ -23,19 +23,25 @@ namespace TrenchWars.Data
         //VARIABLES
         #region Inspector Variable Declarations and Initializations
 
-        [SerializeField] private float mRateOfFire = 0.0f;
-        [SerializeField] private float mHealth = 0.0f;
-        [SerializeField] private float mMoveSpeed = 0.0f;
-        [SerializeField] private GameObject mProjectileUsed = null;
+        [SerializeField] private float RateOfFire = 2f;
+        [SerializeField] private float MaxHealth = 3f;
+        [SerializeField] private float MoveSpeed = 1.2f;
+        [SerializeField] private GameObject ProjectileUsed = null;
+        [SerializeField] private GameObject ExplosionAnimation = null;
+        [SerializeField] private AudioClip TakeDamageSound = null;
+        [SerializeField] private AudioClip ShootingSound = null;
 
         #endregion
         //GETTERS
         #region Accessors/Getters
 
-        public float GetRateOfFire => mRateOfFire;
-        public float GetHealth => mHealth;
-        public float GetMoveSpeed => mMoveSpeed;
-        public GameObject GetProjectileUsed => mProjectileUsed;
+        public float GetRateOfFire => RateOfFire;
+        public float GetHealth => MaxHealth;
+        public float GetMoveSpeed => MoveSpeed;
+        public GameObject GetProjectileUsed => ProjectileUsed;
+        public GameObject GetExplosionAnimation => ExplosionAnimation;
+        public AudioClip GetTakeDamageSound => TakeDamageSound;
+        public AudioClip GetShootingSound => ShootingSound;
 
         #endregion
     }

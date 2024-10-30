@@ -19,8 +19,9 @@ namespace TrenchWars
 {
     public class TurretShooting : MonoBehaviour
     {
-        [SerializeField] private Data.TurretData mTurretData = null;
-        [SerializeField] private GameObject mLaserSpawnOne = null;
+        [SerializeField] private Data.TurretData MyTurretData = null;
+        [SerializeField] private GameObject MySpawnPoint = null;
+        [SerializeField] private AudioSource MyAudioSource = null;
 
         private GameObject mPlayer;
         private float mShootTimer;
@@ -33,8 +34,9 @@ namespace TrenchWars
 
             if (mLevelObjectManager == null)
             {
-                Debug.LogError("ObjectPoolManager not found in the scene!");
+                Debug.Log($"{gameObject.name} Cannot find the Level Object Manager!");
             }
+
             mShootTimer = 1.5f;
         }
 
@@ -49,34 +51,34 @@ namespace TrenchWars
         {
             if (mShootTimer <= 0)
             {
-                GameObject myProjectile = mLevelObjectManager.GetObject(mTurretData.GetProjectileUsed);
+                GameObject myProjectile = mLevelObjectManager.GetObject(MyTurretData.GetProjectileUsed);
 
                 if (myProjectile != null)
                 {
                     myProjectile.GetComponent<ProjectileBase>().SetOwner(transform.parent.gameObject);
-                    myProjectile.transform.SetPositionAndRotation(mLaserSpawnOne.transform.position, mLaserSpawnOne.transform.rotation);
+                    myProjectile.transform.SetPositionAndRotation(MySpawnPoint.transform.position, MySpawnPoint.transform.rotation);
                     //myProjectile.transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
                     //mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
                     myProjectile.SetActive(true);
                     mShootTimer = 0;
                 }
 
+                MyAudioSource.PlayOneShot(MyTurretData.GetShootingSound);
                 mShootTimer = 1.5f;
             }
         }
 
         private void TargetPlayer()
         {
-            Vector3 rotation = mPlayer.transform.position - transform.position;
-            float zAxisRotation = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, zAxisRotation - 90);
-        }
-
-        private void OnTriggerEnter2D(Collider2D aCollision)
-        {
-            if (aCollision.gameObject.layer == 6)
+            if (mPlayer != null)
             {
-                ShootPlayer();
+                Vector3 rotation = mPlayer.transform.position - transform.position;
+                float zAxisRotation = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, zAxisRotation - 90);
+            }
+            else
+            {
+                mPlayer = GameObject.FindGameObjectWithTag("Player");
             }
         }
     }
