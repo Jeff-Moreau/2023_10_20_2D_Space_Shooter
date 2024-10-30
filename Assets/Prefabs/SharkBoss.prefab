@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 7726562507349985167}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
-  m_LocalPosition: {x: -0.01, y: 9.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -163,10 +163,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mTurretData: {fileID: 11400000, guid: 1ff7801cdad47c34b8955a50da8c4d3a, type: 2}
-  mBossLaserPool: {fileID: 0}
-  mLaserSpawns:
-  - {fileID: 2351867605653783339}
-  - {fileID: 5577075362381899170}
 --- !u!61 &837387409183660146
 BoxCollider2D:
   m_ObjectHideFlags: 0

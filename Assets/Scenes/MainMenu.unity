@@ -6297,12 +6297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pools:
-  - ThePrefab: {fileID: 2267739600030115732, guid: d43e1e62356ac064bb7fba2b4fa3d35a, type: 3}
-    StartingSize: 10
-    MaxSize: 20
-  - ThePrefab: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-    StartingSize: 10
-    MaxSize: 20
+  - {fileID: 11400000, guid: e32c3c51562c4024bb720eeceddb1fdd, type: 2}
+  - {fileID: 11400000, guid: 33bdff52a69cce7449d337e2a027a38d, type: 2}
 --- !u!1 &1214442564
 GameObject:
   m_ObjectHideFlags: 0

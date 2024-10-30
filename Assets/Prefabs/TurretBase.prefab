@@ -586,8 +586,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1920834974759692624}
   - component: {fileID: 5320184270277613674}
-  - component: {fileID: 364869581333948190}
   - component: {fileID: -9020115581006898615}
+  - component: {fileID: 364869581333948190}
   - component: {fileID: 4539501749519045730}
   m_Layer: 0
   m_Name: TurretBase
@@ -605,7 +605,7 @@ Transform:
   m_GameObject: {fileID: 3863884969384650663}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.81, y: 9.29, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -664,36 +664,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &364869581333948190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3863884969384650663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 1
-  m_ApplyToSortingLayers: 0000000077aff3b4e5ad677f
-  m_ShapePath:
-  - {x: -0.38999987, y: -0.38500023, z: 0}
-  - {x: -0.38999987, y: 0.38500023, z: 0}
-  - {x: 0.38999987, y: 0.38500023, z: 0}
-  - {x: 0.38999987, y: -0.38500023, z: 0}
-  m_ShapePathHash: 0
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 62116
-  m_LocalBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.38999987, y: 0.38500023, z: 0}
 --- !u!61 &-9020115581006898615
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -739,6 +709,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.78, y: 0.77}
   m_EdgeRadius: 0
+--- !u!114 &364869581333948190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863884969384650663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 0000000077aff3b4e5ad677f
+  m_ShapePath:
+  - {x: -0.38999987, y: -0.38500023, z: 0}
+  - {x: -0.38999987, y: 0.38500023, z: 0}
+  - {x: 0.38999987, y: 0.38500023, z: 0}
+  - {x: 0.38999987, y: -0.38500023, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 69094
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.38999987, y: 0.38500023, z: 0}
 --- !u!114 &4539501749519045730
 MonoBehaviour:
   m_ObjectHideFlags: 0

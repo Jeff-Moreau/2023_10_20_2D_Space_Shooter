@@ -34,30 +34,15 @@ namespace TrenchWars
         private void Update()
         {
             transform.position -= new Vector3(0, mTurretData.GetMoveSpeed * Time.deltaTime, 0);
-
-            /*if (mCurrentHealth <= 0)
-            {
-                UIActions.KillCount?.Invoke(1);
-                Instantiate(mExplosion, transform.position, transform.rotation);
-                TurretDie();
-            }*/
         }
 
         private void TurretDie()
         {
             LevelActions.UpdateEnemiesKilled?.Invoke();
+            Instantiate(mExplosion, transform.position, transform.rotation);
             gameObject.SetActive(false);
             mCurrentHealth = mTurretData.GetHealth;
         }
-
-        /*private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.layer == 7 && mCanTakeDamage)
-            {
-                mCurrentHealth -= 1;
-                collision.gameObject.SetActive(false);
-            }
-        }*/
 
         private void OnBecameVisible() => mCanTakeDamage = true;
 
@@ -74,8 +59,6 @@ namespace TrenchWars
             {
                 if (mCurrentHealth - aDamage <= 0)
                 {
-                    //UIActions.KillCount?.Invoke(1);
-                    Instantiate(mExplosion, transform.position, transform.rotation);
                     TurretDie();
                 }
                 else
