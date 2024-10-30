@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,7 +20,6 @@ namespace TrenchWars
     public class TurretShooting : MonoBehaviour
     {
         [SerializeField] private Data.TurretData mTurretData = null;
-        [SerializeField] private EnemyLaserPool mLaserPool = null;
         [SerializeField] private GameObject mLaserSpawnOne = null;
 
         private GameObject mPlayer;
@@ -43,19 +42,6 @@ namespace TrenchWars
         {
             if (mShootTimer <= 0)
             {
-                var newLaser = mLaserPool.GetLaserProjectile();
-
-                if (newLaser != null)
-                {
-                    newLaser.transform.position = mLaserSpawnOne.transform.position;
-                    newLaser.transform.rotation = transform.rotation;
-                }
-
-                for (int i = 0 ; i < mLaserPool.GetLaserProjectiles.Count ; i++)
-                {
-                    newLaser.SetActive(true);
-                }
-                //soundEffects.PlayOneShot(laserSound.GetFireSound);
                 mShootTimer = 1.5f;
             }
         }

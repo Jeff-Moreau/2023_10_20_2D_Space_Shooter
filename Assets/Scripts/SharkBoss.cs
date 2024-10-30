@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,7 +20,6 @@ namespace TrenchWars
     public class SharkBoss : MonoBehaviour
     {
         [SerializeField] private Data.TurretData mTurretData = null;
-        [SerializeField] private BossLaserPool mBossLaserPool = null;
         [SerializeField] private GameObject[] mLaserSpawns = null;
 
         private GameObject mPlayer;
@@ -60,32 +59,6 @@ namespace TrenchWars
         {
             if (mShootTimer <= 0)
             {
-                var newLaser = mBossLaserPool.GetLaserProjectile();
-
-                if (newLaser != null)
-                {
-                    newLaser.transform.position = mLaserSpawns[0].transform.position;
-                    newLaser.transform.rotation = transform.rotation;
-                }
-
-                for (int i = 0 ; i < mBossLaserPool.GetLaserProjectiles.Count ; i++)
-                {
-                    newLaser.SetActive(true);
-                }
-
-
-                var newLaserTwo = mBossLaserPool.GetLaserProjectile();
-                if (newLaserTwo != null)
-                {
-                    newLaserTwo.transform.position = mLaserSpawns[1].transform.position;
-                    newLaserTwo.transform.rotation = transform.rotation;
-                }
-
-                for (int i = 0 ; i < mBossLaserPool.GetLaserProjectiles.Count ; i++)
-                {
-                    newLaserTwo.SetActive(true);
-                }
-
                 mShootTimer = 1;
             }
         }

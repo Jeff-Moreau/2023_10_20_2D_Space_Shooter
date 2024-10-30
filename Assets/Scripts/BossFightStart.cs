@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -44,7 +44,7 @@ namespace TrenchWars
                 mGlobalLight.color = Color.red;
                 mBossCount = 1;
                 mSoundSource.PlayOneShot(mBossFight);
-                Invoke("SpawnBoss", 4);
+                Invoke(nameof(SpawnBoss), 4);
             }
         }
 

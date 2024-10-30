@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -27,7 +27,6 @@ namespace TrenchWars.Data
         [SerializeField] private float mHealth = 0.0f;
         [SerializeField] private float mMoveSpeed = 0.0f;
         [SerializeField] private GameObject mProjectileUsed = null;
-        [SerializeField] private EnemyLaserPool mLaser = null;
 
         #endregion
         //GETTERS
@@ -37,7 +36,6 @@ namespace TrenchWars.Data
         public float GetHealth => mHealth;
         public float GetMoveSpeed => mMoveSpeed;
         public GameObject GetProjectileUsed => mProjectileUsed;
-        public EnemyLaserPool GetLaserPool => mLaser;
 
         #endregion
     }
