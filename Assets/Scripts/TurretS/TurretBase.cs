@@ -33,7 +33,7 @@ namespace TrenchWars
 
         private void Update()
         {
-            transform.position -= new Vector3(0, (mTurretData.GetMoveSpeed * Time.deltaTime), 0);
+            transform.position -= new Vector3(0, mTurretData.GetMoveSpeed * Time.deltaTime, 0);
 
             /*if (mCurrentHealth <= 0)
             {
@@ -59,10 +59,7 @@ namespace TrenchWars
             }
         }*/
 
-        private void OnBecameVisible()
-        {
-            mCanTakeDamage = true;
-        }
+        private void OnBecameVisible() => mCanTakeDamage = true;
 
         private void OnBecameInvisible()
         {
@@ -77,7 +74,7 @@ namespace TrenchWars
             {
                 if (mCurrentHealth - aDamage <= 0)
                 {
-                    UIActions.KillCount?.Invoke(1);
+                    //UIActions.KillCount?.Invoke(1);
                     Instantiate(mExplosion, transform.position, transform.rotation);
                     TurretDie();
                 }

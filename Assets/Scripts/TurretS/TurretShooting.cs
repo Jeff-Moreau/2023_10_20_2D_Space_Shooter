@@ -19,8 +19,8 @@ namespace TrenchWars
 {
     public class TurretShooting : MonoBehaviour
     {
-        [SerializeField] private Data.TurretData mTurretData = null;
-        [SerializeField] private GameObject mLaserSpawnOne = null;
+        //[SerializeField] private Data.TurretData mTurretData = null;
+        //[SerializeField] private GameObject mLaserSpawnOne = null;
 
         private GameObject mPlayer;
         private float mShootTimer;
@@ -48,14 +48,14 @@ namespace TrenchWars
 
         private void TargetPlayer()
         {
-            var rotation = mPlayer.transform.position - transform.position;
-            var zAxisRotation = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
+            Vector3 rotation = mPlayer.transform.position - transform.position;
+            float zAxisRotation = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, zAxisRotation - 90);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D aCollision)
         {
-            if (collision.gameObject.layer == 6)
+            if (aCollision.gameObject.layer == 6)
             {
                 ShootPlayer();
             }

@@ -23,7 +23,6 @@ namespace TrenchWars
         //VARIABLES
         #region Private Variables/Fields Exposed to Inspector for Editing
 
-        [SerializeField] private GameObject PoolContainer = null;
         [SerializeField] private List<PoolStruct> Pools = null;
 
         #endregion
@@ -36,10 +35,7 @@ namespace TrenchWars
         //FUCNTIONS
         #region Private Initialization Functions/Methods used in this Class Only
 
-        private void Awake()
-        {
-            InitializePools();
-        }
+        private void Awake() => InitializePools();
 
         private void InitializePools()
         {
@@ -59,14 +55,14 @@ namespace TrenchWars
         #endregion
         #region Public Functions/Methods for use Outside of this Class
 
-        public GameObject GetObject(GameObject prefab)
+        public GameObject GetObject(GameObject aPrefab)
         {
-            if (mPoolLookup.TryGetValue(prefab, out ObjectPool objectPool))
+            if (mPoolLookup.TryGetValue(aPrefab, out ObjectPool objectPool))
             {
                 return objectPool.GetAPrefab();
             }
 
-            Debug.LogWarning($"There is no {prefab.name} Pool initialized!");
+            Debug.LogWarning($"There is no {aPrefab.name} Pool initialized!");
             return null;
         }
 

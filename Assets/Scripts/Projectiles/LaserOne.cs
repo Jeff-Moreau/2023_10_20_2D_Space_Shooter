@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 22, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -21,27 +21,19 @@ namespace TrenchWars
     {
         [SerializeField] private Data.ProjectileData MyProjectileData = null;
 
-        private Collider2D mShooter;
+        private Collider2D mShooter; // check for player to not hit player
 
-        private void Update()
-        {
-            transform.position += new Vector3(0, (MyProjectileData.GetMovementSpeed * Time.deltaTime), 0);
-        }
+        private void Update() => transform.position += new Vector3(0, MyProjectileData.GetMovementSpeed * Time.deltaTime, 0);
 
         private void OnTriggerEnter2D(Collider2D aTarget)
         {
-            ITakeDamage hitTarget = aTarget.gameObject.GetComponent<ITakeDamage>();
-
-            if (hitTarget != null)
+            if (aTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
             {
                 hitTarget.TakeDamage(MyProjectileData.GetDamage);
                 gameObject.SetActive(false);
             }
         }
 
-        private void OnBecameInvisible()
-        {
-            gameObject.SetActive(false);
-        }
+        private void OnBecameInvisible() => gameObject.SetActive(false);
     }
 }

@@ -7,46 +7,44 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
-using TrenchWars;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
-public class Explosion : MonoBehaviour
+namespace TrenchWars
 {
-    [SerializeField] private AudioSource mPlaySFX = null;
-    [SerializeField] private AudioClip mExplosionSound = null;
-    [SerializeField] private float mDelay = 0.0f;
-
-    private ScreenShake shakeMe;
-    private float mWaitTime;
-
-    private void OnEnable()
+    public class Explosion : MonoBehaviour
     {
-        mPlaySFX.PlayOneShot(mExplosionSound);
-    }
+        [SerializeField] private AudioSource mPlaySFX = null;
+        [SerializeField] private AudioClip mExplosionSound = null;
+        [SerializeField] private float mDelay = 0.0f;
 
-    private void Start()
-    {
-        mWaitTime = 0.0f;
-        shakeMe = Camera.main.GetComponent<ScreenShake>();
-        shakeMe.TriggerShake(0.1f);
-    }
+        private ScreenShake shakeMe;
+        private float mWaitTime;
 
-    private void Update()
-    {
-        transform.position -= new Vector3(0, (1 * Time.deltaTime), 0);
+        private void OnEnable() => mPlaySFX.PlayOneShot(mExplosionSound);
 
-        mWaitTime += Time.deltaTime;
-
-        if (mWaitTime >= mDelay)
+        private void Start()
         {
-            gameObject.SetActive(false);
+            mWaitTime = 0.0f;
+            shakeMe = Camera.main.GetComponent<ScreenShake>();
+            shakeMe.TriggerShake(0.1f);
+        }
+
+        private void Update()
+        {
+            transform.position -= new Vector3(0, 1 * Time.deltaTime, 0);
+
+            mWaitTime += Time.deltaTime;
+
+            if (mWaitTime >= mDelay)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

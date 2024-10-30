@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 22, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -15,17 +15,6 @@
 
 using System;
 using UnityEngine;
-
-//ENUMERATORS
-#region Public Enumerator Declarations Only
-
-// public enum eEnumName  // Example
-// {
-// 		Hey,
-//		You
-// }
-
-#endregion
 
 namespace TrenchWars
 {

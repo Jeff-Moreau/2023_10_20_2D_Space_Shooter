@@ -20,16 +20,13 @@ namespace TrenchWars
     public class SharkBoss : MonoBehaviour
     {
         [SerializeField] private Data.TurretData mTurretData = null;
-        [SerializeField] private GameObject[] mLaserSpawns = null;
+        //[SerializeField] private GameObject[] mLaserSpawns = null;
 
         private GameObject mPlayer;
         private float mShootTimer;
         private float mCurrentHealth;
 
-        private void Awake()
-        {
-            mPlayer = GameObject.FindGameObjectWithTag("Player");
-        }
+        private void Awake() => mPlayer = GameObject.FindGameObjectWithTag("Player");
 
         private void Start()
         {
@@ -65,17 +62,17 @@ namespace TrenchWars
 
         private void TargetPlayer()
         {
-            var rotation = mPlayer.transform.position - transform.position;
-            var zAxisRotation = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
+            Vector3 rotation = mPlayer.transform.position - transform.position;
+            float zAxisRotation = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, zAxisRotation + 90);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D aCollision)
         {
-            if (collision.gameObject.layer == 7)
+            if (aCollision.gameObject.layer == 7)
             {
                 mCurrentHealth -= 1;
-                collision.gameObject.SetActive(false);
+                aCollision.gameObject.SetActive(false);
             }
         }
     }

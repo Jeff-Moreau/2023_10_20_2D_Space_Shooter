@@ -111,50 +111,49 @@ namespace TrenchWars
         #endregion
         #region Private Physics Functions/Methods used in this Class Only
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D aCollision)
         {
-            if (collision.gameObject.layer == 9)
+            if (aCollision.gameObject.layer == 9)
             {
                 mCurrentHealth = 5;
-                collision.gameObject.SetActive(false);
+                aCollision.gameObject.SetActive(false);
             }
         }
 
-
-        private void OnCollisionStay2D(Collision2D collision)
+        private void OnCollisionStay2D(Collision2D aCollision)
         {
-            if (collision.gameObject.CompareTag("LeftWall"))
+            if (aCollision.gameObject.CompareTag("LeftWall"))
             {
                 ScrapeLeftAnimation.SetActive(true);
             }
 
-            if (collision.gameObject.CompareTag("RightWall"))
+            if (aCollision.gameObject.CompareTag("RightWall"))
             {
                 ScrapeRightAnimation.SetActive(true);
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(Collision2D aCollision)
         {
-            if (collision.gameObject.CompareTag("LeftWall"))
+            if (aCollision.gameObject.CompareTag("LeftWall"))
             {
                 mCurrentHealth -= 1;
             }
 
-            if (collision.gameObject.CompareTag("RightWall"))
+            if (aCollision.gameObject.CompareTag("RightWall"))
             {
                 mCurrentHealth -= 1;
             }
         }
 
-        private void OnCollisionExit2D(Collision2D collision)
+        private void OnCollisionExit2D(Collision2D aCollision)
         {
-            if (collision.gameObject.CompareTag("LeftWall"))
+            if (aCollision.gameObject.CompareTag("LeftWall"))
             {
                 ScrapeLeftAnimation.SetActive(false);
             }
 
-            if (collision.gameObject.CompareTag("RightWall"))
+            if (aCollision.gameObject.CompareTag("RightWall"))
             {
                 ScrapeRightAnimation.SetActive(false);
             }
@@ -179,30 +178,13 @@ namespace TrenchWars
 
         private void KeepPlayerInBounds()
         {
-            if (mShipXPos <= (Screen.width - Screen.width) + 50)
-            {
-                mNewXPos = 50;
-            }
-            else if (mShipXPos >= (Screen.width - 50))
-            {
-                mNewXPos = Screen.width - 50;
-            }
-            else
-            {
-                mNewXPos = Input.mousePosition.x;
-            }
-            if (mShipYPos <= (Screen.height - Screen.height) + 120)
-            {
-                mNewYPos = 120;
-            }
-            else if (mShipYPos >= (Screen.height - 400))
-            {
-                mNewYPos = Screen.height - 400;
-            }
-            else
-            {
-                mNewYPos = Input.mousePosition.y;
-            }
+            mNewXPos = mShipXPos <= Screen.width - Screen.width + 50
+                ? 50
+                : mShipXPos >= (Screen.width - 50) ? Screen.width - 50 : Input.mousePosition.x;
+
+            mNewYPos = mShipYPos <= Screen.height - Screen.height + 120
+                ? 120
+                : mShipYPos >= (Screen.height - 400) ? Screen.height - 400 : Input.mousePosition.y;
         }
 
         private void ChangeAnimations()
@@ -244,6 +226,7 @@ namespace TrenchWars
                         myProjectile[i].SetActive(true);
                     }
                 }
+
                 mCanUseSpecial = false;
                 FillSpecial();
             }

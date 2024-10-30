@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,13 +20,10 @@ namespace TrenchWars
 {
 	public class ButtonHover : MonoBehaviour, IPointerEnterHandler
 	{
-		//FUNCTIONS
-		#region Public Methods/Functions
+        //FUNCTIONS
+        #region Public Functions/Methods for use Outside of this Class
 
-		public void OnPointerEnter(PointerEventData aEventData)
-		{
-			Manager.AudioManager.Access.PlaySound(eSoundFX.UIHoverButton, eSoundFXSource.Normal);
-		}
+        public void OnPointerEnter(PointerEventData aEventData) => Manager.AudioManager.Access.PlaySound(eSoundFX.UIHoverButton, eSoundFXSource.Normal);
 
         #endregion
     }

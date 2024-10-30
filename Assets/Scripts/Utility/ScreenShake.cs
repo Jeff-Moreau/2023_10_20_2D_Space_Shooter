@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -15,63 +15,33 @@
  
 using UnityEngine;
 
-//ENUMERATORS
-#region Public Enumerator Declarations Only
-
-// public enum eEnumName  // Example
-// {
-// 		Hey,
-//		You
-// }
-
-#endregion
-
 namespace TrenchWars
 {
 	public class ScreenShake : MonoBehaviour
 	{
-        // Duration of the shake
-        public float shakeDuration = 0.5f;
+        //[SerializeField] private float ShakeDuration = 0.1f;
+        [SerializeField] private float ShakeMagnitude = 0.1f;
+        [SerializeField] private float DampingSpeed = 1.0f;
 
-        // Magnitude of the shake effect (how much the camera moves)
-        public float shakeMagnitude = 0.7f;
+        private Vector3 mInitialPosition;
+        private float mCurrentShakeDuration;
 
-        // How quickly the shake should dampen out
-        public float dampingSpeed = 1.0f;
-
-        // Original position of the camera
-        private Vector3 initialPosition;
-
-        // Tracks the remaining time for shaking
-        private float currentShakeDuration = 0f;
-
-        private void OnEnable()
-        {
-            initialPosition = transform.localPosition;
-        }
+        private void OnEnable() => mInitialPosition = transform.localPosition;
 
         private void Update()
         {
-            if (currentShakeDuration > 0)
+            if (mCurrentShakeDuration > 0)
             {
-                // Randomize camera position within the defined magnitude range
-                transform.localPosition = initialPosition + Random.insideUnitSphere * shakeMagnitude;
-
-                // Decrease the shake duration over time
-                currentShakeDuration -= Time.deltaTime * dampingSpeed;
+                transform.localPosition = mInitialPosition + (Random.insideUnitSphere * ShakeMagnitude);
+                mCurrentShakeDuration -= Time.deltaTime * DampingSpeed;
             }
             else
             {
-                // Reset camera position when shaking is done
-                currentShakeDuration = 0f;
-                transform.localPosition = initialPosition;
+                mCurrentShakeDuration = 0f;
+                transform.localPosition = mInitialPosition;
             }
         }
 
-        // Public method to trigger the camera shake effect
-        public void TriggerShake(float duration)
-        {
-            currentShakeDuration = duration;
-        }
+        public void TriggerShake(float aDuration) => mCurrentShakeDuration = aDuration;
     }
 }

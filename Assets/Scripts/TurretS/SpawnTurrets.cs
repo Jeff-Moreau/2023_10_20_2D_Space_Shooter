@@ -21,31 +21,30 @@ namespace TrenchWars
 {
     public class SpawnTurrets : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> mTurretSpawns = null;
-        [SerializeField] private TurretPool mTurret = null;
-        [SerializeField] private TextMeshProUGUI mTurretKills = null;
-        [SerializeField] private TurretText mCurrentKills = null;
+        //[SerializeField] private List<GameObject> mTurretSpawns = null;
+        //[SerializeField] private TurretPool mTurret = null;
+        //[SerializeField] private TextMeshProUGUI mTurretKills = null;
+        //[SerializeField] private TurretText mCurrentKills = null;
 
-        private float mSpawnInterval;
-        private float mSpawnTimer;
-
+        //private float mSpawnInterval;
+        //private float mSpawnTimer;
 
         void Start()
         {
-            mSpawnInterval = 3.3f;
-            mSpawnTimer = 0.0f;
+            //mSpawnInterval = 3.3f;
+            //mSpawnTimer = 0.0f;
         }
 
         void Update()
         {
-            mSpawnTimer -= Time.deltaTime;
-            var spawnCount = Random.Range(0, 100);
+            //mSpawnTimer -= Time.deltaTime;
+            //int spawnCount = Random.Range(0, 100);
 
-            if (mSpawnTimer <= 0 && spawnCount > 50 && mCurrentKills.GetturretKills <= 19)
+            /*if (mSpawnTimer <= 0 && spawnCount > 50 && mCurrentKills.GetturretKills <= 19)
             {
                 for (int i = 0 ; i < mTurretSpawns.Count ; i++)
                 {
-                    var newTurret = mTurret.GetTurret();
+                    GameObject newTurret = mTurret.GetTurret();
 
                     if (newTurret != null)
                     {
@@ -58,15 +57,16 @@ namespace TrenchWars
                     }
 
                 }
+
                 mSpawnTimer = mSpawnInterval;
             }
             else if (mSpawnTimer <= 0 && mCurrentKills.GetturretKills <= 19)
             {
-                var newTurret = mTurret.GetTurret();
+                GameObject newTurret = mTurret.GetTurret();
 
                 if (newTurret != null)
                 {
-                    var randSpawn = Random.Range(0, mTurretSpawns.Count);
+                    int randSpawn = Random.Range(0, mTurretSpawns.Count);
                     newTurret.transform.position = mTurretSpawns[randSpawn].transform.position;
                 }
 
@@ -74,8 +74,9 @@ namespace TrenchWars
                 {
                     newTurret.SetActive(true);
                 }
+
                 mSpawnTimer = mSpawnInterval;
-            }
+            }*/
         }
     }
 }

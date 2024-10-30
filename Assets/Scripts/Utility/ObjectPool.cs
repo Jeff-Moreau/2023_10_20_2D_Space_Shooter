@@ -21,15 +21,11 @@ namespace TrenchWars
 	public class ObjectPool : MonoBehaviour
 	{
         //VARIABLES
-        #region Private Variables/Fields Exposed to Inspector for Editing
-
-        [SerializeField] private GameObject ThePrefab = null;
-        [SerializeField] private int PrefabPoolSize = 10;
-        [SerializeField] private int MaxPoolSize = 20;
-
-        #endregion
         #region Private Variables/Fields used in this Class Only
 
+        private int mMaxPoolSize;
+        private int mPrefabPoolSize;
+        private GameObject mThePrefab;
         private List<GameObject> mPrefabList;
 
         #endregion
@@ -37,20 +33,20 @@ namespace TrenchWars
         //GETTERS AND SETTERS
         #region Public Getters/Accessors for use Outside of this Class Only
 
-        public int GetPoolSize => PrefabPoolSize;
-        public int GetMaxPoolSize => MaxPoolSize;
+        public int GetPoolSize => mPrefabPoolSize;
+        public int GetMaxPoolSize => mMaxPoolSize;
 
         #endregion
         #region Public Setters/Mutators for use Outside of this Class Only
 
-        public void SetPoolSize(int poolSize)
+        public void SetPoolSize(int aPoolSize)
         {
-            PrefabPoolSize = poolSize;
+            mPrefabPoolSize = aPoolSize;
             InitializePrefabPool();
         }
 
-        public void SetPrefab(GameObject prefab) => ThePrefab = prefab;
-        public void SetMaxPoolSize(int size) => MaxPoolSize = size;
+        public void SetPrefab(GameObject aPrefab) => mThePrefab = aPrefab;
+        public void SetMaxPoolSize(int aSize) => mMaxPoolSize = aSize;
 
         #endregion
 
@@ -63,14 +59,24 @@ namespace TrenchWars
             InitializePrefabPool();
         }
 
-        private void InitializeVariables() => mPrefabList = new List<GameObject>();
+        private void InitializeVariables()
+        {
+            mThePrefab = null;
+            mMaxPoolSize = 20;
+            mPrefabPoolSize = 10;
+            mPrefabList = new List<GameObject>();
+        }
+
         private void InitializePrefabPool()
         {
             mPrefabList.Clear();
 
-            for (int i = 0 ; i < PrefabPoolSize ; i++)
+            for (int i = 0 ; i < mPrefabPoolSize ; i++)
             {
-                AddNewPrefab();
+                if (mThePrefab != null)
+                {
+                    AddNewPrefab();
+                }
             }
         }
 
@@ -79,7 +85,7 @@ namespace TrenchWars
 
         private void AddNewPrefab()
         {
-            GameObject newPrefab = Instantiate(ThePrefab);
+            GameObject newPrefab = Instantiate(mThePrefab);
             newPrefab.SetActive(false);
             mPrefabList.Add(newPrefab);
         }
@@ -97,7 +103,7 @@ namespace TrenchWars
                 }
             }
 
-            if (mPrefabList.Count < MaxPoolSize)
+            if (mPrefabList.Count < mMaxPoolSize)
             {
                 AddNewPrefab();
                 return mPrefabList[^1];

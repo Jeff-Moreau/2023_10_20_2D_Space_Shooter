@@ -7,27 +7,15 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 21, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-//ENUMERATORS
-#region Public Enumerator Declarations Only
-
-// public enum eEnumName  // Example
-// {
-// 		Hey,
-//		You
-// }
-
-#endregion
 
 namespace TrenchWars
 {
@@ -95,87 +83,68 @@ namespace TrenchWars
             HUDActions.UpdateShield -= UpdateShield;
             HUDActions.UpdateSpecial -= UpdateSpecial;
         }
-		
-		private void Start() => InitializeVariables();
-		
-		private void InitializeVariables()
-		{
-			
-		}
 
-		#endregion
-		#region Physics Methods/Functions
+        #endregion
+        #region Physics Methods/Functions
 
-		/*private void FixedUpdate()
+        /*private void FixedUpdate()
 		{
 			
 		}*/
 
-		/*private void OnCollisionEnter(Collision collision)
+        /*private void OnCollisionEnter(Collision collision)
 		{
 			
 		}*/
 
-		/*private void OnCollisionStay(Collision collision)
+        /*private void OnCollisionStay(Collision collision)
 		{
 			
 		}*/
 
-		/*private void OnCollisionExit(Collision collision)
+        /*private void OnCollisionExit(Collision collision)
 		{
 			
 		}*/
 
-		/*private void OnTriggerEnter(Collider other)
+        /*private void OnTriggerEnter(Collider other)
 		{
 			
 		}*/
 
-		/*private void OnTriggerStay(Collider other)
+        /*private void OnTriggerStay(Collider other)
 		{
 			
 		}*/
 
-		/*private void OnTriggerExit(Collider other)
+        /*private void OnTriggerExit(Collider other)
 		{
 			
 		}*/
 
-		#endregion
-		#region Implementation Methods/Functions
+        #endregion
+        #region Implementation Methods/Functions
 
-		/*private void Update()
+        /*private void Update()
 		{
 			
 		}*/
 
-		/*private void LateUpdate()
+        /*private void LateUpdate()
 		{
 			//Just like Updated but done after Update
 		}*/
 
-		#endregion
-		#region Private Methods/Functions
+        #endregion
+        #region Private Methods/Functions
 
-		private void UpdateSpecial(float aAmount)
-		{
-			SpecialMeter.value = aAmount;
-		}
+        private void UpdateSpecial(float aAmount) => SpecialMeter.value = aAmount;
 
-		private void UpdateShield(float aAmount)
-		{
-			ShieldLevel.value = aAmount;
-		}
+        private void UpdateShield(float aAmount) => ShieldLevel.value = aAmount;
 
-		private void UpdateHealth(float aAmount)
-		{
-			HealthBar.value = aAmount;
-		}
+        private void UpdateHealth(float aAmount) => HealthBar.value = aAmount;
 
-		private void UpdateScore(int aAmount)
-		{
-			ScoreText.text = aAmount.ToString();
-		}
+        private void UpdateScore(int aAmount) => ScoreText.text = aAmount.ToString();
 
         /*private void Save()
 		{

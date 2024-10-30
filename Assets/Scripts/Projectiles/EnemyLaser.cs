@@ -27,13 +27,10 @@ namespace TrenchWars
         private void OnEnable()
         {
             mPlayer = GameObject.FindGameObjectWithTag("Player");
-            var direction = mPlayer.transform.position - transform.position;
-            mRigidbody.velocity = new Vector2(direction.x, direction.y).normalized * mProjectileData.GetMovementSpeed;
+            Vector3 direction = mPlayer.transform.position - transform.position;
+            mRigidbody.velocity = (Vector2)direction.normalized * mProjectileData.GetMovementSpeed;
         }
 
-        private void OnBecameInvisible()
-        {
-            gameObject.SetActive(false);
-        }
+        private void OnBecameInvisible() => gameObject.SetActive(false);
     }
 }

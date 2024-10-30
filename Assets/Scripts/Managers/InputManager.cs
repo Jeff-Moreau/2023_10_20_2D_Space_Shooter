@@ -195,6 +195,8 @@ namespace TrenchWars.Manager
         //FUNCTIONS
         #region Initialization Methods/Functions
 
+        private void Awake() => InitializeSingleton();
+
         private void Start() => InitializeVariables();
 
         private void InitializeVariables()
@@ -360,8 +362,8 @@ namespace TrenchWars.Manager
             }
         }
 
-        public void Save(string saveName) => throw new System.NotImplementedException();
-        public void Load(string saveName) => throw new System.NotImplementedException();
+        public void Save(string aSaveName) => throw new System.NotImplementedException();
+        public void Load(string aSaveName) => throw new System.NotImplementedException();
 
         #endregion
     }

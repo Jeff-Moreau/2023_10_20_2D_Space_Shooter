@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -28,9 +28,7 @@ namespace TrenchWars
             mBackgroundImage.texture = mScrollData.GetImage;
             mBackgroundImage.color = mScrollData.GetImageTint;
         }
-        private void Update()
-        {
-            mBackgroundImage.uvRect = new Rect(mBackgroundImage.uvRect.position + new Vector2(mScrollData.GetScrollSpeed, 0) * Time.deltaTime, mBackgroundImage.uvRect.size);
-        }
+
+        private void Update() => mBackgroundImage.uvRect = new Rect(mBackgroundImage.uvRect.position + (new Vector2(mScrollData.GetScrollSpeed, 0) * Time.deltaTime), mBackgroundImage.uvRect.size);
     }
 }

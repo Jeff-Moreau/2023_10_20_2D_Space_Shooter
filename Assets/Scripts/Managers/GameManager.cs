@@ -152,53 +152,50 @@ namespace TrenchWars.Manager
 			mCurrentScore = 0;
 		}
 
-		#endregion
-		#region Implementation Methods/Functions
+        #endregion
+        #region Implementation Methods/Functions
 
-		/*private void Update()
+        /*private void Update()
 		{
 			
 		}*/
 
-		/*private void LateUpdate()
+        /*private void LateUpdate()
 		{
 			
 		}*/
 
-		#endregion
-		#region Private Methods/Functions
+        #endregion
+        #region Private Methods/Functions
 
-		/*private void Save()
+        /*private void Save()
 		{
 		
 		}*/
 
-		/*private void Load()
+        /*private void Load()
 		{
 		
 		}*/
 
-		#endregion
-		#region Public Methods/Functions
+        #endregion
+        #region Public Methods/Functions
 
-		public void StartGame()
-		{
-			mCurrentLevel.SetActive(true);
-		}
-		
-		#endregion
-		#region Closing Methods/Functions
-		
-		/*private void OnApplicationQuit()
+        public void StartGame() => mCurrentLevel.SetActive(true);
+
+        #endregion
+        #region Closing Methods/Functions
+
+        /*private void OnApplicationQuit()
 		{
 			
 		}*/
-		
-		/*private void OnDestroy()
+
+        /*private void OnDestroy()
 		{
 			
 		}*/
-		
-		#endregion
-	}
+
+        #endregion
+    }
 }
