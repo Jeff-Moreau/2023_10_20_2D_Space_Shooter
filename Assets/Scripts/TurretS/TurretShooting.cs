@@ -19,15 +19,22 @@ namespace TrenchWars
 {
     public class TurretShooting : MonoBehaviour
     {
-        //[SerializeField] private Data.TurretData mTurretData = null;
-        //[SerializeField] private GameObject mLaserSpawnOne = null;
+        [SerializeField] private Data.TurretData mTurretData = null;
+        [SerializeField] private GameObject mLaserSpawnOne = null;
 
         private GameObject mPlayer;
         private float mShootTimer;
+        private ObjectPoolManager mLevelObjectManager;
 
         private void OnEnable()
         {
             mPlayer = GameObject.FindGameObjectWithTag("Player");
+            mLevelObjectManager = FindObjectOfType<ObjectPoolManager>();
+
+            if (mLevelObjectManager == null)
+            {
+                Debug.LogError("ObjectPoolManager not found in the scene!");
+            }
             mShootTimer = 1.5f;
         }
 
@@ -42,6 +49,18 @@ namespace TrenchWars
         {
             if (mShootTimer <= 0)
             {
+                GameObject myProjectile = mLevelObjectManager.GetObject(mTurretData.GetProjectileUsed);
+
+                if (myProjectile != null)
+                {
+                    myProjectile.GetComponent<ProjectileBase>().SetOwner(transform.parent.gameObject);
+                    myProjectile.transform.SetPositionAndRotation(mLaserSpawnOne.transform.position, mLaserSpawnOne.transform.rotation);
+                    //myProjectile.transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
+                    //mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
+                    myProjectile.SetActive(true);
+                    mShootTimer = 0;
+                }
+
                 mShootTimer = 1.5f;
             }
         }

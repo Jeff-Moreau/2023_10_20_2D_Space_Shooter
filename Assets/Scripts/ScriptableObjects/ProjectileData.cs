@@ -23,7 +23,6 @@ namespace TrenchWars.Data
         //VARIABLES
         #region Inspector Variable Declarations and Initializations
 
-        [SerializeField] private eSoundFX ProjectileSound = eSoundFX.None;
         [SerializeField] private float MovementSpeed = 0.0f;
         [SerializeField] private float Damage = 1.0f;
 
@@ -33,7 +32,6 @@ namespace TrenchWars.Data
         #region Accessors/Getters
 
         public float GetDamage => Damage;
-        public eSoundFX GetSound => ProjectileSound;
         public float GetMovementSpeed => MovementSpeed;
 
         #endregion

@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2083947586034586462}
   - component: {fileID: 4364296428143894316}
   - component: {fileID: -5872096704698785725}
-  - component: {fileID: 6025276005947621868}
+  - component: {fileID: 5521125308669621280}
   m_Layer: 7
   m_Name: Laser
   m_TagString: Untagged
@@ -271,11 +271,11 @@ MonoBehaviour:
   - {x: 0.5478177, y: -0.98194444, z: 0}
   m_ShapePathHash: 1136863779
   m_Mesh: {fileID: 0}
-  m_InstanceId: 46338
+  m_InstanceId: 52878
   m_LocalBounds:
     m_Center: {x: 0.024657011, y: -0.003847003, z: 0}
     m_Extent: {x: 0.5231607, y: 0.9986955, z: 0}
---- !u!114 &6025276005947621868
+--- !u!114 &5521125308669621280
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,7 +284,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2267739600030115732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bebda2d51efdf148927a21e52d72e4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 30709af6e8e27e74fa114c24babe105f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyProjectileData: {fileID: 11400000, guid: a4f7046b2b803574896afb24c99756c9, type: 2}
+  MyData: {fileID: 11400000, guid: a4f7046b2b803574896afb24c99756c9, type: 2}
+  MyRigidbody: {fileID: 4364296428143894316}
+  MyAnimator: {fileID: 0}

@@ -240,6 +240,7 @@ namespace TrenchWars
 
                 if (myProjectile != null)
                 {
+                    myProjectile.GetComponent<ProjectileBase>().SetOwner(gameObject);
                     myProjectile.transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
                     mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
                     myProjectile.SetActive(true);
