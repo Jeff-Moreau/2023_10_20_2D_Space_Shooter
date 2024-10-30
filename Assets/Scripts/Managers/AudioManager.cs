@@ -113,16 +113,6 @@ namespace TrenchWars.Manager
 
         private void Awake() => InitializeSingleton();
 
-        private void Start()
-        {
-            InitializeVariables();
-        }
-
-        private void InitializeVariables()
-        {
-
-        }
-
         #endregion
         #region Public Methods/Functions
 
@@ -229,25 +219,13 @@ namespace TrenchWars.Manager
             }
         }
 
-        public void AdjustMasterVolume(float aAmount)
-        {
-            MainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(aAmount) * 20);
-        }
+        public void AdjustMasterVolume(float aAmount) => MainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(aAmount) * 20);
 
-        public void AdjustMusicVolume(float aAmount)
-        {
-            MainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(aAmount) * 20);
-        }
+        public void AdjustMusicVolume(float aAmount) => MainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(aAmount) * 20);
 
-        public void AdjustSoundFXVolume(float aAmount)
-        {
-            MainAudioMixer.SetFloat("SoundFXVolume", Mathf.Log10(aAmount) * 20);
-        }
+        public void AdjustSoundFXVolume(float aAmount) => MainAudioMixer.SetFloat("SoundFXVolume", Mathf.Log10(aAmount) * 20);
 
-        public void AdjustAmbientVolume(float aAmount)
-        {
-            MainAudioMixer.SetFloat("AmbientVolume", Mathf.Log10(aAmount) * 20);
-        }
+        public void AdjustAmbientVolume(float aAmount) => MainAudioMixer.SetFloat("AmbientVolume", Mathf.Log10(aAmount) * 20);
 
         #endregion
         #region Implementation Functions/Methods
