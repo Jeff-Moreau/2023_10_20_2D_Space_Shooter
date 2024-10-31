@@ -20,15 +20,15 @@ namespace TrenchWars
 {
     public class ImageScroll : MonoBehaviour
     {
-        [SerializeField] private Data.ImageScrollData mScrollData = null;
-        [SerializeField] private RawImage mBackgroundImage = null;
+        [SerializeField] private Data.ImageScrollData MyData = null;
+        [SerializeField] private RawImage MyImage = null;
 
         private void Start()
         {
-            mBackgroundImage.texture = mScrollData.GetImage;
-            mBackgroundImage.color = mScrollData.GetImageTint;
+            MyImage.texture = MyData.GetImage;
+            MyImage.color = MyData.GetImageTint;
         }
 
-        private void Update() => mBackgroundImage.uvRect = new Rect(mBackgroundImage.uvRect.position + (new Vector2(mScrollData.GetScrollSpeed, 0) * Time.deltaTime), mBackgroundImage.uvRect.size);
+        private void Update() => MyImage.uvRect = new Rect(MyImage.uvRect.position + (new Vector2(MyData.GetScrollSpeed, 0) * Time.deltaTime), MyImage.uvRect.size);
     }
 }

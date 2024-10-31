@@ -19,14 +19,14 @@ namespace TrenchWars
 {
     public class Explosion : MonoBehaviour
     {
-        [SerializeField] private AudioSource mPlaySFX = null;
-        [SerializeField] private AudioClip mExplosionSound = null;
-        [SerializeField] private float mDelay = 0.0f;
+        [SerializeField] private AudioSource MyAudioSource = null;
+        [SerializeField] private AudioClip ExplosionSound = null;
+        [SerializeField] private float Delay = 0.0f;
 
         private ScreenShake shakeMe;
         private float mWaitTime;
 
-        private void OnEnable() => mPlaySFX.PlayOneShot(mExplosionSound);
+        private void OnEnable() => MyAudioSource.PlayOneShot(ExplosionSound);
 
         private void Start()
         {
@@ -41,7 +41,7 @@ namespace TrenchWars
 
             mWaitTime += Time.deltaTime;
 
-            if (mWaitTime >= mDelay)
+            if (mWaitTime >= Delay)
             {
                 gameObject.SetActive(false);
             }

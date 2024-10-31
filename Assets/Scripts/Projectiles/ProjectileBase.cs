@@ -29,14 +29,14 @@ namespace TrenchWars
         #endregion
         #region Private Variable Declarations Only
 
-        private GameObject mOwner;
+        protected GameObject Owner;
 
         #endregion
 
         //GETTERS AND SETTERS
         #region Mutators/Setters
 
-        public void SetOwner(GameObject aOwner) => mOwner = aOwner;
+        public void SetOwner(GameObject aOwner) => Owner = aOwner;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace TrenchWars
 
         protected virtual void OnTriggerEnter2D(Collider2D aHitTarget)
         {
-            if (aHitTarget.gameObject != mOwner)
+            if (aHitTarget.gameObject != Owner)
             {
                 if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
                 {

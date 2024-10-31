@@ -19,7 +19,6 @@ namespace TrenchWars
 {
 	public class ScreenShake : MonoBehaviour
 	{
-        //[SerializeField] private float ShakeDuration = 0.1f;
         [SerializeField] private float ShakeMagnitude = 0.1f;
         [SerializeField] private float DampingSpeed = 1.0f;
 

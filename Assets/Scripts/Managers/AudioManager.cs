@@ -89,7 +89,7 @@ namespace TrenchWars.Manager
 
         [Space(10)]
         [Header("DATA REQUIRED >======================---")]
-        [SerializeField] private Data.AudioData TheAudioData = null;
+        [SerializeField] private Data.AudioData MyData = null;
         [SerializeField] private AudioMixer MainAudioMixer = null;
         [Space(10)]
         [Header("MUSIC SOURCES >======================---")]
@@ -118,24 +118,24 @@ namespace TrenchWars.Manager
 
         public void PlaySound(eSoundFX aSoundToPlay, eSoundFXSource aSourceToUse)
         {
-            if ((int)aSoundToPlay < TheAudioData.GetSoudFXList.Length)
+            if ((int)aSoundToPlay < MyData.GetSoudFXList.Length)
             {
                 switch (aSourceToUse)
                 {
                     case eSoundFXSource.Normal:
-                        SoundFXSources[(int)eSoundFXSource.Normal].PlayOneShot(TheAudioData.GetSoudFXList[(int)aSoundToPlay]);
+                        SoundFXSources[(int)eSoundFXSource.Normal].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
                         break;
 
                     case eSoundFXSource.EchoNormal:
-                        SoundFXSources[(int)eSoundFXSource.EchoNormal].PlayOneShot(TheAudioData.GetSoudFXList[(int)aSoundToPlay]);
+                        SoundFXSources[(int)eSoundFXSource.EchoNormal].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
                         break;
 
                     case eSoundFXSource.Ambient:
-                        SoundFXSources[(int)eSoundFXSource.Ambient].PlayOneShot(TheAudioData.GetSoudFXList[(int)aSoundToPlay]);
+                        SoundFXSources[(int)eSoundFXSource.Ambient].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
                         break;
 
                     case eSoundFXSource.EchoAmbient:
-                        SoundFXSources[(int)eSoundFXSource.EchoAmbient].PlayOneShot(TheAudioData.GetSoudFXList[(int)aSoundToPlay]);
+                        SoundFXSources[(int)eSoundFXSource.EchoAmbient].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
                         break;
                 }
             }
@@ -143,9 +143,9 @@ namespace TrenchWars.Manager
 
         public void PlayMusic(eMusic aMusicToPlay, eMusicSource aSourceToUse, bool aShouldFadeIn = false)
         {
-            if ((int)aMusicToPlay >= TheAudioData.GetMusicList.Length)
+            if ((int)aMusicToPlay >= MyData.GetMusicList.Length)
             {
-                Debug.LogWarning($"{TheAudioData.GetMusicList[(int)aMusicToPlay].name} <color=yellow>Was not found, Stopping Music!</color>");
+                Debug.LogWarning($"{MyData.GetMusicList[(int)aMusicToPlay].name} <color=yellow>Was not found, Stopping Music!</color>");
 
                 foreach (AudioSource aSource in MusicSources)
                 {
@@ -164,7 +164,7 @@ namespace TrenchWars.Manager
                         StopCoroutine(mFadeMusic);
                     }
 
-                    mFadeMusic = StartCoroutine(FadeOutAndPlayNewMusic(TheAudioData.GetMusicFadeDuration, aMusicToPlay, aSourceToUse, aShouldFadeIn));
+                    mFadeMusic = StartCoroutine(FadeOutAndPlayNewMusic(MyData.GetMusicFadeDuration, aMusicToPlay, aSourceToUse, aShouldFadeIn));
 
                     return;
                 }
@@ -184,7 +184,7 @@ namespace TrenchWars.Manager
                     StopCoroutine(mFadeMusic);
                 }
 
-                mFadeMusic = StartCoroutine(FadeInMusic(TheAudioData.GetMusicFadeDuration, MAX_VOLUME, aSourceToUse));
+                mFadeMusic = StartCoroutine(FadeInMusic(MyData.GetMusicFadeDuration, MAX_VOLUME, aSourceToUse));
 
                 return;
             }
@@ -208,7 +208,7 @@ namespace TrenchWars.Manager
                     StopCoroutine(mFadeMusic);
                 }
 
-                mFadeMusic = StartCoroutine(FadeOutAndStopMusic(TheAudioData.GetMusicFadeDuration));
+                mFadeMusic = StartCoroutine(FadeOutAndStopMusic(MyData.GetMusicFadeDuration));
             }
             else
             {
@@ -235,7 +235,7 @@ namespace TrenchWars.Manager
             // Will need to change the way this works if more than 2 Music Sources
             AudioSource newSource = aSourceToUse == eMusicSource.Normal ? MusicSources[(int)eMusicSource.Normal] : MusicSources[(int)eMusicSource.EchoNormal];
 
-            newSource.clip = TheAudioData.GetMusicList[(int)aMusicToPlay];
+            newSource.clip = MyData.GetMusicList[(int)aMusicToPlay];
             newSource.loop = true;
             newSource.Play();
         }

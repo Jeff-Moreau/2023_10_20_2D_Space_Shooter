@@ -19,7 +19,7 @@ namespace TrenchWars
 {
     public class TurretShooting : MonoBehaviour
     {
-        [SerializeField] private Data.TurretData MyTurretData = null;
+        [SerializeField] private Data.TurretData MyData = null;
         [SerializeField] private GameObject MySpawnPoint = null;
         [SerializeField] private AudioSource MyAudioSource = null;
 
@@ -51,7 +51,7 @@ namespace TrenchWars
         {
             if (mShootTimer <= 0)
             {
-                GameObject myProjectile = mLevelObjectManager.GetObject(MyTurretData.GetProjectileUsed);
+                GameObject myProjectile = mLevelObjectManager.GetObject(MyData.GetProjectileUsed);
 
                 if (myProjectile != null)
                 {
@@ -63,7 +63,7 @@ namespace TrenchWars
                     mShootTimer = 0;
                 }
 
-                MyAudioSource.PlayOneShot(MyTurretData.GetShootingSound);
+                MyAudioSource.PlayOneShot(MyData.GetShootingSound);
                 mShootTimer = 1.5f;
             }
         }

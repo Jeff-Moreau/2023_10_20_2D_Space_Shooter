@@ -27,11 +27,11 @@ namespace TrenchWars
         #endregion
         #region Inspector Variable Declarations and Initializations to empty or null
 
-        [SerializeField] private Data.LevelData MyLevelData = null;
+        [SerializeField] private Data.LevelData MyData = null;
         [SerializeField] private GameObject PlayerSpawnLocation = null;
         [SerializeField] private GameObject ThePlayer = null;
         [SerializeField] private GameObject[] TurretSpawnLocations = null;
-        [SerializeField] private ObjectPoolManager mLevelObjectManager = null;
+        [SerializeField] private ObjectPoolManager LevelObjectManager = null;
         [SerializeField] private GameObject TheTurret = null;
         //[SerializeField] private GameObject[] EnemySpawnLocations = null;
 
@@ -64,7 +64,7 @@ namespace TrenchWars
 
         private void InitializeVariables()
         {
-            Manager.AudioManager.Access.PlayMusic(MyLevelData.GetMusic, eMusicSource.Normal, true);
+            Manager.AudioManager.Access.PlayMusic(MyData.GetMusic, eMusicSource.Normal, true);
             mCurrentEnemyKills = 0;
             mSpawnTimeLimit = 5;
             mSpawnTimer = mSpawnTimeLimit;
@@ -119,7 +119,7 @@ namespace TrenchWars
 
             if (mSpawnTimer >= mSpawnTimeLimit)
             {
-                GameObject newTurret = mLevelObjectManager.GetObject(TheTurret);
+                GameObject newTurret = LevelObjectManager.GetObject(TheTurret);
                 int randomSpawn = Random.Range(0, 3);
 
                 if (newTurret != null)

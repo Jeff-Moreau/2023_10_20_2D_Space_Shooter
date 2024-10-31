@@ -35,8 +35,10 @@ namespace TrenchWars
         #region Private Variables/Fields Exposed to Inspector for Editing
 
         [Header("Player Information")]
+        [SerializeField] private Data.PlayerData MyData = null;
         [SerializeField] private Animator MyAnimator = null;
         [SerializeField] private Rigidbody2D MyRigidbody = null;
+        [SerializeField] private AudioSource MyAudioSource = null;
 
         [Header("Object Refrences")]
         [SerializeField] private GameObject ExplosionAnimation = null;

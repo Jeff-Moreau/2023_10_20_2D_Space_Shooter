@@ -18,7 +18,7 @@ using UnityEngine.UI;
 
 public class TitleScrolling : MonoBehaviour
 {
-    [SerializeField] private RawImage mBackgroundImage = null;
+    [SerializeField] private RawImage MyImage = null;
 
-    private void Update() => mBackgroundImage.uvRect = new Rect(mBackgroundImage.uvRect.position + (new Vector2(0.1f, 0) * Time.deltaTime), mBackgroundImage.uvRect.size);
+    private void Update() => MyImage.uvRect = new Rect(MyImage.uvRect.position + (new Vector2(0.1f, 0) * Time.deltaTime), MyImage.uvRect.size);
 }

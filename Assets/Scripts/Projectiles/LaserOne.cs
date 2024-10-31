@@ -19,17 +19,17 @@ namespace TrenchWars
 {
     public class LaserOne : MonoBehaviour
     {
-        [SerializeField] private Data.ProjectileData MyProjectileData = null;
+        [SerializeField] private Data.ProjectileData MyData = null;
 
         private Collider2D mShooter; // check for player to not hit player
 
-        private void Update() => transform.position += new Vector3(0, MyProjectileData.GetMovementSpeed * Time.deltaTime, 0);
+        private void Update() => transform.position += new Vector3(0, MyData.GetMovementSpeed * Time.deltaTime, 0);
 
         private void OnTriggerEnter2D(Collider2D aTarget)
         {
             if (aTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
             {
-                hitTarget.TakeDamage(MyProjectileData.GetDamage);
+                hitTarget.TakeDamage(MyData.GetDamage);
                 gameObject.SetActive(false);
             }
         }

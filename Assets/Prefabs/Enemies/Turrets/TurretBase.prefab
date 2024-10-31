@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217277c04474c7349b295ccf37d5f7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyTurretData: {fileID: 11400000, guid: 3fc6279fd9e859647b557c2a82ff7907, type: 2}
+  MyData: {fileID: 11400000, guid: 3fc6279fd9e859647b557c2a82ff7907, type: 2}
   MySpawnPoint: {fileID: 674465907083908804}
   MyAudioSource: {fileID: 2647856640083758824}
 --- !u!61 &8069878946033620443
@@ -737,7 +737,7 @@ MonoBehaviour:
   - {x: 0.38999987, y: -0.38500023, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 104616
+  m_InstanceId: 40022
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.38999987, y: 0.38500023, z: 0}
@@ -753,7 +753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08802a75aae6bd342a059f190f0ff3cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyTurretData: {fileID: 11400000, guid: 3fc6279fd9e859647b557c2a82ff7907, type: 2}
+  MyData: {fileID: 11400000, guid: 3fc6279fd9e859647b557c2a82ff7907, type: 2}
   MyAudioSource: {fileID: 2647856640083758824}
 --- !u!82 &2647856640083758824
 AudioSource:

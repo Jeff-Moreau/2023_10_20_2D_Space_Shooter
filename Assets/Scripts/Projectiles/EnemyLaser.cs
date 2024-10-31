@@ -19,8 +19,8 @@ namespace TrenchWars
 {
     public class EnemyLaser : MonoBehaviour
     {
-        [SerializeField] private Data.ProjectileData mProjectileData = null;
-        [SerializeField] private Rigidbody2D mRigidbody = null;
+        [SerializeField] private Data.ProjectileData MyData = null;
+        [SerializeField] private Rigidbody2D MyRigidbody = null;
 
         private GameObject mPlayer;
 
@@ -28,7 +28,7 @@ namespace TrenchWars
         {
             mPlayer = GameObject.FindGameObjectWithTag("Player");
             Vector3 direction = mPlayer.transform.position - transform.position;
-            mRigidbody.velocity = (Vector2)direction.normalized * mProjectileData.GetMovementSpeed;
+            MyRigidbody.velocity = (Vector2)direction.normalized * MyData.GetMovementSpeed;
         }
 
         private void OnBecameInvisible() => gameObject.SetActive(false);

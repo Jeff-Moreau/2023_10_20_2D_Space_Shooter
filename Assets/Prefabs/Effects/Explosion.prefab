@@ -203,9 +203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7685e771a02eb641bb165cdd88c8e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mPlaySFX: {fileID: -6714196165388737492}
-  mExplosionSound: {fileID: 8300000, guid: 1c6a79ca6e44f9f4d91f0fa053bce9c7, type: 3}
-  mDelay: 1
+  MyAudioSource: {fileID: -6714196165388737492}
+  ExplosionSound: {fileID: 8300000, guid: 1c6a79ca6e44f9f4d91f0fa053bce9c7, type: 3}
+  Delay: 0.5
 --- !u!82 &-6714196165388737492
 AudioSource:
   m_ObjectHideFlags: 0

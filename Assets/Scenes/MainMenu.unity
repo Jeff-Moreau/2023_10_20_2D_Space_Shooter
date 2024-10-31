@@ -2406,8 +2406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f8f40483dd9e642a0d127ebd581b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShakeMagnitude: 0.5
-  DampingSpeed: 1
+  ShakeMagnitude: 0.3
+  DampingSpeed: 3
 --- !u!1 &431157499
 GameObject:
   m_ObjectHideFlags: 0
