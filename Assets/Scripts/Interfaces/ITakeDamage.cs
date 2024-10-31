@@ -21,6 +21,7 @@ namespace TrenchWars
 		#region Public Methods/Functions
 
 		public void TakeDamage(float aDamage);
+		public void HealDamage(float aHeal);
 
 		#endregion
 	}

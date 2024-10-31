@@ -188,7 +188,9 @@ namespace TrenchWars.Manager
 
         private KeyCode mInteractKey;
         private KeyCode mFireKey;
+        private KeyCode mFireControllerKey;
         private KeyCode mSpecialKey;
+        private KeyCode mSpecialControllerKey;
 
         #endregion
 
@@ -331,7 +333,9 @@ namespace TrenchWars.Manager
             // UI Inputs
 
             mFireKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.MouseLeft];
+            mFireControllerKey = mAvailableControllerKeys[(int)eControllerButtons.RightBumper];
             mSpecialKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.MouseRight];
+            mSpecialControllerKey = mAvailableControllerKeys[(int)eControllerButtons.LeftBumper];
             mPauseMenuKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.Escape];
             mInteractKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.E];
         }
@@ -351,12 +355,12 @@ namespace TrenchWars.Manager
                 
             }
 
-            if (Input.GetKey(mFireKey))
+            if (Input.GetKey(mFireKey) || Input.GetKey(mFireControllerKey))
             {
                 InputActions.FireKey?.Invoke();
             }
 
-            if (Input.GetKeyDown(mSpecialKey))
+            if (Input.GetKeyDown(mSpecialKey) || Input.GetKey(mSpecialControllerKey))
             {
                 InputActions.SpecialKey?.Invoke();
             }

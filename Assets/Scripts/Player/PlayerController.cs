@@ -39,6 +39,7 @@ namespace TrenchWars
         [SerializeField] private Animator MyAnimator = null;
         [SerializeField] private Rigidbody2D MyRigidbody = null;
         [SerializeField] private AudioSource MyAudioSource = null;
+        [SerializeField] private Renderer MyRenderer = null;
 
         [Header("Object Refrences")]
         [SerializeField] private GameObject ExplosionAnimation = null;
@@ -61,6 +62,7 @@ namespace TrenchWars
         private int mCurrentFirePosition;
         private Coroutine mFillSpecialMeter;
         private ObjectPoolManager mLevelObjectManager;
+        private Coroutine mFlash;
 
         #endregion
 
@@ -73,6 +75,7 @@ namespace TrenchWars
         {
             mLevelObjectManager = FindObjectOfType<ObjectPoolManager>();
             HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+
             if (mLevelObjectManager == null)
             {
                 Debug.LogError("ObjectPoolManager not found in the scene!");
@@ -169,7 +172,16 @@ namespace TrenchWars
 
             KeepPlayerInBounds();
 
-            MyRigidbody.position = Camera.main.ScreenToWorldPoint(new Vector3(mNewXPos, mNewYPos, -Camera.main.transform.position.z));
+            //MyRigidbody.position = Camera.main.ScreenToWorldPoint(new Vector3(mNewXPos, mNewYPos, -Camera.main.transform.position.z));
+
+            float moveX = Input.GetAxis("Horizontal"); // Left thumbstick X-axis
+            float moveY = Input.GetAxis("Vertical");   // Left thumbstick Y-axis
+
+            // Calculate movement direction
+            Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
+
+            // Apply velocity for movement
+            MyRigidbody.velocity = moveDirection * MyData.GetMoveSpeed;
         }
 
         private void KeepPlayerInBounds()
@@ -185,19 +197,19 @@ namespace TrenchWars
 
         private void ChangeAnimations()
         {
-            if (Input.GetAxis("Mouse X") <= -0.1)
+            if (Input.GetAxis("Mouse X") <= -0.1 || Input.GetAxis("Horizontal") <= -0.1)
             {
                 MyAnimator.SetLayerWeight(1, 1);
                 MyAnimator.SetLayerWeight(2, 0);
             }
 
-            if (Input.GetAxis("Mouse X") >= 0.1)
+            if (Input.GetAxis("Mouse X") >= 0.1 || Input.GetAxis("Horizontal") <= 0.1)
             {
                 MyAnimator.SetLayerWeight(1, 0);
                 MyAnimator.SetLayerWeight(2, 1);
             }
 
-            if (Input.GetAxis("Mouse X") == 0)
+            if (Input.GetAxis("Mouse X") == 0 || Input.GetAxis("Horizontal") <= 0)
             {
                 MyAnimator.SetLayerWeight(0, 1);
                 MyAnimator.SetLayerWeight(1, 0);
@@ -285,21 +297,59 @@ namespace TrenchWars
                 {
                     HUDActions.UpdateHealth?.Invoke(0);
                     Instantiate(ExplosionAnimation, transform.position, transform.rotation);
-                    Destroy(gameObject);
-                    Time.timeScale = 0f;
+                    mCanTakeDamage = false;
+
+                    if (mFlash == null)
+                    {
+                        mFlash = StartCoroutine(Flash(10, 0.4f));
+                    }
+                    else
+                    {
+                        StopCoroutine(mFlash);
+                        mFlash = StartCoroutine(Flash(10, 0.4f));
+                    }
+
                 }
                 else
                 {
                     mCurrentHealth -= aDamage;
                     HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
 
-                    if (mCurrentHealth > MyData.GetMaxHealth)
+                    if (mFlash == null)
                     {
-                        mCurrentHealth = MyData.GetMaxHealth;
-                        HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+                        mFlash = StartCoroutine(Flash(2, 0.1f));
+                    }
+                    else
+                    {
+                        StopCoroutine(mFlash);
+                        mFlash = StartCoroutine(Flash(2, 0.1f));
                     }
                 }
             }
+        }
+
+        public void HealDamage(float aHeal)
+        {
+            mCurrentHealth += aHeal;
+
+            if (mCurrentHealth > MyData.GetMaxHealth)
+            {
+                mCurrentHealth = MyData.GetMaxHealth;
+                HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+                return;
+            }
+        }
+
+        private IEnumerator Flash(int aFlashCount, float aDuration)
+        {
+            for (int i = 0 ; i < aFlashCount ; i++)
+            {
+                MyRenderer.enabled = !MyRenderer.enabled; // Toggle visibility
+                yield return new WaitForSeconds(aDuration);
+            }
+
+            MyRenderer.enabled = true; // Ensure it's visible at the end
+            mCanTakeDamage = true;
         }
 
         #endregion

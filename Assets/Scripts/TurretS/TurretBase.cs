@@ -69,5 +69,10 @@ namespace TrenchWars
                 }
             }
         }
+
+        public void HealDamage(float aHeal)
+        {
+            return;
+        }
     }
 }

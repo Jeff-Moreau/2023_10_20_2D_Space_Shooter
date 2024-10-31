@@ -24,6 +24,7 @@ namespace TrenchWars.Data
 		#region Inspector Variable Declarations and Initializations
 
 		[SerializeField] private float MaxHealth = 5;
+		[SerializeField] private float MoveSpeed = 10;
 
 		#endregion
 
@@ -31,6 +32,7 @@ namespace TrenchWars.Data
 		#region Accessors/Getters
 
 		public float GetMaxHealth => MaxHealth;
+		public float GetMoveSpeed => MoveSpeed;
 		
 		#endregion
 	}

@@ -720,6 +720,7 @@ MonoBehaviour:
   MyAnimator: {fileID: 7252998887308666199}
   MyRigidbody: {fileID: 6749970917849943780}
   MyAudioSource: {fileID: 3319533932063544608}
+  MyRenderer: {fileID: 2599822945033404753}
   ExplosionAnimation: {fileID: 5701922424162114191, guid: 6ff522a2a0b3b2940b63ec64c3ca25b3, type: 3}
   ScrapeLeftAnimation: {fileID: 2119251169034370117}
   ScrapeRightAnimation: {fileID: 1984295139487985868}

@@ -34,7 +34,7 @@ namespace TrenchWars
             {
                 if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
                 {
-                    hitTarget.TakeDamage(MyData.GetHealAmount);
+                    hitTarget.HealDamage(MyData.GetHealAmount);
                     Destroy(gameObject);
                 }
             }
