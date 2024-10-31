@@ -7721,7 +7721,7 @@ MonoBehaviour:
   ScoreText: {fileID: 2008561870}
   ShieldLevel: {fileID: 815091159}
   SpecialMeter: {fileID: 1451808054}
-  HealthBar: {fileID: 0}
+  HealthBar: {fileID: 272974086}
 --- !u!1 &1625082108
 GameObject:
   m_ObjectHideFlags: 0

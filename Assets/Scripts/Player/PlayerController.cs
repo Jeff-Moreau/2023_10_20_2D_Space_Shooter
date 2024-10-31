@@ -72,7 +72,7 @@ namespace TrenchWars
         private void OnEnable()
         {
             mLevelObjectManager = FindObjectOfType<ObjectPoolManager>();
-
+            HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
             if (mLevelObjectManager == null)
             {
                 Debug.LogError("ObjectPoolManager not found in the scene!");
@@ -102,6 +102,7 @@ namespace TrenchWars
         {
             mFillSpecialMeter = null;
             mCurrentHealth = MyData.GetMaxHealth;
+            HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
             mShipXPos = 0.0f;
             mShipYPos = 0.0f;
             mNewXPos = 0.0f;
@@ -114,15 +115,6 @@ namespace TrenchWars
 
         #endregion
         #region Private Physics Functions/Methods used in this Class Only
-
-        private void OnTriggerEnter2D(Collider2D aCollision)
-        {
-            if (aCollision.gameObject.layer == 9)
-            {
-                mCurrentHealth = 5;
-                aCollision.gameObject.SetActive(false);
-            }
-        }
 
         private void OnCollisionStay2D(Collision2D aCollision)
         {
@@ -141,12 +133,12 @@ namespace TrenchWars
         {
             if (aCollision.gameObject.CompareTag("LeftWall"))
             {
-                mCurrentHealth -= 1;
+                TakeDamage(1);
             }
 
             if (aCollision.gameObject.CompareTag("RightWall"))
             {
-                mCurrentHealth -= 1;
+                TakeDamage(1);
             }
         }
 
@@ -169,7 +161,7 @@ namespace TrenchWars
         void Update()
         {
             mShootTimer += Time.deltaTime;
-
+            Debug.Log($"{mCurrentHealth}");
             mShipXPos = Input.mousePosition.x;
             mShipYPos = Input.mousePosition.y;
 
@@ -291,15 +283,20 @@ namespace TrenchWars
             {
                 if (mCurrentHealth - aDamage <= 0)
                 {
+                    HUDActions.UpdateHealth?.Invoke(0);
                     Instantiate(ExplosionAnimation, transform.position, transform.rotation);
+                    Destroy(gameObject);
+                    Time.timeScale = 0f;
                 }
                 else
                 {
                     mCurrentHealth -= aDamage;
+                    HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
 
                     if (mCurrentHealth > MyData.GetMaxHealth)
                     {
                         mCurrentHealth = MyData.GetMaxHealth;
+                        HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
                     }
                 }
             }

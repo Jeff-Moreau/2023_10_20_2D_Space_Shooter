@@ -14,6 +14,7 @@
  ****************************************************************************************/
 
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace TrenchWars
 {
@@ -43,19 +44,21 @@ namespace TrenchWars
         private int mCurrentEnemyKills;
         private float mSpawnTimer;
         private float mSpawnTimeLimit;
+        private GameObject mThePlayer;
 
         #endregion
 
         //FUNCTIONS
         #region Initialization Methods/Functions
 
-        /*private void Awake()
+        private void Awake()
 		{
-			//used for when the object is FIRST activated and ONLY ONCE
-		}*/
+            mThePlayer = GameObject.FindGameObjectWithTag("Player");
+		}
 
         private void OnEnable()
         {
+            mThePlayer = GameObject.FindGameObjectWithTag("Player");
             Instantiate(ThePlayer, PlayerSpawnLocation.transform.position, PlayerSpawnLocation.transform.rotation);
             LevelActions.UpdateEnemiesKilled += AddKills;
             LevelActions.DropAPickup += DropPickup;
