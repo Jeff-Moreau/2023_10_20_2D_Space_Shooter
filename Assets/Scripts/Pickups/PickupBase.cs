@@ -15,164 +15,47 @@
  
 using UnityEngine;
 
-//ENUMERATORS
-#region Public Enumerator Declarations Only
-
-// public enum eEnumName  // Example
-// {
-// 		Hey,
-//		You
-// }
-
-#endregion
-
 namespace TrenchWars
 {
 	public class PickupBase : MonoBehaviour
 	{
-		//ENUMERATORS
-		#region Private Enumerator Declarations Only
-
-		// private enum eEnumName  // Example
-		// {
-		// 		Hey,
-		//		You
-		// }
-
-		#endregion
-
-		//VARIABLES
-		#region Constant Variable Declarations and Initializations
-
-		// private const int MY_AGE = 44;  // Example
-
-		#endregion
 		#region Inspector Variable Declarations and Initializations to empty or null
 
 		[SerializeField] protected Data.PickupData MyData = null;
 		
 		#endregion
-		#region Private Variable Declarations Only
-		
-		// private int mMyInt;  // Example
-		
-		#endregion
-		
-		//GETTERS AND SETTERS
-		#region Accessors/Getters
-		
-		#endregion
-		#region Mutators/Setters
-		
-		#endregion
 		
 		//FUNCTIONS
-		#region Initialization Methods/Functions
-		
-		/*private void Awake()
+        #region Physics Methods/Functions
+
+        protected virtual void OnTriggerEnter2D(Collider2D aHitTarget)
+        {
+			if (aHitTarget.gameObject.CompareTag("Player"))
+            {
+                if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
+                {
+                    hitTarget.TakeDamage(MyData.GetHealAmount);
+                    Destroy(gameObject);
+                }
+            }
+        }
+
+        #endregion
+        #region Implementation Methods/Functions
+
+        protected virtual void Update()
 		{
-			//used for when the object is FIRST activated and ONLY ONCE
-		}*/
-		
-		/*private void OnEnable()
-		{
-			//Anytime the Object is set to active this is called
-		}*/
-		
-		/*private void OnDisable()
-		{
-			
-		}*/
-		
-		private void Start() => InitializeVariables();
-		
-		private void InitializeVariables()
-		{
-			
-		}
-		
-		#endregion
-		#region Physics Methods/Functions
-		
-		/*private void FixedUpdate()
-		{
-			
-		}*/
-		
-		/*private void OnCollisionEnter(Collision collision)
-		{
-			
-		}*/
-		
-		/*private void OnCollisionStay(Collision collision)
-		{
-			
-		}*/
-		
-		/*private void OnCollisionExit(Collision collision)
-		{
-			
-		}*/
-		
-		/*private void OnTriggerEnter(Collider other)
-		{
-			
-		}*/
-		
-		/*private void OnTriggerStay(Collider other)
-		{
-			
-		}*/
-		
-		/*private void OnTriggerExit(Collider other)
-		{
-			
-		}*/
-		
-		#endregion
-		#region Implementation Methods/Functions
-		
-		/*private void Update()
-		{
-			
-		}*/
-		
-		/*private void LateUpdate()
-		{
-			//Just like Updated but done after Update
-		}*/
-		
-		#endregion
-		#region Private Methods/Functions
-		
-		/*private void Save()
-		{
-		
-		}*/
-		
-		/*private void Load()
-		{
-		
-		}*/
-		
-		#endregion
-		#region Public Methods/Functions
-		
-		//Public made functions go here
-		
-		#endregion
-		#region Closing Methods/Functions
-		
-		/*private void OnApplicationQuit()
-		{
-			
-		}*/
-		
-		/*private void OnDestroy()
-		{
-			
-		}*/
-		
-		#endregion
-	}
+            transform.position -= new Vector3(0, MyData.GetMoveSpeed * Time.deltaTime, 0);
+        }
+
+        #endregion
+        #region Closing Methods/Functions
+
+        protected virtual void OnBecameInvisible()
+        {
+			Destroy(gameObject);
+        }
+
+        #endregion
+    }
 }

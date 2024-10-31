@@ -22,15 +22,17 @@ namespace TrenchWars.Data
 	{
 		//VARIABLES
 		#region Inspector Variable Declarations and Initializations
-		
-		//[SerializeField] private int NumberOfGuesses = 0; // Example
-		
+
+		[SerializeField] private float MoveSpeed = 0.0f;
+		[SerializeField] private float HealAmount = -0.0f;
+
 		#endregion
-		
+
 		//GETTERS
 		#region Accessors/Getters
-		
-		//public int GetNumberOfGuesses => NumberOfGuesses; // Example
+
+		public float GetMoveSpeed => MoveSpeed;
+		public float GetHealAmount => HealAmount;
 		
 		#endregion
 	}

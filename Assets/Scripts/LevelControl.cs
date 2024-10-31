@@ -28,11 +28,13 @@ namespace TrenchWars
         #region Inspector Variable Declarations and Initializations to empty or null
 
         [SerializeField] private Data.LevelData MyData = null;
+        [SerializeField] private Data.PlayerData PlayerData = null;
         [SerializeField] private GameObject PlayerSpawnLocation = null;
         [SerializeField] private GameObject ThePlayer = null;
         [SerializeField] private GameObject[] TurretSpawnLocations = null;
         [SerializeField] private ObjectPoolManager LevelObjectManager = null;
         [SerializeField] private GameObject TheTurret = null;
+        [SerializeField] private GameObject TheHealthPickup = null;
         //[SerializeField] private GameObject[] EnemySpawnLocations = null;
 
         #endregion
@@ -56,21 +58,38 @@ namespace TrenchWars
         {
             Instantiate(ThePlayer, PlayerSpawnLocation.transform.position, PlayerSpawnLocation.transform.rotation);
             LevelActions.UpdateEnemiesKilled += AddKills;
+            LevelActions.DropAPickup += DropPickup;
         }
 
-        private void OnDisable() => LevelActions.UpdateEnemiesKilled -= AddKills;
+        private void OnDisable()
+        {
+            LevelActions.UpdateEnemiesKilled -= AddKills;
+            LevelActions.DropAPickup -= DropPickup;
+        }
 
         private void Start() => InitializeVariables();
 
         private void InitializeVariables()
         {
-            Manager.AudioManager.Access.PlayMusic(MyData.GetMusic, eMusicSource.Normal, true);
-            mCurrentEnemyKills = 0;
             mSpawnTimeLimit = 5;
+            mCurrentEnemyKills = 0;
             mSpawnTimer = mSpawnTimeLimit;
         }
 
         private void AddKills() => mCurrentEnemyKills += 1;
+
+        private void DropPickup(Transform aDropLocation, float aMoveSpeed)
+        {
+            if (ThePlayer.GetComponent<PlayerController>().GetCurrentHealth < PlayerData.GetMaxHealth)
+            {
+                float randomChance = Random.Range(0, 100);
+
+                if (randomChance <= 30)
+                {
+                    Instantiate(TheHealthPickup, aDropLocation.position, aDropLocation.rotation);
+                }
+            }
+        }
 
         #endregion
         #region Physics Methods/Functions

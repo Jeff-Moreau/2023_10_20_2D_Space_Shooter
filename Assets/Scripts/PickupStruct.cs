@@ -1,26 +1,31 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: LevelActions.cs
- * Date Created: October 22, 2024
+ * Script: PickupStruct.cs
+ * Date Created:
  * Created By: Jeff Moreau
  * Used On:
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified:
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
-
+ 
 using System;
 using UnityEngine;
 
 namespace TrenchWars
 {
-	public class LevelActions : MonoBehaviour
+	[Serializable]
+	public struct PickupStruct
 	{
-        public static Action UpdateEnemiesKilled;
-        public static Action<Transform, float> DropAPickup;
-    }
+		#region Public Variables
+	
+		public GameObject ThePrefab;
+		public float DropChance;
+	
+		#endregion
+	}
 }

@@ -716,6 +716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddf9bbcda667b4848a52dfc31e292957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyData: {fileID: 11400000, guid: 1b8220254893ec94787e3af0ac1dd006, type: 2}
   MyAnimator: {fileID: 7252998887308666199}
   MyRigidbody: {fileID: 6749970917849943780}
   MyAudioSource: {fileID: 3319533932063544608}

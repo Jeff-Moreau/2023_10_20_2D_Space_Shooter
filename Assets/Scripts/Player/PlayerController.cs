@@ -64,6 +64,8 @@ namespace TrenchWars
 
         #endregion
 
+        public float GetCurrentHealth => mCurrentHealth;
+
         //FUNCTIONS
         #region Private Initialization Functions/Methods used in this Class Only
 
@@ -99,7 +101,7 @@ namespace TrenchWars
         private void InitializeVariables()
         {
             mFillSpecialMeter = null;
-            mCurrentHealth = 5;
+            mCurrentHealth = MyData.GetMaxHealth;
             mShipXPos = 0.0f;
             mShipYPos = 0.0f;
             mNewXPos = 0.0f;
@@ -294,6 +296,11 @@ namespace TrenchWars
                 else
                 {
                     mCurrentHealth -= aDamage;
+
+                    if (mCurrentHealth > MyData.GetMaxHealth)
+                    {
+                        mCurrentHealth = MyData.GetMaxHealth;
+                    }
                 }
             }
         }

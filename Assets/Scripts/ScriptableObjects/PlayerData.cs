@@ -12,7 +12,7 @@
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
- 
+
 using UnityEngine;
 
 namespace TrenchWars.Data
@@ -22,15 +22,15 @@ namespace TrenchWars.Data
 	{
 		//VARIABLES
 		#region Inspector Variable Declarations and Initializations
-		
-		//[SerializeField] private int NumberOfGuesses = 0; // Example
-		
+
+		[SerializeField] private float MaxHealth = 5;
+
 		#endregion
-		
+
 		//GETTERS
 		#region Accessors/Getters
-		
-		//public int GetNumberOfGuesses => NumberOfGuesses; // Example
+
+		public float GetMaxHealth => MaxHealth;
 		
 		#endregion
 	}
