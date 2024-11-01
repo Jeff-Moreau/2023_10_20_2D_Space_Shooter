@@ -39,6 +39,7 @@ namespace TrenchWars
         private void TurretDie()
         {
             LevelActions.UpdateEnemiesKilled?.Invoke();
+            //Update score witha value
             LevelActions.DropAPickup?.Invoke(gameObject.transform, MyData.GetMoveSpeed);
             Instantiate(MyData.GetExplosionAnimation, transform.position, transform.rotation);
             gameObject.SetActive(false);

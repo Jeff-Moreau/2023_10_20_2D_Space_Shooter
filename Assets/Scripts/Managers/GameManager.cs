@@ -80,8 +80,9 @@ namespace TrenchWars.Manager
 		#endregion
 		#region Private Variable Declarations Only
 
-		private GameObject mCurrentLevel;
+		private int mCurrenLives;
 		private int mCurrentScore;
+		private GameObject mCurrentLevel;
 
 		#endregion
 
@@ -148,8 +149,9 @@ namespace TrenchWars.Manager
 
 		private void InitializeVariables()
 		{
-			mCurrentLevel = TheLevels[(int)eLevel.LevelOne];
+			mCurrenLives = 3;
 			mCurrentScore = 0;
+			mCurrentLevel = TheLevels[(int)eLevel.LevelOne];
 		}
 
         #endregion

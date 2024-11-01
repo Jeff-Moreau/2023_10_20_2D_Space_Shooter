@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 1, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -43,7 +43,7 @@ namespace TrenchWars
         //FUNCTIONS
         #region Initialization Methods/Functions
 
-        private void OnEnable()
+        protected virtual void OnEnable()
 		{
             Vector2 direction = transform.up;
             MyRigidbody.velocity = direction.normalized * MyData.GetMovementSpeed;
@@ -54,12 +54,26 @@ namespace TrenchWars
 
         protected virtual void OnTriggerEnter2D(Collider2D aHitTarget)
         {
-            if (aHitTarget.gameObject != Owner)
+            if (Owner.CompareTag("Enemy"))
             {
-                if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
+                if (aHitTarget.gameObject != Owner && !aHitTarget.gameObject.CompareTag("Enemy"))
                 {
-                    hitTarget.TakeDamage(MyData.GetDamage);
-                    gameObject.SetActive(false);
+                    if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
+                    {
+                        hitTarget.TakeDamage(MyData.GetDamage);
+                        gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                if (aHitTarget.gameObject != Owner)
+                {
+                    if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
+                    {
+                        hitTarget.TakeDamage(MyData.GetDamage);
+                        gameObject.SetActive(false);
+                    }
                 }
             }
         }

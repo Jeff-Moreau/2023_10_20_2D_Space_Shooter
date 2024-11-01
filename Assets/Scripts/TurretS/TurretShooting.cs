@@ -51,7 +51,7 @@ namespace TrenchWars
         {
             if (mShootTimer <= 0)
             {
-                GameObject myProjectile = mLevelObjectManager.GetObject(MyData.GetProjectileUsed);
+                GameObject myProjectile = mLevelObjectManager.GetProjectile(MyData.GetProjectileUsed);
 
                 if (myProjectile != null)
                 {

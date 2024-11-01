@@ -45,6 +45,7 @@ namespace TrenchWars
         private float mSpawnTimer;
         private float mSpawnTimeLimit;
         private GameObject mThePlayer;
+        private float mPlayerHealth;
 
         #endregion
 
@@ -62,12 +63,14 @@ namespace TrenchWars
             Instantiate(ThePlayer, PlayerSpawnLocation.transform.position, PlayerSpawnLocation.transform.rotation);
             LevelActions.UpdateEnemiesKilled += AddKills;
             LevelActions.DropAPickup += DropPickup;
+            PlayerActions.CurrentHealth += PlayerHealth;
         }
 
         private void OnDisable()
         {
             LevelActions.UpdateEnemiesKilled -= AddKills;
             LevelActions.DropAPickup -= DropPickup;
+            PlayerActions.CurrentHealth -= PlayerHealth;
         }
 
         private void Start() => InitializeVariables();
@@ -76,20 +79,33 @@ namespace TrenchWars
         {
             mSpawnTimeLimit = 5;
             mCurrentEnemyKills = 0;
+            mPlayerHealth = PlayerData.GetMaxHealth;
             mSpawnTimer = mSpawnTimeLimit;
         }
 
         private void AddKills() => mCurrentEnemyKills += 1;
 
+        private void PlayerHealth(float aAmount)
+        {
+            mPlayerHealth = aAmount * PlayerData.GetMaxHealth;
+        }
+
         private void DropPickup(Transform aDropLocation, float aMoveSpeed)
         {
-            if (ThePlayer.GetComponent<PlayerController>().GetCurrentHealth < PlayerData.GetMaxHealth)
+            Debug.Log(mPlayerHealth);
+            if (mPlayerHealth < PlayerData.GetMaxHealth)
             {
                 float randomChance = Random.Range(0, 100);
 
                 if (randomChance <= 30)
                 {
-                    Instantiate(TheHealthPickup, aDropLocation.position, aDropLocation.rotation);
+                    GameObject newPickup = LevelObjectManager.GetPickup(TheHealthPickup);
+
+                    if (newPickup != null)
+                    {
+                        newPickup.transform.SetPositionAndRotation(aDropLocation.position, aDropLocation.rotation);
+                        newPickup.SetActive(true);
+                    }
                 }
             }
         }
@@ -141,7 +157,7 @@ namespace TrenchWars
 
             if (mSpawnTimer >= mSpawnTimeLimit)
             {
-                GameObject newTurret = LevelObjectManager.GetObject(TheTurret);
+                GameObject newTurret = LevelObjectManager.GetEnemy(TheTurret);
                 int randomSpawn = Random.Range(0, 3);
 
                 if (newTurret != null)

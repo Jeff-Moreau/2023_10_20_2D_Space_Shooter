@@ -5482,16 +5482,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7b95b41be6c504696b61a12e44121e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pools:
+  TheProjectiles:
   - ThePrefab: {fileID: 2267739600030115732, guid: d43e1e62356ac064bb7fba2b4fa3d35a, type: 3}
-    StartingSize: 10
-    MaxSize: 20
+    MinimumPoolSize: 15
+    MaximumPoolSize: 25
   - ThePrefab: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-    StartingSize: 10
-    MaxSize: 20
+    MinimumPoolSize: 15
+    MaximumPoolSize: 25
+  TheEnemies:
   - ThePrefab: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
-    StartingSize: 3
-    MaxSize: 5
+    MinimumPoolSize: 2
+    MaximumPoolSize: 5
+  ThePickups:
+  - ThePrefab: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
+    MinimumPoolSize: 1
+    MaximumPoolSize: 1
 --- !u!1 &1214442564
 GameObject:
   m_ObjectHideFlags: 0

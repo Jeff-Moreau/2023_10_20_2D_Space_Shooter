@@ -70,18 +70,18 @@ namespace TrenchWars
 		
 		private void OnEnable()
 		{
-			HUDActions.UpdateScore += UpdateScore;
-			HUDActions.UpdateHealth += UpdateHealth;
-			HUDActions.UpdateShield += UpdateShield;
-			HUDActions.UpdateSpecial += UpdateSpecial;
+			PlayerActions.UpdateScore += UpdateScore;
+			PlayerActions.CurrentHealth += UpdateHealth;
+			PlayerActions.ShieldTimer += UpdateShield;
+			PlayerActions.SpecialTimer += UpdateSpecial;
 		}
 
         private void OnDisable()
 		{
-            HUDActions.UpdateScore -= UpdateScore;
-            HUDActions.UpdateHealth -= UpdateHealth;
-            HUDActions.UpdateShield -= UpdateShield;
-            HUDActions.UpdateSpecial -= UpdateSpecial;
+            PlayerActions.UpdateScore -= UpdateScore;
+            PlayerActions.CurrentHealth -= UpdateHealth;
+            PlayerActions.ShieldTimer -= UpdateShield;
+            PlayerActions.SpecialTimer -= UpdateSpecial;
         }
 
         #endregion

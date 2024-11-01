@@ -35,7 +35,7 @@ namespace TrenchWars
                 if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
                 {
                     hitTarget.HealDamage(MyData.GetHealAmount);
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace TrenchWars
 
         protected virtual void OnBecameInvisible()
         {
-			Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         #endregion

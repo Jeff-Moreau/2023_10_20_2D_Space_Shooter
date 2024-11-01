@@ -62,8 +62,8 @@ namespace TrenchWars
         private void InitializeVariables()
         {
             mThePrefab = null;
-            mMaxPoolSize = 20;
-            mPrefabPoolSize = 10;
+            mMaxPoolSize = 4;
+            mPrefabPoolSize = 2;
             mPrefabList = new List<GameObject>();
         }
 

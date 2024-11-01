@@ -1,13 +1,13 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: HUDActions.cs
- * Date Created: October 21, 2024
+ * Script: ObjectPoolStruct.cs
+ * Date Created: October 30, 2024
  * Created By: Jeff Moreau
  * Used On:
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 21, 2024
+ * Date Last Modified: October 30, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -18,11 +18,11 @@ using UnityEngine;
 
 namespace TrenchWars
 {
-	public class HUDActions : MonoBehaviour
+    [Serializable]
+	public struct ObjectPoolStruct
 	{
-        public static Action<int> UpdateScore;
-        public static Action<float> UpdateShield;
-        public static Action<float> UpdateHealth;
-        public static Action<float> UpdateSpecial;
+        public GameObject ThePrefab;
+        public int MinimumPoolSize;
+        public int MaximumPoolSize;
     }
 }

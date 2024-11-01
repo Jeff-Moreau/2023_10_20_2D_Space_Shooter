@@ -74,7 +74,7 @@ namespace TrenchWars
         private void OnEnable()
         {
             mLevelObjectManager = FindObjectOfType<ObjectPoolManager>();
-            HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+            PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
 
             if (mLevelObjectManager == null)
             {
@@ -105,7 +105,7 @@ namespace TrenchWars
         {
             mFillSpecialMeter = null;
             mCurrentHealth = MyData.GetMaxHealth;
-            HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+            PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
             mShipXPos = 0.0f;
             mShipYPos = 0.0f;
             mNewXPos = 0.0f;
@@ -225,7 +225,7 @@ namespace TrenchWars
 
                 for (int i = 0 ; i < ProjectileSpawnPoints.Count ; i++)
                 {
-                    myProjectile[i] = mLevelObjectManager.GetObject(ProjectilePrefab);
+                    myProjectile[i] = mLevelObjectManager.GetProjectile(ProjectilePrefab);
 
                     if (myProjectile[i] != null)
                     {
@@ -244,7 +244,7 @@ namespace TrenchWars
         {
             if (mShootTimer >= 0.3f)
             {
-                GameObject myProjectile = mLevelObjectManager.GetObject(ProjectilePrefab);
+                GameObject myProjectile = mLevelObjectManager.GetProjectile(ProjectilePrefab);
 
                 if (myProjectile != null)
                 {
@@ -273,16 +273,16 @@ namespace TrenchWars
         private IEnumerator FillSlider()
         {
             float elapsedTime = 0f;
-            HUDActions.UpdateSpecial(0);
+            PlayerActions.SpecialTimer(0);
 
             while (elapsedTime < 5)
             {
-                HUDActions.UpdateSpecial(Mathf.Lerp(0f, 1f, elapsedTime / 5));
+                PlayerActions.SpecialTimer(Mathf.Lerp(0f, 1f, elapsedTime / 5));
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            HUDActions.UpdateSpecial(1);
+            PlayerActions.SpecialTimer(1);
             mCanUseSpecial = true;
             mFillSpecialMeter = null;
         }
@@ -295,7 +295,7 @@ namespace TrenchWars
             {
                 if (mCurrentHealth - aDamage <= 0)
                 {
-                    HUDActions.UpdateHealth?.Invoke(0);
+                    PlayerActions.CurrentHealth?.Invoke(0);
                     Instantiate(ExplosionAnimation, transform.position, transform.rotation);
                     mCanTakeDamage = false;
 
@@ -313,7 +313,7 @@ namespace TrenchWars
                 else
                 {
                     mCurrentHealth -= aDamage;
-                    HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+                    PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
 
                     if (mFlash == null)
                     {
@@ -335,7 +335,7 @@ namespace TrenchWars
             if (mCurrentHealth > MyData.GetMaxHealth)
             {
                 mCurrentHealth = MyData.GetMaxHealth;
-                HUDActions.UpdateHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+                PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
                 return;
             }
         }

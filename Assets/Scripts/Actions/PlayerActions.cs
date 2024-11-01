@@ -1,13 +1,13 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: PoolStruct.cs
- * Date Created: October 30, 2024
+ * Script: PlayerActions.cs
+ * Date Created: October 21, 2024
  * Created By: Jeff Moreau
  * Used On:
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: October 21, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -18,11 +18,11 @@ using UnityEngine;
 
 namespace TrenchWars
 {
-    [Serializable]
-	public struct PoolStruct
+	public class PlayerActions : MonoBehaviour
 	{
-        public GameObject ThePrefab;
-        public int StartingSize;
-        public int MaxSize;
+        public static Action<int> UpdateScore;
+        public static Action<float> ShieldTimer;
+        public static Action<float> CurrentHealth;
+        public static Action<float> SpecialTimer;
     }
 }
