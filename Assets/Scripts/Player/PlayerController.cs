@@ -47,6 +47,7 @@ namespace TrenchWars
         [SerializeField] private GameObject ScrapeRightAnimation = null;
         [SerializeField] private List<GameObject> ProjectileSpawnPoints = null;
         [SerializeField] private GameObject ProjectilePrefab = null;
+        [SerializeField] private GameObject Shield = null;
 
         #endregion
         #region Private Variables/Fields used in this Class Only
