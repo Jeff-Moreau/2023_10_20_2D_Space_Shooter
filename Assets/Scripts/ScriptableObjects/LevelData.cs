@@ -23,7 +23,7 @@ namespace TrenchWars.Data
 		//VARIABLES
 		#region Inspector Variable Declarations and Initializations
 
-		[SerializeField] private eMusic LevelMusic = eMusic.None;
+		[SerializeField] private Music LevelMusic = Music.None;
 		[SerializeField] private int PhaseTwoKillsNeeded = 20;
 		[SerializeField] private int PhaseBossKillsNeeded = 40;
 		
@@ -32,7 +32,7 @@ namespace TrenchWars.Data
 		//GETTERS
 		#region Accessors/Getters
 		
-		public eMusic GetMusic => LevelMusic;
+		public Music GetMusic => LevelMusic;
 		public int GetPhaseTwoKillsNeeded => PhaseTwoKillsNeeded;
 		public int GetPhaseBossKillsNeeded => PhaseBossKillsNeeded;
 		

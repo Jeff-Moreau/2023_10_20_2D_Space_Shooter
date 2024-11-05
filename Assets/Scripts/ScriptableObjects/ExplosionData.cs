@@ -1,7 +1,7 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: ButtonHover.cs
- * Date Created: October 18, 2024
+ * Script: ExplosionData.cs
+ * Date Created: November 5, 2024
  * Created By: Jeff Moreau
  * Used On:
  * Description:
@@ -12,23 +12,26 @@
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
-
+ 
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace TrenchWars
+namespace TrenchWars.Data
 {
-	public class ButtonHover : MonoBehaviour, IPointerEnterHandler
+	[CreateAssetMenu(fileName = "ExplosionData", menuName = "Data/New ExplosionData", order = 0)]
+	public class ExplosionData : ScriptableObject
 	{
-        //METHODS
-        #region Public Methods: For External Interactions
-
-        public void OnPointerEnter(PointerEventData aEventData)
-        {
-            // Should randomize the sounds here
-            Manager.AudioManager.Access.PlaySound(SoundFX.UIHoverButton, SoundFXSource.Normal);
-        }
-
-        #endregion
-    }
+		//FIELDS
+		#region Private Serialized Fields: For Inspector Editable Values
+		
+		[SerializeField] private float _deactivateDelay = 0.0f;
+		
+		#endregion
+		
+		//PROPERTIES
+		#region Public Properties: For Accessing Class Fields
+		
+		public float GetDeactivateDelay => _deactivateDelay;
+		
+		#endregion
+	}
 }

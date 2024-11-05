@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 5, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,8 +20,16 @@ namespace TrenchWars
 {
     public class ImageScroll : MonoBehaviour
     {
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
+
         [SerializeField] private Data.ImageScrollData MyData = null;
         [SerializeField] private RawImage MyImage = null;
+
+        #endregion
+
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
 
         private void Start()
         {
@@ -29,6 +37,14 @@ namespace TrenchWars
             MyImage.color = MyData.GetImageTint;
         }
 
-        private void Update() => MyImage.uvRect = new Rect(MyImage.uvRect.position + (new Vector2(MyData.GetScrollSpeed, 0) * Time.deltaTime), MyImage.uvRect.size);
+        #endregion
+        #region Private Real-Time Methods: For Per-Frame Game Logic
+
+        private void Update()
+        {
+            MyImage.uvRect = new Rect(MyImage.uvRect.position + (new Vector2(MyData.GetScrollSpeed, 0) * Time.deltaTime), MyImage.uvRect.size);
+        }
+
+        #endregion
     }
 }

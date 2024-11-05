@@ -36,11 +36,12 @@ namespace TrenchWars
             transform.position -= new Vector3(0, MyData.GetMoveSpeed * Time.deltaTime, 0);
         }
 
-        private void TurretDie()
+        private void OnDeath()
         {
             LevelActions.UpdateEnemiesKilled?.Invoke();
             //Update score witha value
             LevelActions.DropAPickup?.Invoke(gameObject.transform, MyData.GetMoveSpeed);
+            //Make this call from pooled explosions and not instantiate a new one
             Instantiate(MyData.GetExplosionAnimation, transform.position, transform.rotation);
             gameObject.SetActive(false);
             mCurrentHealth = MyData.GetHealth;
@@ -59,13 +60,14 @@ namespace TrenchWars
         {
             if (mCanTakeDamage)
             {
+                MyAudioSource.PlayOneShot(MyData.GetTakeDamageSound);
+
                 if (mCurrentHealth - aDamage <= 0)
                 {
-                    TurretDie();
+                    OnDeath();
                 }
                 else
                 {
-                    MyAudioSource.PlayOneShot(MyData.GetTakeDamageSound);
                     mCurrentHealth -= aDamage;
                 }
             }

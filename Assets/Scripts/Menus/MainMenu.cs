@@ -48,7 +48,7 @@ namespace TrenchWars
         private void InitializeVariables()
         {
             mButtonPushed = false;
-            Manager.AudioManager.Access.PlayMusic(eMusic.MainMenu, eMusicSource.Normal, true);
+            Manager.AudioManager.Access.PlayMusic(Music.MainMenu, MusicSource.Normal, true);
             MasterVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMasterVolume);
             MusicVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMusicVolume);
             SoundFXVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustSoundFXVolume);
@@ -63,7 +63,7 @@ namespace TrenchWars
             if (!mButtonPushed)
             {
                 mButtonPushed = true;
-                Manager.AudioManager.Access.PlaySound(eSoundFX.UIExitButton, eSoundFXSource.Normal);
+                Manager.AudioManager.Access.PlaySound(SoundFX.UIExitButton, SoundFXSource.Normal);
                 StartCoroutine(WaitForExitSoundOver());
             }
         }
@@ -110,7 +110,7 @@ namespace TrenchWars
             if (!mButtonPushed)
             {
                 mButtonPushed = true;
-                Manager.AudioManager.Access.PlaySound(eSoundFX.UIStartGame, eSoundFXSource.Normal);
+                Manager.AudioManager.Access.PlaySound(SoundFX.UIStartGame, SoundFXSource.Normal);
                 StartCoroutine(WaitForStartSoundOver());
             }
         }
@@ -118,7 +118,7 @@ namespace TrenchWars
         public void SettingsButton()
         {
 
-                Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+                Manager.AudioManager.Access.PlaySound(SoundFX.UIButtonClick, SoundFXSource.Normal);
                 MainMenuScreen.SetActive(false);
                 SettingsScreen.SetActive(true);
         }
@@ -126,7 +126,7 @@ namespace TrenchWars
         public void HighScoreButton()
         {
 
-                Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+                Manager.AudioManager.Access.PlaySound(SoundFX.UIButtonClick, SoundFXSource.Normal);
                 MainMenuScreen.SetActive(false);
                 HighScoreScreen.SetActive(true);
         }
@@ -134,7 +134,7 @@ namespace TrenchWars
         public void BackToMainMenuButton()
         {
 
-                Manager.AudioManager.Access.PlaySound(eSoundFX.UIButtonClick, eSoundFXSource.Normal);
+                Manager.AudioManager.Access.PlaySound(SoundFX.UIButtonClick, SoundFXSource.Normal);
                 SettingsScreen.SetActive(false);
                 HighScoreScreen.SetActive(false);
                 MainMenuScreen.SetActive(true);

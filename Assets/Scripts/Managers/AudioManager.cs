@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 5, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -17,17 +17,18 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections;
 
-//ENUMERATORS
-#region Public Enums
+//ENUMS
+#region Public Enums: For Cross-Class References
 
-public enum eMusic
+public enum Music
 {
     None,
     MainMenu,
-    LevelOne
+    LevelOne,
+    LevelTwo
 }
 
-public enum eSoundFX
+public enum SoundFX
 {
     None,
     UIButtonClick,
@@ -36,15 +37,15 @@ public enum eSoundFX
     UIStartGame
 }
 
-public enum eSoundFXSource
+public enum SoundFXSource
 {
     Normal,
     EchoNormal,
     Ambient,
-    EchoAmbient,
+    EchoAmbient
 }
 
-public enum eMusicSource
+public enum MusicSource
 {
     Normal,
     EchoNormal
@@ -57,97 +58,174 @@ namespace TrenchWars.Manager
 	public class AudioManager : MonoBehaviour
 	{
         //SINGLETON
-        #region Singleton
+        #region Singleton Handling: Instance Initialization and Access
 
-        private static AudioManager mInstance;
+        private static AudioManager _instance;
 
         private void InitializeSingleton()
         {
-            if (mInstance != null && mInstance != this)
+            if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
             }
             else
             {
-                mInstance = this;
+                _instance = this;
                 DontDestroyOnLoad(gameObject);
             }
         }
 
-        public static AudioManager Access => mInstance;
+        public static AudioManager Access => _instance;
 
         #endregion
 
-        //VARIABLES
-        #region Private Constant Variables/Fields used in this Class Only
+        //FIELDS
+        #region Private Constants: For Class-Specific Fixed Values
 
         private const float MAX_VOLUME = 1.0f;
         private const float MIN_VOLUME = 0.0f;
-
+        
         #endregion
-        #region Inspector Variable Declarations and Initializations
+        #region Private Serialized Fields: For Inspector Editable Values
 
         [Space(10)]
         [Header("DATA REQUIRED >======================---")]
-        [SerializeField] private Data.AudioData MyData = null;
-        [SerializeField] private AudioMixer MainAudioMixer = null;
+        [SerializeField] private Data.AudioData _myData = null;
+        [SerializeField] private AudioMixer _mainAudioMixer = null;
         [Space(10)]
         [Header("MUSIC SOURCES >======================---")]
         [NonReorderable]
-        [SerializeField] private AudioSource[] MusicSources = null;
+        [SerializeField] private AudioSource[] _musicSources = null;
         [Header("SOUNDFX SOURCES >======================---")]
         [NonReorderable]
-        [SerializeField] private AudioSource[] SoundFXSources = null;
+        [SerializeField] private AudioSource[] _soundFXSources = null;
 
         #endregion
-        #region Private Variables/Fields used in this Class Only
+        #region Private Fields: For Internal Use
 
-        private Coroutine mFadeMusic;
+        private Coroutine _fadeMusic;
+
+        #endregion
+
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
+
+        public AudioSource GetSoundFXSource => _soundFXSources[(int)SoundFXSource.Normal];
 
         #endregion
 
-        public AudioSource GetSoundFXSource => SoundFXSources[(int)eSoundFXSource.Normal];
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
 
-        //FUNCTIONS
-        #region Initialization Methods/Functions
-
-        private void Awake() => InitializeSingleton();
-
-        #endregion
-        #region Public Methods/Functions
-
-        public void PlaySound(eSoundFX aSoundToPlay, eSoundFXSource aSourceToUse)
+        private void Awake()
         {
-            if ((int)aSoundToPlay < MyData.GetSoudFXList.Length)
+            InitializeSingleton();
+        }
+
+        #endregion
+        #region Private Implementation Methods: For Class Use
+
+        private void PlayNewMusic(Music musicToPlay, MusicSource sourceToUse)
+        {
+            // Will need to change the way this works if more than 2 Music Sources
+            AudioSource newSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+
+            newSource.clip = _myData.GetMusicList[(int)musicToPlay];
+            newSource.loop = true;
+            newSource.Play();
+        }
+
+        #endregion
+        #region Private Coroutine Methods: for Asynchronous Operations
+
+        private IEnumerator FadeInMusic(float fadeDuration, float targetVolume, MusicSource sourceToUse)
+        {
+            // Will need to change the way this works if more than 2 Music Sources
+            AudioSource newSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+
+            for (float time = 0 ; time < fadeDuration ; time += Time.deltaTime)
             {
-                switch (aSourceToUse)
+                newSource.volume = Mathf.Lerp(MIN_VOLUME, targetVolume, time / fadeDuration);
+
+                yield return null;
+            }
+
+            newSource.volume = targetVolume;
+        }
+
+        private IEnumerator FadeOutAndStopMusic(float fadeDuration)
+        {
+            // Will need to change the way this works if more than 2 Music Sources
+            AudioSource newSource = _musicSources[(int)MusicSource.Normal].isPlaying ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+
+            float currentVolume = newSource.volume;
+
+            for (float time = 0 ; time < fadeDuration ; time += Time.deltaTime)
+            {
+                newSource.volume = Mathf.Lerp(currentVolume, MIN_VOLUME, time / fadeDuration);
+
+                yield return null;
+            }
+
+            newSource.volume = MIN_VOLUME;
+            newSource.Stop();
+        }
+
+        private IEnumerator FadeOutAndPlayNewMusic(float fadeDuration, Music musicToPlay, MusicSource sourceToUse, bool shouldFadeIn = false)
+        {
+            // Will need to change the way this works if more than 2 Music Sources
+            AudioSource newSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+
+            float currentVolume = newSource.volume;
+
+            for (float time = 0 ; time < fadeDuration ; time += Time.deltaTime)
+            {
+                newSource.volume = Mathf.Lerp(currentVolume, MIN_VOLUME, time / fadeDuration);
+
+                yield return null;
+            }
+
+            newSource.volume = MIN_VOLUME;
+            newSource.Stop();
+
+            PlayMusic(musicToPlay, sourceToUse, shouldFadeIn);
+        }
+
+        #endregion
+        #region Public Methods: For External Interactions
+
+        public void PlaySound(SoundFX soundToPlay, SoundFXSource sourceToUse)
+        {
+            if ((int)soundToPlay < _myData.GetSoudFXList.Length)
+            {
+                switch (sourceToUse)
                 {
-                    case eSoundFXSource.Normal:
-                        SoundFXSources[(int)eSoundFXSource.Normal].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
+                    case SoundFXSource.Normal:
+                        _soundFXSources[(int)SoundFXSource.Normal].PlayOneShot(_myData.GetSoudFXList[(int)soundToPlay]);
                         break;
 
-                    case eSoundFXSource.EchoNormal:
-                        SoundFXSources[(int)eSoundFXSource.EchoNormal].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
+                    case SoundFXSource.EchoNormal:
+                        _soundFXSources[(int)SoundFXSource.EchoNormal].PlayOneShot(_myData.GetSoudFXList[(int)soundToPlay]);
                         break;
 
-                    case eSoundFXSource.Ambient:
-                        SoundFXSources[(int)eSoundFXSource.Ambient].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
+                    case SoundFXSource.Ambient:
+                        _soundFXSources[(int)SoundFXSource.Ambient].PlayOneShot(_myData.GetSoudFXList[(int)soundToPlay]);
                         break;
 
-                    case eSoundFXSource.EchoAmbient:
-                        SoundFXSources[(int)eSoundFXSource.EchoAmbient].PlayOneShot(MyData.GetSoudFXList[(int)aSoundToPlay]);
+                    case SoundFXSource.EchoAmbient:
+                        _soundFXSources[(int)SoundFXSource.EchoAmbient].PlayOneShot(_myData.GetSoudFXList[(int)soundToPlay]);
                         break;
                 }
             }
         }
 
-        public void PlayMusic(eMusic aMusicToPlay, eMusicSource aSourceToUse, bool aShouldFadeIn = false)
+        public void PlayMusic(Music musicToPlay, MusicSource sourceToUse, bool shouldFadeIn = false)
         {
-            if ((int)aMusicToPlay >= MyData.GetMusicList.Length)
+            if ((int)musicToPlay >= _myData.GetMusicList.Length)
             {
-                Debug.LogWarning($"{MyData.GetMusicList[(int)aMusicToPlay].name} <color=yellow>Was not found, Stopping Music!</color>");
+                Debug.LogWarning($"{_myData.GetMusicList[(int)musicToPlay].name} <color=yellow>Was not found, Stopping Music!</color>");
 
-                foreach (AudioSource aSource in MusicSources)
+                foreach (AudioSource aSource in _musicSources)
                 {
                     aSource.Stop();
                 }
@@ -155,145 +233,88 @@ namespace TrenchWars.Manager
                 return;
             }
 
-            foreach (AudioSource aSource in MusicSources)
+            foreach (AudioSource aSource in _musicSources)
             {
                 if (aSource.isPlaying)
                 {
-                    if (mFadeMusic != null)
+                    if (_fadeMusic != null)
                     {
-                        StopCoroutine(mFadeMusic);
+                        StopCoroutine(_fadeMusic);
                     }
 
-                    mFadeMusic = StartCoroutine(FadeOutAndPlayNewMusic(MyData.GetMusicFadeDuration, aMusicToPlay, aSourceToUse, aShouldFadeIn));
+                    _fadeMusic = StartCoroutine(FadeOutAndPlayNewMusic(_myData.GetMusicFadeDuration, musicToPlay, sourceToUse, shouldFadeIn));
 
                     return;
                 }
             }
 
-            if (aShouldFadeIn)
+            if (shouldFadeIn)
             {
-                foreach (AudioSource aSource in MusicSources)
+                foreach (AudioSource aSource in _musicSources)
                 {
                     aSource.volume = MIN_VOLUME;
                 }
 
-                PlayNewMusic(aMusicToPlay, aSourceToUse);
+                PlayNewMusic(musicToPlay, sourceToUse);
 
-                if (mFadeMusic != null)
+                if (_fadeMusic != null)
                 {
-                    StopCoroutine(mFadeMusic);
+                    StopCoroutine(_fadeMusic);
                 }
 
-                mFadeMusic = StartCoroutine(FadeInMusic(MyData.GetMusicFadeDuration, MAX_VOLUME, aSourceToUse));
+                _fadeMusic = StartCoroutine(FadeInMusic(_myData.GetMusicFadeDuration, MAX_VOLUME, sourceToUse));
 
                 return;
             }
 
-            PlayNewMusic(aMusicToPlay, aSourceToUse);
+            PlayNewMusic(musicToPlay, sourceToUse);
         }
 
-        public void StopMusic(bool aShouldFadeOut = false)
+        public void StopMusic(bool shouldFadeOut = false)
         {
-            if (!MusicSources[(int)eMusicSource.Normal].isPlaying && !MusicSources[(int)eMusicSource.EchoNormal].isPlaying)
+            if (!_musicSources[(int)MusicSource.Normal].isPlaying && !_musicSources[(int)MusicSource.EchoNormal].isPlaying)
             {
                 Debug.LogWarning($"<color=yellow>There is no Music currently playing!</color>");
 
                 return;
             }
 
-            if (aShouldFadeOut)
+            if (shouldFadeOut)
             {
-                if (mFadeMusic != null)
+                if (_fadeMusic != null)
                 {
-                    StopCoroutine(mFadeMusic);
+                    StopCoroutine(_fadeMusic);
                 }
 
-                mFadeMusic = StartCoroutine(FadeOutAndStopMusic(MyData.GetMusicFadeDuration));
+                _fadeMusic = StartCoroutine(FadeOutAndStopMusic(_myData.GetMusicFadeDuration));
             }
             else
             {
-                foreach (AudioSource aSource in MusicSources)
+                foreach (AudioSource aSource in _musicSources)
                 {
                     aSource.Stop();
                 }
             }
         }
 
-        public void AdjustMasterVolume(float aAmount) => MainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(aAmount) * 20);
-
-        public void AdjustMusicVolume(float aAmount) => MainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(aAmount) * 20);
-
-        public void AdjustSoundFXVolume(float aAmount) => MainAudioMixer.SetFloat("SoundFXVolume", Mathf.Log10(aAmount) * 20);
-
-        public void AdjustAmbientVolume(float aAmount) => MainAudioMixer.SetFloat("AmbientVolume", Mathf.Log10(aAmount) * 20);
-
-        #endregion
-        #region Implementation Functions/Methods
-
-        private void PlayNewMusic(eMusic aMusicToPlay, eMusicSource aSourceToUse)
+        public void AdjustMasterVolume(float amount)
         {
-            // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = aSourceToUse == eMusicSource.Normal ? MusicSources[(int)eMusicSource.Normal] : MusicSources[(int)eMusicSource.EchoNormal];
-
-            newSource.clip = MyData.GetMusicList[(int)aMusicToPlay];
-            newSource.loop = true;
-            newSource.Play();
+            _mainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(amount) * 20);
         }
 
-        #endregion
-        #region Coroutines
-
-        private IEnumerator FadeInMusic(float aFadeDuration, float aTargetVolume, eMusicSource aSourceToUse)
+        public void AdjustMusicVolume(float amount)
         {
-            // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = aSourceToUse == eMusicSource.Normal ? MusicSources[(int)eMusicSource.Normal] : MusicSources[(int)eMusicSource.EchoNormal];
-
-            for (float time = 0 ; time < aFadeDuration ; time += Time.deltaTime)
-            {
-                newSource.volume = Mathf.Lerp(MIN_VOLUME, aTargetVolume, time / aFadeDuration);
-
-                yield return null;
-            }
-
-            newSource.volume = aTargetVolume;
+            _mainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(amount) * 20);
         }
 
-        private IEnumerator FadeOutAndStopMusic(float aFadeDuration)
+        public void AdjustSoundFXVolume(float amount)
         {
-            // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = MusicSources[(int)eMusicSource.Normal].isPlaying ? MusicSources[(int)eMusicSource.Normal] : MusicSources[(int)eMusicSource.EchoNormal];
-
-            float currentVolume = newSource.volume;
-
-            for (float time = 0 ; time < aFadeDuration ; time += Time.deltaTime)
-            {
-                newSource.volume = Mathf.Lerp(currentVolume, MIN_VOLUME, time / aFadeDuration);
-
-                yield return null;
-            }
-
-            newSource.volume = MIN_VOLUME;
-            newSource.Stop();
+            _mainAudioMixer.SetFloat("SoundFXVolume", Mathf.Log10(amount) * 20);
         }
 
-        private IEnumerator FadeOutAndPlayNewMusic(float aFadeDuration, eMusic aMusicToPlay, eMusicSource aSourceToUse, bool aShouldFadeIn = false)
+        public void AdjustAmbientVolume(float amount)
         {
-            // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = aSourceToUse == eMusicSource.Normal ? MusicSources[(int)eMusicSource.Normal] : MusicSources[(int)eMusicSource.EchoNormal];
-
-            float currentVolume = newSource.volume;
-
-            for (float time = 0 ; time < aFadeDuration ; time += Time.deltaTime)
-            {
-                newSource.volume = Mathf.Lerp(currentVolume, MIN_VOLUME, time / aFadeDuration);
-
-                yield return null;
-            }
-
-            newSource.volume = MIN_VOLUME;
-            newSource.Stop();
-
-            PlayMusic(aMusicToPlay, aSourceToUse, aShouldFadeIn);
+            _mainAudioMixer.SetFloat("AmbientVolume", Mathf.Log10(amount) * 20);
         }
 
         #endregion

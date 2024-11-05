@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 29, 2024
+ * Date Last Modified: November 5, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -222,7 +222,7 @@ namespace TrenchWars
         {
             if (mCanUseSpecial)
             {
-                GameObject[] myProjectile = new GameObject[3];
+                var myProjectile = new GameObject[3];
 
                 for (int i = 0 ; i < ProjectileSpawnPoints.Count ; i++)
                 {
@@ -230,6 +230,7 @@ namespace TrenchWars
 
                     if (myProjectile[i] != null)
                     {
+                        myProjectile[i].GetComponent<ProjectileBase>().SetOwner(gameObject);
                         myProjectile[i].transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
                         mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
                         myProjectile[i].SetActive(true);

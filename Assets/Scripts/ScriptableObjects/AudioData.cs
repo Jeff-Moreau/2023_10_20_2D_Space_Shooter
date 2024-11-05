@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: November 5, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,28 +20,28 @@ namespace TrenchWars.Data
 	[CreateAssetMenu(fileName = "AudioData", menuName = "Data/New AudioData", order = 0)]
 	public class AudioData : ScriptableObject
 	{
-        //VARIABLES
-        #region Inspector Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
         [Space(10)]
         [Header("MUSIC DATA NEEDED >======================---")]
-        [SerializeField] private float MusicFadeDuration = 2.0f;
+        [SerializeField] private float _musicFadeDuration = 2.0f;
         [Space(10)]
         [Header("MUSIC LIST >======================---")]
         [NonReorderable]
-        [SerializeField] private AudioClip[] MusicList = null;
+        [SerializeField] private AudioClip[] _musicList = null;
         [Space(10)]
         [Header("SOUNDFX LIST >===================---")]
         [NonReorderable]
-        [SerializeField] private AudioClip[] SoundFXList = null;
+        [SerializeField] private AudioClip[] _soundFXList = null;
         #endregion
 
-        //GETTERS
-        #region Accessors/Getters
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
 
-        public float GetMusicFadeDuration => MusicFadeDuration;
-        public AudioClip[] GetMusicList => MusicList;
-        public AudioClip[] GetSoudFXList => SoundFXList;
+        public float GetMusicFadeDuration => _musicFadeDuration;
+        public AudioClip[] GetMusicList => _musicList;
+        public AudioClip[] GetSoudFXList => _soundFXList;
 
         #endregion
     }

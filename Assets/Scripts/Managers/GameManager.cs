@@ -7,33 +7,22 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: November 5, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
- 
+
 using UnityEngine;
-
-//ENUMERATORS
-#region Public Enumerator Declarations Only
-
-// public enum eEnumName  // Example
-// {
-// 		Hey,
-//		You
-// }
-
-#endregion
 
 namespace TrenchWars.Manager
 {
 	public class GameManager : MonoBehaviour
 	{
-		//SINGLETON
-		#region Singleton
-		
-		private static GameManager mInstance;
+        //SINGLETON
+        #region Singleton Handling: Instance Initialization and Access
+
+        private static GameManager mInstance;
 		
 		private void InitializeSingleton()
 		{
@@ -50,68 +39,63 @@ namespace TrenchWars.Manager
 	
 		public static GameManager Access => mInstance;
 
-		#endregion
+        #endregion
 
-		//ENUMERATORS
-		#region Private Enumerator Declarations Only
+        //ENUMS
+        #region Private Enums: For Internal Use
 
-		private enum eLevel
+        private enum eLevel
 		{
 			None,
 			LevelOne,
 			LevelTwo
 		}
 
-		#endregion
+        #endregion
 
-		//VARIABLES
-		#region Constant Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-		// private const int MY_AGE = 44;  // Example
-
-		#endregion
-		#region Inspector Variable Declarations and Initializations to empty or null
-
-		[SerializeField] private GameObject TheSaveLoadManager = null;
+        [SerializeField] private GameObject TheSaveLoadManager = null;
 		[SerializeField] private GameObject TheAudioManager = null;
 		[SerializeField] private GameObject TheInputManager = null;
 		[SerializeField] private GameObject[] TheLevels = null;
 
-		#endregion
-		#region Private Variable Declarations Only
+        #endregion
+        #region Private Fields: For Internal Use
 
-		private int mCurrenLives;
+        private int mCurrenLives; //Should be a Scriptable object
 		private int mCurrentScore;
 		private GameObject mCurrentLevel;
 
 		#endregion
 
-		//GETTERS AND SETTERS
-		#region Accessors/Getters
+		//PROPERTIES
+        #region Public Properties: For Accessing Class Fields
 
-		#endregion
-		#region Mutators/Setters
+		public int Score
+        {
+            get => mCurrentScore;
+            set => mCurrentScore = value;
+        }
 
-		public int SetCurrentScore(int aAmount) => mCurrentScore += aAmount;
-
-		#endregion
-		
-		//FUNCTIONS
-		#region Initialization Methods/Functions
-		
-		private void Awake() => InitializeSingleton();
-
-		/*private void OnEnable()
+		public int Lives
 		{
-			
-		}*/
+			get => mCurrenLives;
+			set => mCurrenLives = value;
+		}
 
-		/*private void OnDisable()
-		{
-			
-		}*/
+        #endregion
 
-		private void Start()
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
+
+        private void Awake()
+        {
+            InitializeSingleton();
+        }
+
+        private void Start()
 		{
 			LoadEssentials();
 			InitializeVariables();
@@ -155,48 +139,12 @@ namespace TrenchWars.Manager
 		}
 
         #endregion
-        #region Implementation Methods/Functions
+        #region Public Methods: For External Interactions
 
-        /*private void Update()
-		{
-			
-		}*/
-
-        /*private void LateUpdate()
-		{
-			
-		}*/
-
-        #endregion
-        #region Private Methods/Functions
-
-        /*private void Save()
-		{
-		
-		}*/
-
-        /*private void Load()
-		{
-		
-		}*/
-
-        #endregion
-        #region Public Methods/Functions
-
-        public void StartGame() => mCurrentLevel.SetActive(true);
-
-        #endregion
-        #region Closing Methods/Functions
-
-        /*private void OnApplicationQuit()
-		{
-			
-		}*/
-
-        /*private void OnDestroy()
-		{
-			
-		}*/
+        public void StartGame()
+        {
+            mCurrentLevel.SetActive(true);
+        }
 
         #endregion
     }

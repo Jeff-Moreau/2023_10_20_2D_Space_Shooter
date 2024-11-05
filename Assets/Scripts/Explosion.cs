@@ -7,44 +7,70 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 5, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
 using UnityEngine;
+using System.Collections;
 
 namespace TrenchWars
 {
     public class Explosion : MonoBehaviour
     {
-        [SerializeField] private AudioSource MyAudioSource = null;
-        [SerializeField] private AudioClip ExplosionSound = null;
-        [SerializeField] private float Delay = 0.0f;
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-        private ScreenShake shakeMe;
-        private float mWaitTime;
+        [SerializeField] private AudioSource _myAudioSource = null;
+        [SerializeField] private Animator _myAnimator = null;
+        [SerializeField] private AudioClip _theExplosionSound = null;
+        [SerializeField] private AnimationClip _theExplosionAnimation = null;
 
-        private void OnEnable() => MyAudioSource.PlayOneShot(ExplosionSound);
+        #endregion
+        #region Private Fields: For Internal Use
 
-        private void Start()
+        private ScreenShake _shakeCamera;
+
+        #endregion
+
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
+
+        private void Awake()
         {
-            mWaitTime = 0.0f;
-            shakeMe = Camera.main.GetComponent<ScreenShake>();
-            shakeMe.TriggerShake(0.1f);
+            _shakeCamera = Camera.main.GetComponent<ScreenShake>(); //Camera Actions instead
         }
+
+        #endregion
+        #region Private Activation Methods: For Script Activation
+
+        private void OnEnable()
+        {
+            _myAnimator.Play("Explosion");
+            _shakeCamera.TriggerShake(0.1f);
+            _myAudioSource.PlayOneShot(_theExplosionSound);
+            StartCoroutine(AnimationFinishedPlaying(_theExplosionAnimation.length));
+        }
+
+        #endregion
+        #region Private Real-Time Methods: For Per-Frame Game Logic
 
         private void Update()
         {
-            transform.position -= new Vector3(0, 1 * Time.deltaTime, 0);
-
-            mWaitTime += Time.deltaTime;
-
-            if (mWaitTime >= Delay)
-            {
-                gameObject.SetActive(false);
-            }
+            transform.position -= new Vector3(0, 1 * Time.deltaTime, 0); // Change this to speed and direction of calling gameobject
         }
+
+        #endregion
+        #region Private Coroutine Methods: for Asynchronous Operations
+
+        private IEnumerator AnimationFinishedPlaying(float animationLength)
+        {
+            yield return new WaitForSeconds(animationLength);
+            gameObject.SetActive(false);
+        }
+
+        #endregion
     }
 }

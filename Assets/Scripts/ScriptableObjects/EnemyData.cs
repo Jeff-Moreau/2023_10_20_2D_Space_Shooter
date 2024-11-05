@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: November 5, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,25 +20,25 @@ namespace TrenchWars.Data
     [CreateAssetMenu(fileName = "EnemyData", menuName = "Data/New EnemyData")]
     public class EnemyData : ScriptableObject
     {
-        //VARIABLES
-        #region Inspector Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private string Name = "";
-        [SerializeField] private float MaxLife = 0.0f;
-        [SerializeField] private float MaxShield = 0.0f;
-        [SerializeField] private float MovementSpeed = 0.0f;
-        [SerializeField] private float ShootingSpeed = 0.0f;
+        [SerializeField] private string _name = "";
+        [SerializeField] private float _maxLife = 0.0f;
+        [SerializeField] private float _maxShield = 0.0f;
+        [SerializeField] private float _movementSpeed = 0.0f;
+        [SerializeField] private float _shootingSpeed = 0.0f;
 
         #endregion
 
-        //GETTERS
-        #region Accessors/Getters
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
 
-        public string GetName => Name;
-        public float GetMaxLife => MaxLife;
-        public float GetMaxShield => MaxShield;
-        public float GetMovementSpeed => MovementSpeed;
-        public float GetShootingSpeed => ShootingSpeed;
+        public string GetName => _name;
+        public float GetMaxLife => _maxLife;
+        public float GetMaxShield => _maxShield;
+        public float GetMovementSpeed => _movementSpeed;
+        public float GetShootingSpeed => _shootingSpeed;
 
         #endregion
     }

@@ -41,11 +41,11 @@ namespace TrenchWars
         #endregion
         #region Private Variable Declarations Only
 
-        private int mCurrentEnemyKills;
         private float mSpawnTimer;
+        private float mPlayerHealth;
         private float mSpawnTimeLimit;
         private GameObject mThePlayer;
-        private float mPlayerHealth;
+        private int mCurrentEnemyKills;
 
         #endregion
 
