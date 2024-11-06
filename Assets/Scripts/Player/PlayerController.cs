@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace TrenchWars
 {
-    public class PlayerController : MonoBehaviour, ITakeDamage
+    public class PlayerController : Entity
     {
         //ENUMS
         #region Private Enums: For Internal Use
@@ -37,7 +37,8 @@ namespace TrenchWars
         #region Private Serialized Fields: For Inspector Editable Values
 
         [Header("Player Information")]
-        [SerializeField] private Data.PlayerData _myData = null;
+        //[SerializeField] private Data.PlayerData _myData = null;
+        //[SerializeField] private Health _myHealth = null;
         [SerializeField] private Animator _myAnimator = null;
         [SerializeField] private Rigidbody2D _myRigidbody = null;
         [SerializeField] private AudioSource _myAudioSource = null; // change for multiple audios
@@ -192,7 +193,7 @@ namespace TrenchWars
             Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
 
             // Apply velocity for movement
-            _myRigidbody.velocity = moveDirection * _myData.GetMoveSpeed;
+            _myRigidbody.velocity = moveDirection * _myData.GetMovementSpeed;
         }
 
         private void KeepPlayerInBounds()

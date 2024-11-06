@@ -17,12 +17,12 @@ using UnityEngine;
 
 namespace TrenchWars
 {
-    public class TurretBase : MonoBehaviour, ITakeDamage
+    public class EnemyController : Entity
     {
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private Data.TurretData _myData = null;
+        //[SerializeField] private Data.TurretData _myData = null;
         [SerializeField] private AudioSource _myAudioSource = null;
 
         #endregion
@@ -38,7 +38,7 @@ namespace TrenchWars
 
         private void Start()
         {
-            _currentHealth = _myData.GetHealth;
+            _currentHealth = _myData.GetMaxHealth;
             _canTakeDamage = false;
         }
 
@@ -47,7 +47,7 @@ namespace TrenchWars
 
         private void Update()
         {
-            transform.position -= new Vector3(0, _myData.GetMoveSpeed * Time.deltaTime, 0);
+            transform.position -= new Vector3(0, _myData.GetMovementSpeed * Time.deltaTime, 0);
         }
 
         #endregion
@@ -65,11 +65,11 @@ namespace TrenchWars
         {
             LevelActions.UpdateEnemiesKilled?.Invoke();
             //Update score witha value
-            LevelActions.DropAPickup?.Invoke(gameObject.transform, _myData.GetMoveSpeed);
+            LevelActions.DropAPickup?.Invoke(gameObject.transform, _myData.GetMovementSpeed);
             //Make this call from pooled explosions and not instantiate a new one
-            Instantiate(_myData.GetExplosionAnimation, transform.position, transform.rotation);
+            //Instantiate(_myData.GetExplosionAnimation, transform.position, transform.rotation);
             gameObject.SetActive(false);
-            _currentHealth = _myData.GetHealth;
+            _currentHealth = _myData.GetMaxHealth;
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace TrenchWars
         {
             if (_canTakeDamage)
             {
-                _myAudioSource.PlayOneShot(_myData.GetTakeDamageSound);
+                //_myAudioSource.PlayOneShot(_myData.GetTakeDamageSound);
 
                 if (_currentHealth - aDamage <= 0)
                 {
@@ -104,7 +104,7 @@ namespace TrenchWars
         {
             gameObject.SetActive(false);
             _canTakeDamage = false;
-            _currentHealth = _myData.GetHealth;
+            _currentHealth = _myData.GetMaxHealth;
         }
 
         #endregion
