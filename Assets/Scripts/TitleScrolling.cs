@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 18, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -18,7 +18,20 @@ using UnityEngine.UI;
 
 public class TitleScrolling : MonoBehaviour
 {
-    [SerializeField] private RawImage MyImage = null;
+    //FIELDS
+    #region Private Serialized Fields: For Inspector Editable Values
 
-    private void Update() => MyImage.uvRect = new Rect(MyImage.uvRect.position + (new Vector2(0.1f, 0) * Time.deltaTime), MyImage.uvRect.size);
+    [SerializeField] private RawImage _myImage = null;
+
+    #endregion
+
+    //METHODS
+    #region Private Real-Time Methods: For Per-Frame Game Logic
+
+    private void Update()
+    {
+        _myImage.uvRect = new Rect(_myImage.uvRect.position + (new Vector2(0.1f, 0) * Time.deltaTime), _myImage.uvRect.size);
+    }
+
+    #endregion
 }

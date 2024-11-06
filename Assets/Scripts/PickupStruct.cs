@@ -1,13 +1,13 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
  * Script: PickupStruct.cs
- * Date Created:
+ * Date Created: October 30, 2024
  * Created By: Jeff Moreau
  * Used On:
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified:
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -21,11 +21,7 @@ namespace TrenchWars
 	[Serializable]
 	public struct PickupStruct
 	{
-		#region Public Variables
-	
 		public GameObject ThePrefab;
 		public float DropChance;
-	
-		#endregion
 	}
 }

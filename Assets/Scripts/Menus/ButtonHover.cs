@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 5, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -23,7 +23,7 @@ namespace TrenchWars
         //METHODS
         #region Public Methods: For External Interactions
 
-        public void OnPointerEnter(PointerEventData aEventData)
+        public void OnPointerEnter(PointerEventData eventData)
         {
             // Should randomize the sounds here
             Manager.AudioManager.Access.PlaySound(SoundFX.UIHoverButton, SoundFXSource.Normal);

@@ -7,21 +7,21 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: Octoner 22, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
- 
+
 namespace TrenchWars
 {
 	public interface ITakeDamage
 	{
-		//FUNCTIONS
-		#region Public Methods/Functions
+        //METHODS
+        #region Public Methods: For External Interactions
 
-		public void TakeDamage(float aDamage);
-		public void HealDamage(float aHeal);
+        public void TakeDamage(float damage);
+		public void HealDamage(float heal);
 
 		#endregion
 	}

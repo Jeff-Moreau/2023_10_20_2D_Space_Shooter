@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,21 +20,21 @@ namespace TrenchWars.Data
 	[CreateAssetMenu(fileName = "ObjectPoolData", menuName = "Data/New ObjectPoolData", order = 0)]
 	public class ObjectPoolData : ScriptableObject
 	{
-		//VARIABLES
-		#region Inspector Variable Declarations and Initializations
-		
-		[SerializeField] private GameObject PrefabToUse = null;
-		[SerializeField] private int MinimumSize = 1;
-		[SerializeField] private int MaximumSize = 10;
-		
+		//FIELDS
+		#region Private Serialized Fields: For Inspector Editable Values
+
+		[SerializeField] private GameObject _prefabToUse = null;
+		[SerializeField] private int _minimumSize = 1;
+		[SerializeField] private int _maximumSize = 10;
+
 		#endregion
-		
-		//GETTERS
-		#region Accessors/Getters
-		
-		public GameObject GetPrefab => PrefabToUse;
-		public int GetMinimumSize => MinimumSize;
-		public int GetMaximumSize => MaximumSize;
+
+		//PROPERTIES
+		#region Public Properties: For Accessing Class Fields
+
+		public GameObject GetPrefab => _prefabToUse;
+		public int GetMinimumSize => _minimumSize;
+		public int GetMaximumSize => _maximumSize;
 		
 		#endregion
 	}

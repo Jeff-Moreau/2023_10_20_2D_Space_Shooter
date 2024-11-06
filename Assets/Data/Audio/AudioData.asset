@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7ffd00b0a7ba944b075687019cb1ce, type: 3}
   m_Name: AudioData
   m_EditorClassIdentifier: 
-  MusicFadeDuration: 2
-  MusicList:
+  _musicFadeDuration: 2
+  _musicList:
   - {fileID: 0}
   - {fileID: 8300000, guid: 5aae24d7a9373ed4bb79d13e63a1fa23, type: 3}
-  - {fileID: 8300000, guid: 981ed417bab3e8c4b85363a4e1d884ba, type: 3}
-  SoundFXList:
+  - {fileID: 8300000, guid: 5aae24d7a9373ed4bb79d13e63a1fa23, type: 3}
+  - {fileID: 8300000, guid: 5aae24d7a9373ed4bb79d13e63a1fa23, type: 3}
+  _soundFXList:
   - {fileID: 0}
   - {fileID: 8300000, guid: 89a4b7c6f3fd46240a07554d81719a29, type: 3}
   - {fileID: 8300000, guid: 1d545128890227048b24dd09eed4f936, type: 3}

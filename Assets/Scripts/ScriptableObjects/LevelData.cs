@@ -7,12 +7,12 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 22, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
- 
+
 using UnityEngine;
 
 namespace TrenchWars.Data
@@ -20,21 +20,21 @@ namespace TrenchWars.Data
 	[CreateAssetMenu(fileName = "LevelData", menuName = "Data/New LevelData", order = 0)]
 	public class LevelData : ScriptableObject
 	{
-		//VARIABLES
-		#region Inspector Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-		[SerializeField] private Music LevelMusic = Music.None;
-		[SerializeField] private int PhaseTwoKillsNeeded = 20;
-		[SerializeField] private int PhaseBossKillsNeeded = 40;
-		
-		#endregion
-		
-		//GETTERS
-		#region Accessors/Getters
-		
-		public Music GetMusic => LevelMusic;
-		public int GetPhaseTwoKillsNeeded => PhaseTwoKillsNeeded;
-		public int GetPhaseBossKillsNeeded => PhaseBossKillsNeeded;
+        [SerializeField] private Music _levelMusic = Music.None;
+		[SerializeField] private int _phaseTwoKillsNeeded = 20;
+		[SerializeField] private int _phaseBossKillsNeeded = 40;
+
+        #endregion
+
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
+
+        public Music GetMusic => _levelMusic;
+		public int GetPhaseTwoKillsNeeded => _phaseTwoKillsNeeded;
+		public int GetPhaseBossKillsNeeded => _phaseBossKillsNeeded;
 		
 		#endregion
 	}

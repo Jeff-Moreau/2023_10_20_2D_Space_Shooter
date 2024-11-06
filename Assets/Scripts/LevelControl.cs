@@ -7,60 +7,62 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace TrenchWars
 {
     public class LevelControl : MonoBehaviour
     {
-        //VARIABLES
-        #region Constant Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-        // private const int MY_AGE = 44;  // Example
-
-        #endregion
-        #region Inspector Variable Declarations and Initializations to empty or null
-
-        [SerializeField] private Data.LevelData MyData = null;
-        [SerializeField] private Data.PlayerData PlayerData = null;
-        [SerializeField] private GameObject PlayerSpawnLocation = null;
-        [SerializeField] private GameObject ThePlayer = null;
-        [SerializeField] private GameObject[] TurretSpawnLocations = null;
-        [SerializeField] private ObjectPoolManager LevelObjectManager = null;
-        [SerializeField] private GameObject TheTurret = null;
-        [SerializeField] private GameObject TheHealthPickup = null;
-        //[SerializeField] private GameObject[] EnemySpawnLocations = null;
+        [SerializeField] private Data.LevelData _myData = null;
+        [SerializeField] private Data.PlayerData _thePlayerData = null;
+        [SerializeField] private GameObject _playerSpawnLocation = null;
+        [SerializeField] private GameObject _thePlayer = null;
+        [SerializeField] private GameObject[] _turretSpawnLocations = null;
+        [SerializeField] private ObjectPoolManager _levelObjectManager = null;
+        [SerializeField] private GameObject _theTurret = null; // Use object pool for this
+        [SerializeField] private GameObject _theHealthPickup = null; // Use object pool for this
 
         #endregion
-        #region Private Variable Declarations Only
+        #region Private Fields: For Internal Use
 
-        private float mSpawnTimer;
-        private float mPlayerHealth;
-        private float mSpawnTimeLimit;
-        private GameObject mThePlayer;
-        private int mCurrentEnemyKills;
+        private float _spawnTimer;
+        private float _playerHealth;
+        private float _spawnTimeLimit;
+        private int _currentEnemyKills;
 
         #endregion
 
-        //FUNCTIONS
-        #region Initialization Methods/Functions
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
 
-        private void Awake()
-		{
-            mThePlayer = GameObject.FindGameObjectWithTag("Player");
-		}
+        private void Start()
+        {
+            InitializeVariables();
+        }
+
+        private void InitializeVariables()
+        {
+            _spawnTimeLimit = 5; // Scriptable Object for this
+            _currentEnemyKills = 0;
+            _spawnTimer = _spawnTimeLimit;
+            _playerHealth = _thePlayerData.GetMaxHealth;
+        }
+
+        #endregion
+        #region Private Activation Methods: For Script Activation
 
         private void OnEnable()
         {
-            mThePlayer = GameObject.FindGameObjectWithTag("Player");
-            Instantiate(ThePlayer, PlayerSpawnLocation.transform.position, PlayerSpawnLocation.transform.rotation);
+            Instantiate(_thePlayer, _playerSpawnLocation.transform.position, _playerSpawnLocation.transform.rotation);
             LevelActions.UpdateEnemiesKilled += AddKills;
             LevelActions.DropAPickup += DropPickup;
             PlayerActions.CurrentHealth += PlayerHealth;
@@ -73,138 +75,62 @@ namespace TrenchWars
             PlayerActions.CurrentHealth -= PlayerHealth;
         }
 
-        private void Start() => InitializeVariables();
+        #endregion
+        #region Private Real-Time Methods: For Per-Frame Game Logic
 
-        private void InitializeVariables()
-        {
-            mSpawnTimeLimit = 5;
-            mCurrentEnemyKills = 0;
-            mPlayerHealth = PlayerData.GetMaxHealth;
-            mSpawnTimer = mSpawnTimeLimit;
+        private void Update()
+		{
+            // Turn all of this into a coroutine
+            _spawnTimer += Time.deltaTime;
+
+            if (_spawnTimer >= _spawnTimeLimit)
+            {
+                GameObject newTurret = _levelObjectManager.GetEnemy(_theTurret);
+                int randomSpawn = Random.Range(0, 3);
+
+                if (newTurret != null)
+                {
+                    newTurret.transform.position = _turretSpawnLocations[randomSpawn].transform.position;
+                    newTurret.SetActive(true);
+                    _spawnTimer = 0;
+                    _spawnTimeLimit = Random.Range(3, 10);
+                }
+            }
         }
 
-        private void AddKills() => mCurrentEnemyKills += 1;
+        #endregion
+        #region Private Implementation Methods: For Class Use
 
-        private void PlayerHealth(float aAmount)
+        private void AddKills()
         {
-            mPlayerHealth = aAmount * PlayerData.GetMaxHealth;
+            _currentEnemyKills += 1;
         }
 
-        private void DropPickup(Transform aDropLocation, float aMoveSpeed)
+        private void PlayerHealth(float amount)
         {
-            Debug.Log(mPlayerHealth);
-            if (mPlayerHealth < PlayerData.GetMaxHealth)
+            _playerHealth = amount * _thePlayerData.GetMaxHealth;
+        }
+
+        private void DropPickup(Transform dropLocation, float moveSpeed)
+        {
+            Debug.Log(_playerHealth);
+
+            if (_playerHealth < _thePlayerData.GetMaxHealth)
             {
                 float randomChance = Random.Range(0, 100);
 
                 if (randomChance <= 30)
                 {
-                    GameObject newPickup = LevelObjectManager.GetPickup(TheHealthPickup);
+                    GameObject newPickup = _levelObjectManager.GetPickup(_theHealthPickup);
 
                     if (newPickup != null)
                     {
-                        newPickup.transform.SetPositionAndRotation(aDropLocation.position, aDropLocation.rotation);
+                        newPickup.transform.SetPositionAndRotation(dropLocation.position, dropLocation.rotation);
                         newPickup.SetActive(true);
                     }
                 }
             }
         }
-
-        #endregion
-        #region Physics Methods/Functions
-
-        /*private void FixedUpdate()
-		{
-			#NOTRIM#
-		}*/
-
-        /*private void OnCollisionEnter(Collision collision)
-		{
-			#NOTRIM#
-		}*/
-
-        /*private void OnCollisionStay(Collision collision)
-		{
-			#NOTRIM#
-		}*/
-
-        /*private void OnCollisionExit(Collision collision)
-		{
-			#NOTRIM#
-		}*/
-
-        /*private void OnTriggerEnter(Collider other)
-		{
-			#NOTRIM#
-		}*/
-
-        /*private void OnTriggerStay(Collider other)
-		{
-			#NOTRIM#
-		}*/
-
-        /*private void OnTriggerExit(Collider other)
-		{
-			#NOTRIM#
-		}*/
-
-        #endregion
-        #region Implementation Methods/Functions
-
-        private void Update()
-		{
-            mSpawnTimer += Time.deltaTime;
-
-            if (mSpawnTimer >= mSpawnTimeLimit)
-            {
-                GameObject newTurret = LevelObjectManager.GetEnemy(TheTurret);
-                int randomSpawn = Random.Range(0, 3);
-
-                if (newTurret != null)
-                {
-                    newTurret.transform.position = TurretSpawnLocations[randomSpawn].transform.position;
-                    newTurret.SetActive(true);
-                    mSpawnTimer = 0;
-                    mSpawnTimeLimit = Random.Range(3, 10);
-                }
-            }
-        }
-
-        /*private void LateUpdate()
-		{
-			//Just like Updated but done after Update
-		}*/
-
-        #endregion
-        #region Private Methods/Functions
-
-        /*private void Save()
-		{
-		
-		}*/
-
-        /*private void Load()
-		{
-		
-		}*/
-
-        #endregion
-        #region Public Methods/Functions
-
-        //Public made functions go here
-
-        #endregion
-        #region Closing Methods/Functions
-
-        /*private void OnApplicationQuit()
-		{
-			#NOTRIM#
-		}*/
-
-        /*private void OnDestroy()
-		{
-			#NOTRIM#
-		}*/
 
         #endregion
     }

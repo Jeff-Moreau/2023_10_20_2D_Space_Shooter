@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fe301fbd862ba4e9aa9529b234c562, type: 3}
   m_Name: FirstTurret
   m_EditorClassIdentifier: 
-  RateOfFire: 2
-  MaxHealth: 3
-  MoveSpeed: 1.2
-  ProjectileUsed: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-  ExplosionAnimation: {fileID: 5701922424162114191, guid: 6ff522a2a0b3b2940b63ec64c3ca25b3, type: 3}
-  TakeDamageSound: {fileID: 8300000, guid: 89a4b7c6f3fd46240a07554d81719a29, type: 3}
-  ShootingSound: {fileID: 8300000, guid: bcd3eddc5fdb8b847a8917c39b78c8c6, type: 3}
+  _rateOfFire: 2
+  _maxHealth: 3
+  _moveSpeed: 1.2
+  _projectileUsed: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
+  _explosionAnimation: {fileID: 5701922424162114191, guid: 6ff522a2a0b3b2940b63ec64c3ca25b3, type: 3}
+  _takeDamageSound: {fileID: 8300000, guid: 1d545128890227048b24dd09eed4f936, type: 3}
+  _shootingSound: {fileID: 8300000, guid: bcd3eddc5fdb8b847a8917c39b78c8c6, type: 3}

@@ -1,13 +1,13 @@
 /****************************************************************************************
  * Copyright: Jeff Moreau
- * Script: TurretSO.cs
+ * Script: TurretData.cs
  * Date Created: October 20, 2023
  * Created By: Jeff Moreau
  * Used On:
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,28 +20,29 @@ namespace TrenchWars.Data
     [CreateAssetMenu(fileName = "TurretData", menuName = "Data/New TurretData")]
     public class TurretData : ScriptableObject
     {
-        //VARIABLES
-        #region Inspector Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private float RateOfFire = 2f;
-        [SerializeField] private float MaxHealth = 3f;
-        [SerializeField] private float MoveSpeed = 1.2f;
-        [SerializeField] private GameObject ProjectileUsed = null;
-        [SerializeField] private GameObject ExplosionAnimation = null;
-        [SerializeField] private AudioClip TakeDamageSound = null;
-        [SerializeField] private AudioClip ShootingSound = null;
+        [SerializeField] private float _rateOfFire = 2f;
+        [SerializeField] private float _maxHealth = 3f;
+        [SerializeField] private float _moveSpeed = 1.2f;
+        [SerializeField] private GameObject _projectileUsed = null;
+        [SerializeField] private GameObject _explosionAnimation = null;
+        [SerializeField] private AudioClip _takeDamageSound = null;
+        [SerializeField] private AudioClip _shootingSound = null;
 
         #endregion
-        //GETTERS
-        #region Accessors/Getters
 
-        public float GetRateOfFire => RateOfFire;
-        public float GetHealth => MaxHealth;
-        public float GetMoveSpeed => MoveSpeed;
-        public GameObject GetProjectileUsed => ProjectileUsed;
-        public GameObject GetExplosionAnimation => ExplosionAnimation;
-        public AudioClip GetTakeDamageSound => TakeDamageSound;
-        public AudioClip GetShootingSound => ShootingSound;
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
+
+        public float GetRateOfFire => _rateOfFire;
+        public float GetHealth => _maxHealth;
+        public float GetMoveSpeed => _moveSpeed;
+        public GameObject GetProjectileUsed => _projectileUsed;
+        public GameObject GetExplosionAnimation => _explosionAnimation;
+        public AudioClip GetTakeDamageSound => _takeDamageSound;
+        public AudioClip GetShootingSound => _shootingSound;
 
         #endregion
     }

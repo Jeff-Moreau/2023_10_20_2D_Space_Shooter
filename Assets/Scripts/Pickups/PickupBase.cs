@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 31, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -19,37 +19,38 @@ namespace TrenchWars
 {
 	public class PickupBase : MonoBehaviour
 	{
-		#region Inspector Variable Declarations and Initializations to empty or null
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-		[SerializeField] protected Data.PickupData MyData = null;
-		
-		#endregion
-		
-		//FUNCTIONS
-        #region Physics Methods/Functions
+        [SerializeField] protected Data.PickupData _myData = null;
 
-        protected virtual void OnTriggerEnter2D(Collider2D aHitTarget)
+        #endregion
+
+        //METHODS
+        #region Private Physics Methods: For Object Interactions
+
+        protected virtual void OnTriggerEnter2D(Collider2D hitTarget)
         {
-			if (aHitTarget.gameObject.CompareTag("Player"))
+			if (hitTarget.gameObject.CompareTag("Player"))
             {
-                if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
+                if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
                 {
-                    hitTarget.HealDamage(MyData.GetHealAmount);
+                    targetHit.HealDamage(_myData.GetHealAmount);
                     gameObject.SetActive(false);
                 }
             }
         }
 
         #endregion
-        #region Implementation Methods/Functions
+        #region Private Real-Time Methods: For Per-Frame Game Logic
 
         protected virtual void Update()
 		{
-            transform.position -= new Vector3(0, MyData.GetMoveSpeed * Time.deltaTime, 0);
+            transform.position -= new Vector3(0, _myData.GetMoveSpeed * Time.deltaTime, 0); // get speed from object that dropped you
         }
 
         #endregion
-        #region Closing Methods/Functions
+        #region Private Deactivation Methods: For Class Exit and Cleanup
 
         protected virtual void OnBecameInvisible()
         {

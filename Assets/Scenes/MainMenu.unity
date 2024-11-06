@@ -1832,7 +1832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fb2ef6eb300dd468cf232e8ab727b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyImage: {fileID: 0}
+  _myImage: {fileID: 0}
 --- !u!114 &308964765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2061,7 +2061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fb2ef6eb300dd468cf232e8ab727b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyImage: {fileID: 0}
+  _myImage: {fileID: 0}
 --- !u!114 &358097113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2147,8 +2147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c4b8e65766b24a960e49bb77bf5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: 5ba3b578b7f94df418b226b0c48f20d3, type: 2}
-  MyImage: {fileID: 374703753}
+  _myData: {fileID: 11400000, guid: 1cba0ec10fc92cb47aec690d1eff4c4d, type: 2}
+  _myImage: {fileID: 374703753}
 --- !u!114 &374703753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2406,8 +2406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f8f40483dd9e642a0d127ebd581b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShakeMagnitude: 0.3
-  DampingSpeed: 3
+  _shakeMagnitude: 0.1
+  _dampingSpeed: 1
 --- !u!1 &431157499
 GameObject:
   m_ObjectHideFlags: 0
@@ -3357,8 +3357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c4b8e65766b24a960e49bb77bf5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: 5164963ef60fde74f81e3f21e59cd3db, type: 2}
-  MyImage: {fileID: 564806658}
+  _myData: {fileID: 11400000, guid: 5164963ef60fde74f81e3f21e59cd3db, type: 2}
+  _myImage: {fileID: 564806658}
 --- !u!114 &564806658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3549,8 +3549,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c4b8e65766b24a960e49bb77bf5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: 26801de8c4007a744aec3ece805ee72e, type: 2}
-  MyImage: {fileID: 656446724}
+  _myData: {fileID: 11400000, guid: 8c5ded8df289d874883c1337cea7be78, type: 2}
+  _myImage: {fileID: 656446724}
 --- !u!114 &656446724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4475,14 +4475,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417479539be21c040b84be866605cf4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuScreen: {fileID: 1214442564}
-  SettingsScreen: {fileID: 583703667}
-  HighScoreScreen: {fileID: 1563574646}
-  HUD: {fileID: 1577102877}
-  MasterVolume: {fileID: 65791089}
-  MusicVolume: {fileID: 1218494}
-  SoundFXVolume: {fileID: 942150352}
-  AmbientVolume: {fileID: 1064095527}
+  _theMainMenuScreen: {fileID: 1214442564}
+  _theSettingsScreen: {fileID: 583703667}
+  _theHighScoreScreen: {fileID: 1563574646}
+  _theHUD: {fileID: 1577102877}
+  _masterVolumeSlider: {fileID: 65791089}
+  _musicVolumeSlider: {fileID: 1218494}
+  _soundFXVolumeSlider: {fileID: 942150352}
+  _ambientVolumeSlider: {fileID: 1064095527}
 --- !u!1 &917985119
 GameObject:
   m_ObjectHideFlags: 0
@@ -5459,17 +5459,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be86a2e944809b4db6ebcfeb6ab1955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: d6e21a5bf373361438b55590b9ebea63, type: 2}
-  PlayerData: {fileID: 11400000, guid: 1b8220254893ec94787e3af0ac1dd006, type: 2}
-  PlayerSpawnLocation: {fileID: 1533821948}
-  ThePlayer: {fileID: 4905264917827988983, guid: 0ae75121a35081749bb1bc53456afc6e, type: 3}
-  TurretSpawnLocations:
+  _myData: {fileID: 11400000, guid: d6e21a5bf373361438b55590b9ebea63, type: 2}
+  _thePlayerData: {fileID: 11400000, guid: 1b8220254893ec94787e3af0ac1dd006, type: 2}
+  _playerSpawnLocation: {fileID: 1533821948}
+  _thePlayer: {fileID: 4905264917827988983, guid: 0ae75121a35081749bb1bc53456afc6e, type: 3}
+  _turretSpawnLocations:
   - {fileID: 1483550896}
   - {fileID: 765237157}
   - {fileID: 257977711}
-  LevelObjectManager: {fileID: 1204568934}
-  TheTurret: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
-  TheHealthPickup: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
+  _levelObjectManager: {fileID: 1204568934}
+  _theTurret: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
+  _theHealthPickup: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
 --- !u!114 &1204568934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5482,21 +5482,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7b95b41be6c504696b61a12e44121e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TheProjectiles:
+  _theProjectiles:
   - ThePrefab: {fileID: 2267739600030115732, guid: d43e1e62356ac064bb7fba2b4fa3d35a, type: 3}
-    MinimumPoolSize: 15
-    MaximumPoolSize: 25
+    MinimumPoolSize: 5
+    MaximumPoolSize: 15
   - ThePrefab: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-    MinimumPoolSize: 15
-    MaximumPoolSize: 25
-  TheEnemies:
+    MinimumPoolSize: 2
+    MaximumPoolSize: 10
+  _theEnemies:
   - ThePrefab: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
     MinimumPoolSize: 2
     MaximumPoolSize: 5
-  ThePickups:
+  _thePickups:
   - ThePrefab: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
     MinimumPoolSize: 1
-    MaximumPoolSize: 1
+    MaximumPoolSize: 2
 --- !u!1 &1214442564
 GameObject:
   m_ObjectHideFlags: 0
@@ -5786,7 +5786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fb2ef6eb300dd468cf232e8ab727b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyImage: {fileID: 0}
+  _myImage: {fileID: 0}
 --- !u!114 &1290263123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6283,8 +6283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c4b8e65766b24a960e49bb77bf5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: 1cba0ec10fc92cb47aec690d1eff4c4d, type: 2}
-  MyImage: {fileID: 1326351587}
+  _myData: {fileID: 11400000, guid: 5ba3b578b7f94df418b226b0c48f20d3, type: 2}
+  _myImage: {fileID: 1326351587}
 --- !u!114 &1326351587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7723,10 +7723,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773641451c09c674bbafdf30fb4aa093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreText: {fileID: 2008561870}
-  ShieldLevel: {fileID: 815091159}
-  SpecialMeter: {fileID: 1451808054}
-  HealthBar: {fileID: 272974086}
+  _scoreText: {fileID: 2008561870}
+  _shieldLevel: {fileID: 815091159}
+  _specialMeter: {fileID: 1451808054}
+  _healthBar: {fileID: 272974086}
 --- !u!1 &1625082108
 GameObject:
   m_ObjectHideFlags: 0
@@ -8599,8 +8599,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c4b8e65766b24a960e49bb77bf5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: 8c5ded8df289d874883c1337cea7be78, type: 2}
-  MyImage: {fileID: 1829503834}
+  _myData: {fileID: 11400000, guid: 26801de8c4007a744aec3ece805ee72e, type: 2}
+  _myImage: {fileID: 1829503834}
 --- !u!114 &1829503834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10125,7 +10125,7 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 6985702029280406704, guid: aa11c0cb2be8a63458662e0b5f199897, type: 3}
-      propertyPath: TheLevels.Array.data[1]
+      propertyPath: _theLevels.Array.data[1]
       value: 
       objectReference: {fileID: 1204568931}
     - target: {fileID: 7520541489090551547, guid: aa11c0cb2be8a63458662e0b5f199897, type: 3}

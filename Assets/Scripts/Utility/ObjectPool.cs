@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,38 +20,45 @@ namespace TrenchWars
 {
 	public class ObjectPool : MonoBehaviour
 	{
-        //VARIABLES
-        #region Private Variables/Fields used in this Class Only
+        //FIELDS
+        #region Private Fields: For Internal Use
 
-        private int mMaxPoolSize;
-        private int mPrefabPoolSize;
-        private GameObject mThePrefab;
-        private List<GameObject> mPrefabList;
-
-        #endregion
-
-        //GETTERS AND SETTERS
-        #region Public Getters/Accessors for use Outside of this Class Only
-
-        public int GetPoolSize => mPrefabPoolSize;
-        public int GetMaxPoolSize => mMaxPoolSize;
+        private int _maxPoolSize;
+        private int _prefabPoolSize;
+        private GameObject _thePrefab;
+        private List<GameObject> _prefabList;
 
         #endregion
-        #region Public Setters/Mutators for use Outside of this Class Only
 
-        public void SetPoolSize(int aPoolSize)
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
+
+        public int PoolSize
         {
-            mPrefabPoolSize = aPoolSize;
-            InitializePrefabPool();
+            get => _prefabPoolSize;
+            set
+            {
+                _prefabPoolSize = value;
+                InitializePrefabPool();
+            }
         }
 
-        public void SetPrefab(GameObject aPrefab) => mThePrefab = aPrefab;
-        public void SetMaxPoolSize(int aSize) => mMaxPoolSize = aSize;
+        public int MaxPoolSize
+        {
+            get => _maxPoolSize;
+            set => _maxPoolSize = value;
+        }
+
+        public GameObject Prefab
+        {
+            get => _thePrefab;
+            set => _thePrefab = value;
+        }
 
         #endregion
 
-        //FUNCTIONS
-        #region Private Initialization Functions/Methods used in this Class Only
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
 
         private void Awake()
         {
@@ -61,19 +68,19 @@ namespace TrenchWars
 
         private void InitializeVariables()
         {
-            mThePrefab = null;
-            mMaxPoolSize = 4;
-            mPrefabPoolSize = 2;
-            mPrefabList = new List<GameObject>();
+            _thePrefab = null;
+            _maxPoolSize = 4; // scriptable object
+            _prefabPoolSize = 2; // scriptable object
+            _prefabList = new List<GameObject>();
         }
 
         private void InitializePrefabPool()
         {
-            mPrefabList.Clear();
+            _prefabList.Clear();
 
-            for (int i = 0 ; i < mPrefabPoolSize ; i++)
+            for (int i = 0 ; i < _prefabPoolSize ; i++)
             {
-                if (mThePrefab != null)
+                if (_thePrefab != null)
                 {
                     AddNewPrefab();
                 }
@@ -81,32 +88,32 @@ namespace TrenchWars
         }
 
         #endregion
-        #region Private Implementation Functions/Methods used in this Class Only
+        #region Private Implementation Methods: For Class Use
 
         private void AddNewPrefab()
         {
-            GameObject newPrefab = Instantiate(mThePrefab);
+            GameObject newPrefab = Instantiate(_thePrefab);
             newPrefab.SetActive(false);
-            mPrefabList.Add(newPrefab);
+            _prefabList.Add(newPrefab);
         }
 
         #endregion
-        #region Public Functions/Methods for use Outside of this Class
+        #region Public Methods: For External Interactions
 
         public GameObject GetAPrefab()
         {
-            for (int i = 0 ; i < mPrefabList.Count ; i++)
+            for (int i = 0 ; i < _prefabList.Count ; i++)
             {
-                if (!mPrefabList[i].activeInHierarchy)
+                if (!_prefabList[i].activeInHierarchy)
                 {
-                    return mPrefabList[i];
+                    return _prefabList[i];
                 }
             }
 
-            if (mPrefabList.Count < mMaxPoolSize)
+            if (_prefabList.Count < _maxPoolSize)
             {
                 AddNewPrefab();
-                return mPrefabList[^1];
+                return _prefabList[^1];
             }
 
             return null;

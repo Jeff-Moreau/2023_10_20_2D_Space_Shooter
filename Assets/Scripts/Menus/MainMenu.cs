@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 22, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -21,52 +21,53 @@ namespace TrenchWars
 {
     public class MainMenu : MonoBehaviour
     {
-        //VARIABLES
-        #region Inspector Variable Declarations and Initializations to empty or null
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private GameObject MainMenuScreen = null;
-        [SerializeField] private GameObject SettingsScreen = null;
-        [SerializeField] private GameObject HighScoreScreen = null;
-        [SerializeField] private GameObject HUD = null;
-        [SerializeField] private Slider MasterVolume = null;
-        [SerializeField] private Slider MusicVolume = null;
-        [SerializeField] private Slider SoundFXVolume = null;
-        [SerializeField] private Slider AmbientVolume = null;
-
-        #endregion
-        #region Private Variables/Fields used in this Class Only
-
-        private bool mButtonPushed;
+        [SerializeField] private GameObject _theMainMenuScreen = null;
+        [SerializeField] private GameObject _theSettingsScreen = null;
+        [SerializeField] private GameObject _theHighScoreScreen = null;
+        [SerializeField] private GameObject _theHUD = null;
+        [SerializeField] private Slider _masterVolumeSlider = null;
+        [SerializeField] private Slider _musicVolumeSlider = null;
+        [SerializeField] private Slider _soundFXVolumeSlider = null;
+        [SerializeField] private Slider _ambientVolumeSlider = null;
 
         #endregion
-        //FUNCTIONS
-        #region Initialization Methods/Functions
+        #region Private Fields: For Internal Use
 
-        private void OnEnable() => mButtonPushed = false;
-        private void Start() => InitializeVariables();
+        private bool _buttonIsPushed;
+
+        #endregion
+
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
+
+        private void Start()
+        {
+            InitializeVariables();
+        }
 
         private void InitializeVariables()
         {
-            mButtonPushed = false;
+            _buttonIsPushed = false;
             Manager.AudioManager.Access.PlayMusic(Music.MainMenu, MusicSource.Normal, true);
-            MasterVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMasterVolume);
-            MusicVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMusicVolume);
-            SoundFXVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustSoundFXVolume);
-            AmbientVolume.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustAmbientVolume);
+            _masterVolumeSlider.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMasterVolume);
+            _musicVolumeSlider.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustMusicVolume);
+            _soundFXVolumeSlider.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustSoundFXVolume);
+            _ambientVolumeSlider.onValueChanged.AddListener(Manager.AudioManager.Access.AdjustAmbientVolume);
         }
 
         #endregion
-        #region Public Button Methods/Functions
+        #region Private Activation Methods: For Script Activation
 
-        public void ExitGameButton()
+        private void OnEnable()
         {
-            if (!mButtonPushed)
-            {
-                mButtonPushed = true;
-                Manager.AudioManager.Access.PlaySound(SoundFX.UIExitButton, SoundFXSource.Normal);
-                StartCoroutine(WaitForExitSoundOver());
-            }
+            _buttonIsPushed = false;
         }
+
+        #endregion
+        #region Private Implementation Methods: For Class Use
 
         private static void ExitGame()
         {
@@ -77,6 +78,15 @@ namespace TrenchWars
 #endif
         }
 
+        private void StartGame()
+        {
+            Manager.GameManager.Access.StartGame();
+            _theHUD.SetActive(true);
+        }
+
+        #endregion
+        #region Private Coroutine Methods: for Asynchronous Operations
+
         private IEnumerator WaitForExitSoundOver()
         {
             while (Manager.AudioManager.Access.GetSoundFXSource.isPlaying)
@@ -84,7 +94,7 @@ namespace TrenchWars
                 yield return null;
             }
 
-            mButtonPushed = false;
+            _buttonIsPushed = false;
             ExitGame();
         }
 
@@ -95,21 +105,28 @@ namespace TrenchWars
                 yield return null;
             }
 
-            mButtonPushed = false;
+            _buttonIsPushed = false;
             StartGame();
         }
 
-        private void StartGame()
+        #endregion
+        #region Public Methods: For External Interactions
+
+        public void ExitGameButton()
         {
-            Manager.GameManager.Access.StartGame();
-            HUD.SetActive(true);
+            if (!_buttonIsPushed)
+            {
+                _buttonIsPushed = true;
+                Manager.AudioManager.Access.PlaySound(SoundFX.UIExitButton, SoundFXSource.Normal);
+                StartCoroutine(WaitForExitSoundOver());
+            }
         }
 
         public void StartGameButton()
         {
-            if (!mButtonPushed)
+            if (!_buttonIsPushed)
             {
-                mButtonPushed = true;
+                _buttonIsPushed = true;
                 Manager.AudioManager.Access.PlaySound(SoundFX.UIStartGame, SoundFXSource.Normal);
                 StartCoroutine(WaitForStartSoundOver());
             }
@@ -119,25 +136,25 @@ namespace TrenchWars
         {
 
                 Manager.AudioManager.Access.PlaySound(SoundFX.UIButtonClick, SoundFXSource.Normal);
-                MainMenuScreen.SetActive(false);
-                SettingsScreen.SetActive(true);
+                _theMainMenuScreen.SetActive(false);
+                _theSettingsScreen.SetActive(true);
         }
 
         public void HighScoreButton()
         {
 
                 Manager.AudioManager.Access.PlaySound(SoundFX.UIButtonClick, SoundFXSource.Normal);
-                MainMenuScreen.SetActive(false);
-                HighScoreScreen.SetActive(true);
+                _theMainMenuScreen.SetActive(false);
+                _theHighScoreScreen.SetActive(true);
         }
 
         public void BackToMainMenuButton()
         {
 
                 Manager.AudioManager.Access.PlaySound(SoundFX.UIButtonClick, SoundFXSource.Normal);
-                SettingsScreen.SetActive(false);
-                HighScoreScreen.SetActive(false);
-                MainMenuScreen.SetActive(true);
+                _theSettingsScreen.SetActive(false);
+                _theHighScoreScreen.SetActive(false);
+                _theMainMenuScreen.SetActive(true);
         }
 
         #endregion

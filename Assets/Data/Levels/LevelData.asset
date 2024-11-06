@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cab449cb5b5bc5478d4746aa545852e, type: 3}
   m_Name: LevelData
   m_EditorClassIdentifier: 
-  LevelMusic: 2
+  _levelMusic: 2
+  _phaseTwoKillsNeeded: 20
+  _phaseBossKillsNeeded: 40

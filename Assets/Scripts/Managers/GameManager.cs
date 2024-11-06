@@ -22,29 +22,29 @@ namespace TrenchWars.Manager
         //SINGLETON
         #region Singleton Handling: Instance Initialization and Access
 
-        private static GameManager mInstance;
+        private static GameManager _instance;
 		
 		private void InitializeSingleton()
 		{
-			if (mInstance != null && mInstance != this)
+			if (_instance != null && _instance != this)
 			{
 				Destroy(gameObject);
 			}
 			else
 			{
-				mInstance = this;
+				_instance = this;
 				DontDestroyOnLoad(gameObject);
 			}
 		}
 	
-		public static GameManager Access => mInstance;
+		public static GameManager Access => _instance;
 
         #endregion
 
         //ENUMS
         #region Private Enums: For Internal Use
 
-        private enum eLevel
+        private enum Level
 		{
 			None,
 			LevelOne,
@@ -56,17 +56,17 @@ namespace TrenchWars.Manager
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private GameObject TheSaveLoadManager = null;
-		[SerializeField] private GameObject TheAudioManager = null;
-		[SerializeField] private GameObject TheInputManager = null;
-		[SerializeField] private GameObject[] TheLevels = null;
+        [SerializeField] private GameObject _theSaveLoadManager = null;
+		[SerializeField] private GameObject _theAudioManager = null;
+		[SerializeField] private GameObject _theInputManager = null;
+		[SerializeField] private GameObject[] _theLevels = null;
 
         #endregion
         #region Private Fields: For Internal Use
 
-        private int mCurrenLives; //Should be a Scriptable object
-		private int mCurrentScore;
-		private GameObject mCurrentLevel;
+        private int _currenLives; //Should be a Scriptable object
+		private int _currentScore;
+		private GameObject _currentLevel;
 
 		#endregion
 
@@ -75,14 +75,14 @@ namespace TrenchWars.Manager
 
 		public int Score
         {
-            get => mCurrentScore;
-            set => mCurrentScore = value;
+            get => _currentScore;
+            set => _currentScore = value;
         }
 
 		public int Lives
 		{
-			get => mCurrenLives;
-			set => mCurrenLives = value;
+			get => _currenLives;
+			set => _currenLives = value;
 		}
 
         #endregion
@@ -103,39 +103,39 @@ namespace TrenchWars.Manager
 
 		private void LoadEssentials()
 		{
-            if (!TheSaveLoadManager.activeInHierarchy)
+            if (!_theSaveLoadManager.activeInHierarchy)
             {
-                if (TheSaveLoadManager != null)
+                if (_theSaveLoadManager != null)
                 {
-                    Instantiate(TheSaveLoadManager);
-                    TheSaveLoadManager.SetActive(true);
+                    Instantiate(_theSaveLoadManager);
+                    _theSaveLoadManager.SetActive(true);
                 }
             }
 
-            if (!TheAudioManager.activeInHierarchy)
+            if (!_theAudioManager.activeInHierarchy)
             {
-                if (TheAudioManager != null)
+                if (_theAudioManager != null)
                 {
-                    Instantiate(TheAudioManager);
-                    TheAudioManager.SetActive(true);
+                    Instantiate(_theAudioManager);
+                    _theAudioManager.SetActive(true);
                 }
             }
 
-            if (!TheInputManager.activeInHierarchy)
+            if (!_theInputManager.activeInHierarchy)
             {
-                if (TheInputManager != null)
+                if (_theInputManager != null)
                 {
-                    Instantiate(TheInputManager);
-                    TheInputManager.SetActive(true);
+                    Instantiate(_theInputManager);
+                    _theInputManager.SetActive(true);
                 }
             }
         }
 
 		private void InitializeVariables()
 		{
-			mCurrenLives = 3;
-			mCurrentScore = 0;
-			mCurrentLevel = TheLevels[(int)eLevel.LevelOne];
+			_currenLives = 3;
+			_currentScore = 0;
+			_currentLevel = _theLevels[(int)Level.LevelOne];
 		}
 
         #endregion
@@ -143,7 +143,7 @@ namespace TrenchWars.Manager
 
         public void StartGame()
         {
-            mCurrentLevel.SetActive(true);
+            _currentLevel.SetActive(true);
         }
 
         #endregion

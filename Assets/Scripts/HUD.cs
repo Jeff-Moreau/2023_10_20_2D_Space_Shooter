@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 5, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -24,10 +24,10 @@ namespace TrenchWars
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private TextMeshProUGUI ScoreText = null;
-		[SerializeField] private Slider ShieldLevel = null;
-		[SerializeField] private Slider SpecialMeter = null;
-		[SerializeField] private Slider HealthBar = null;
+        [SerializeField] private TextMeshProUGUI _scoreText = null;
+		[SerializeField] private Slider _shieldLevel = null;
+		[SerializeField] private Slider _specialMeter = null;
+		[SerializeField] private Slider _healthBar = null;
 
         #endregion
 
@@ -53,24 +53,24 @@ namespace TrenchWars
         #endregion
         #region Private Implementation Methods: For Class Use
 
-        private void UpdateSpecial(float aAmount)
+        private void UpdateSpecial(float amount)
         {
-            SpecialMeter.value = aAmount;
+            _specialMeter.value = amount;
         }
 
-        private void UpdateShield(float aAmount)
+        private void UpdateShield(float amount)
         {
-            ShieldLevel.value = aAmount;
+            _shieldLevel.value = amount;
         }
 
-        private void UpdateHealth(float aAmount)
+        private void UpdateHealth(float amount)
         {
-            HealthBar.value = aAmount;
+            _healthBar.value = amount;
         }
 
-        private void UpdateScore(int aAmount)
+        private void UpdateScore(int amount)
         {
-            ScoreText.text = aAmount.ToString();
+            _scoreText.text = amount.ToString();
         }
 
         #endregion

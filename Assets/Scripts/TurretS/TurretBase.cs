@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 20, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -19,56 +19,75 @@ namespace TrenchWars
 {
     public class TurretBase : MonoBehaviour, ITakeDamage
     {
-        [SerializeField] private Data.TurretData MyData = null;
-        [SerializeField] private AudioSource MyAudioSource = null;
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-        private float mCurrentHealth;
-        private bool mCanTakeDamage;
+        [SerializeField] private Data.TurretData _myData = null;
+        [SerializeField] private AudioSource _myAudioSource = null;
+
+        #endregion
+        #region Private Fields: For Internal Use
+
+        private float _currentHealth;
+        private bool _canTakeDamage;
+
+        #endregion
+
+        //METHOD
+        #region Private Initialization Methods: For Class Setup
 
         private void Start()
         {
-            mCurrentHealth = MyData.GetHealth;
-            mCanTakeDamage = false;
+            _currentHealth = _myData.GetHealth;
+            _canTakeDamage = false;
         }
+
+        #endregion
+        #region Private Real-Time Methods: For Per-Frame Game Logic
 
         private void Update()
         {
-            transform.position -= new Vector3(0, MyData.GetMoveSpeed * Time.deltaTime, 0);
+            transform.position -= new Vector3(0, _myData.GetMoveSpeed * Time.deltaTime, 0);
         }
+
+        #endregion
+        #region Private Activation Methods: For Script Activation
+
+        private void OnBecameVisible()
+        {
+            _canTakeDamage = true;
+        }
+
+        #endregion
+        #region Private Implementation Methods: For Class Use
 
         private void OnDeath()
         {
             LevelActions.UpdateEnemiesKilled?.Invoke();
             //Update score witha value
-            LevelActions.DropAPickup?.Invoke(gameObject.transform, MyData.GetMoveSpeed);
+            LevelActions.DropAPickup?.Invoke(gameObject.transform, _myData.GetMoveSpeed);
             //Make this call from pooled explosions and not instantiate a new one
-            Instantiate(MyData.GetExplosionAnimation, transform.position, transform.rotation);
+            Instantiate(_myData.GetExplosionAnimation, transform.position, transform.rotation);
             gameObject.SetActive(false);
-            mCurrentHealth = MyData.GetHealth;
+            _currentHealth = _myData.GetHealth;
         }
 
-        private void OnBecameVisible() => mCanTakeDamage = true;
-
-        private void OnBecameInvisible()
-        {
-            gameObject.SetActive(false);
-            mCanTakeDamage = false;
-            mCurrentHealth = MyData.GetHealth;
-        }
+        #endregion
+        #region Public Methods: For External Interactions
 
         public void TakeDamage(float aDamage)
         {
-            if (mCanTakeDamage)
+            if (_canTakeDamage)
             {
-                MyAudioSource.PlayOneShot(MyData.GetTakeDamageSound);
+                _myAudioSource.PlayOneShot(_myData.GetTakeDamageSound);
 
-                if (mCurrentHealth - aDamage <= 0)
+                if (_currentHealth - aDamage <= 0)
                 {
                     OnDeath();
                 }
                 else
                 {
-                    mCurrentHealth -= aDamage;
+                    _currentHealth -= aDamage;
                 }
             }
         }
@@ -77,5 +96,17 @@ namespace TrenchWars
         {
             return;
         }
+
+        #endregion
+        #region Private Deactivation Methods: For Class Exit and Cleanup
+
+        private void OnBecameInvisible()
+        {
+            gameObject.SetActive(false);
+            _canTakeDamage = false;
+            _currentHealth = _myData.GetHealth;
+        }
+
+        #endregion
     }
 }

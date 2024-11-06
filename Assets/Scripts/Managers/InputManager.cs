@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 23, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -15,47 +15,36 @@
  
 using UnityEngine;
 
-//ENUMERATORS
-#region Public Enumerator Declarations Only
-
-// public enum eEnumName  // Example
-// {
-// 		Hey,
-//		You
-// }
-
-#endregion
-
 namespace TrenchWars.Manager
 {
 	public class InputManager : MonoBehaviour
 	{
-		//SINGLETON
-		#region Singleton
-		
-		private static InputManager mInstance;
+        //SINGLETON
+        #region Singleton Handling: Instance Initialization and Access
+
+        private static InputManager _instance;
 		
 		private void InitializeSingleton()
 		{
-			if (mInstance != null && mInstance != this)
+			if (_instance != null && _instance != this)
 			{
 				Destroy(gameObject);
 			}
 			else
 			{
-				mInstance = this;
+				_instance = this;
 				DontDestroyOnLoad(gameObject);
 			}
 		}
 	
-		public static InputManager Access => mInstance;
+		public static InputManager Access => _instance;
 
         #endregion
 
-        //VARIABLES
-        #region Private Variable Declarations Only
+        //ENUMS
+        #region Private Enums: For Internal Use
 
-        private enum eKeyboardMouseKeys
+        private enum KeyboardMouseKeys
         {
             None,
             A,
@@ -163,7 +152,7 @@ namespace TrenchWars.Manager
             MouseSix,
             MouseSeven
         }
-        private enum eControllerButtons
+        private enum ControllerButtons
         {
             None,
             A,
@@ -179,31 +168,41 @@ namespace TrenchWars.Manager
             Home
         }
 
-        private KeyCode[] mAvailableControllerKeys;
-        private KeyCode[] mAvailableKeyboardMouseKeys;
+        #endregion
 
-        //UI Inputs
-        private KeyCode mPauseMenuKey;
-        private KeyCode mPauseMenuControllerKey;
+        //FIELDS
+        #region Private Fields: For Internal Use
 
-        private KeyCode mInteractKey;
-        private KeyCode mFireKey;
-        private KeyCode mFireControllerKey;
-        private KeyCode mSpecialKey;
-        private KeyCode mSpecialControllerKey;
+        private KeyCode[] _availableControllerKeys;
+        private KeyCode[] _availableKeyboardMouseKeys;
+
+        private KeyCode _pauseMenuKey;
+        private KeyCode _pauseMenuControllerKey;
+
+        private KeyCode _interactKey;
+        private KeyCode _fireKey;
+        private KeyCode _fireControllerKey;
+        private KeyCode _specialKey;
+        private KeyCode _specialControllerKey;
 
         #endregion
 
-        //FUNCTIONS
-        #region Initialization Methods/Functions
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
 
-        private void Awake() => InitializeSingleton();
+        private void Awake()
+        {
+            InitializeSingleton();
+        }
 
-        private void Start() => InitializeVariables();
+        private void Start()
+        {
+            InitializeVariables();
+        }
 
         private void InitializeVariables()
         {
-            mAvailableKeyboardMouseKeys = new KeyCode[]
+            _availableKeyboardMouseKeys = new KeyCode[]
             {
                 //Alpha Keys
                 KeyCode.None,
@@ -313,7 +312,7 @@ namespace TrenchWars.Manager
                 KeyCode.Mouse6
             };
 
-            mAvailableControllerKeys = new KeyCode[]
+            _availableControllerKeys = new KeyCode[]
             {
                 KeyCode.None,
                 KeyCode.Joystick1Button0, //Xbox A Button, PS X Button
@@ -332,42 +331,39 @@ namespace TrenchWars.Manager
             // Replace with save data for the int
             // UI Inputs
 
-            mFireKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.MouseLeft];
-            mFireControllerKey = mAvailableControllerKeys[(int)eControllerButtons.RightBumper];
-            mSpecialKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.MouseRight];
-            mSpecialControllerKey = mAvailableControllerKeys[(int)eControllerButtons.LeftBumper];
-            mPauseMenuKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.Escape];
-            mInteractKey = mAvailableKeyboardMouseKeys[(int)eKeyboardMouseKeys.E];
+            _fireKey = _availableKeyboardMouseKeys[(int)KeyboardMouseKeys.MouseLeft];
+            _fireControllerKey = _availableControllerKeys[(int)ControllerButtons.RightBumper];
+            _specialKey = _availableKeyboardMouseKeys[(int)KeyboardMouseKeys.MouseRight];
+            _specialControllerKey = _availableControllerKeys[(int)ControllerButtons.LeftBumper];
+            _pauseMenuKey = _availableKeyboardMouseKeys[(int)KeyboardMouseKeys.Escape];
+            _interactKey = _availableKeyboardMouseKeys[(int)KeyboardMouseKeys.E];
         }
 
         #endregion
-        #region Implementation Methods/Functions
+        #region Private Real-Time Methods: For Per-Frame Game Logic
 
         private void Update()
         {
-            if (Input.GetKeyDown(mInteractKey))
+            if (Input.GetKeyDown(_interactKey))
             {
                 InputActions.InteractKey?.Invoke();
             }
 
-            if (Input.GetKeyDown(mPauseMenuKey) || Input.GetKeyDown(mPauseMenuControllerKey))
+            if (Input.GetKeyDown(_pauseMenuKey) || Input.GetKeyDown(_pauseMenuControllerKey))
             {
                 
             }
 
-            if (Input.GetKey(mFireKey) || Input.GetKey(mFireControllerKey))
+            if (Input.GetKey(_fireKey) || Input.GetKey(_fireControllerKey))
             {
                 InputActions.FireKey?.Invoke();
             }
 
-            if (Input.GetKeyDown(mSpecialKey) || Input.GetKey(mSpecialControllerKey))
+            if (Input.GetKeyDown(_specialKey) || Input.GetKey(_specialControllerKey))
             {
                 InputActions.SpecialKey?.Invoke();
             }
         }
-
-        public void Save(string aSaveName) => throw new System.NotImplementedException();
-        public void Load(string aSaveName) => throw new System.NotImplementedException();
 
         #endregion
     }

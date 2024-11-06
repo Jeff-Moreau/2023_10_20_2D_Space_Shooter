@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 31, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,19 +20,19 @@ namespace TrenchWars.Data
 	[CreateAssetMenu(fileName = "PickupData", menuName = "Data/New PickupData", order = 0)]
 	public class PickupData : ScriptableObject
 	{
-		//VARIABLES
-		#region Inspector Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-		[SerializeField] private float MoveSpeed = 0.0f;
-		[SerializeField] private float HealAmount = -0.0f;
+        [SerializeField] private float _moveSpeed = 0.0f;
+		[SerializeField] private float _healAmount = -0.0f;
 
-		#endregion
+        #endregion
 
-		//GETTERS
-		#region Accessors/Getters
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
 
-		public float GetMoveSpeed => MoveSpeed;
-		public float GetHealAmount => HealAmount;
+        public float GetMoveSpeed => _moveSpeed;
+		public float GetHealAmount => _healAmount;
 		
 		#endregion
 	}

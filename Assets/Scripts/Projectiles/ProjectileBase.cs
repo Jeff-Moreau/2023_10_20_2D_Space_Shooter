@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 1, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -19,59 +19,63 @@ namespace TrenchWars
 {
 	public class ProjectileBase : MonoBehaviour
 	{
-		//VARIABLES
-		#region Inspector Variable Declarations and Initializations to empty or null
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-		[SerializeField] protected Data.ProjectileData MyData = null;
-        [SerializeField] protected Rigidbody2D MyRigidbody = null;
-		[SerializeField] protected Animator MyAnimator = null;
-
-        #endregion
-        #region Private Variable Declarations Only
-
-        protected GameObject Owner;
+        [SerializeField] protected Data.ProjectileData _myData = null;
+        [SerializeField] protected Rigidbody2D _myRigidbody = null;
+		[SerializeField] protected Animator _myAnimator = null;
 
         #endregion
+        #region Private Fields: For Internal Use
 
-        //GETTERS AND SETTERS
-        #region Mutators/Setters
-
-        public void SetOwner(GameObject aOwner) => Owner = aOwner;
+        protected GameObject _owner;
 
         #endregion
 
-        //FUNCTIONS
-        #region Initialization Methods/Functions
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
+
+        public GameObject Owner
+        {
+            get => _owner;
+            set => _owner = value;
+        }
+
+        #endregion
+
+        //METHODS
+        #region Private Activation Methods: For Script Activation
 
         protected virtual void OnEnable()
 		{
             Vector2 direction = transform.up;
-            MyRigidbody.velocity = direction.normalized * MyData.GetMovementSpeed;
+            _myRigidbody.velocity = direction.normalized * _myData.GetMovementSpeed;
         }
 
         #endregion
-        #region Physics Methods/Functions
+        #region Private Physics Methods: For Object Interactions
 
-        protected virtual void OnTriggerEnter2D(Collider2D aHitTarget)
+        protected virtual void OnTriggerEnter2D(Collider2D hitTarget)
         {
-            if (Owner.CompareTag("Enemy"))
+            if (_owner.CompareTag("Enemy"))
             {
-                if (aHitTarget.gameObject != Owner && !aHitTarget.gameObject.CompareTag("Enemy"))
+                if (hitTarget.gameObject != _owner && !hitTarget.gameObject.CompareTag("Enemy"))
                 {
-                    if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
+                    if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
                     {
-                        hitTarget.TakeDamage(MyData.GetDamage);
+                        targetHit.TakeDamage(_myData.GetDamage);
                         gameObject.SetActive(false);
                     }
                 }
             }
             else
             {
-                if (aHitTarget.gameObject != Owner)
+                if (hitTarget.gameObject != _owner)
                 {
-                    if (aHitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage hitTarget))
+                    if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
                     {
-                        hitTarget.TakeDamage(MyData.GetDamage);
+                        targetHit.TakeDamage(_myData.GetDamage);
                         gameObject.SetActive(false);
                     }
                 }
@@ -79,9 +83,12 @@ namespace TrenchWars
         }
 
         #endregion
-        #region Closing Methods/Functions
+        #region Private Deactivation Methods: For Class Exit and Cleanup
 
-        protected virtual void OnBecameInvisible() => gameObject.SetActive(false);
+        protected virtual void OnBecameInvisible()
+        {
+            gameObject.SetActive(false);
+        }
 
         #endregion
     }

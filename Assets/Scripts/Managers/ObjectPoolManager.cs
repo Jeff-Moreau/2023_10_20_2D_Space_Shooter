@@ -20,84 +20,87 @@ namespace TrenchWars
 {
 	public class ObjectPoolManager : MonoBehaviour
 	{
-        //VARIABLES
-        #region Private Variables/Fields Exposed to Inspector for Editing
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private List<ObjectPoolStruct> TheProjectiles = null;
-        [SerializeField] private List<ObjectPoolStruct> TheEnemies = null;
-        [SerializeField] private List<ObjectPoolStruct> ThePickups = null;
-
-        #endregion
-        #region Private Variables/Fields used in this Class Only
-
-        private Dictionary<GameObject, ObjectPool> mProjectileList;
-        private Dictionary<GameObject, ObjectPool> mEnemyList;
-        private Dictionary<GameObject, ObjectPool> mPickupList;
+        [SerializeField] private List<ObjectPoolStruct> _theProjectiles = null;
+        [SerializeField] private List<ObjectPoolStruct> _theEnemies = null;
+        [SerializeField] private List<ObjectPoolStruct> _thePickups = null;
 
         #endregion
+        #region Private Fields: For Internal Use
 
-        //FUCNTIONS
-        #region Private Initialization Functions/Methods used in this Class Only
+        private Dictionary<GameObject, ObjectPool> _projectileList;
+        private Dictionary<GameObject, ObjectPool> _enemyList;
+        private Dictionary<GameObject, ObjectPool> _pickupList;
 
-        private void Awake() => InitializePools();
+        #endregion
+
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
+
+        private void Awake()
+        {
+            InitializePools();
+        }
 
         private void InitializePools()
         {
-            mProjectileList = new Dictionary<GameObject, ObjectPool>();
-            mEnemyList = new Dictionary<GameObject, ObjectPool>();
-            mPickupList = new Dictionary<GameObject, ObjectPool>();
+            _projectileList = new Dictionary<GameObject, ObjectPool>();
+            _enemyList = new Dictionary<GameObject, ObjectPool>();
+            _pickupList = new Dictionary<GameObject, ObjectPool>();
 
-            InitializePool(TheProjectiles, mProjectileList);
-            InitializePool(TheEnemies, mEnemyList);
-            InitializePool(ThePickups, mPickupList);
+            InitializePool(_theProjectiles, _projectileList);
+            InitializePool(_theEnemies, _enemyList);
+            InitializePool(_thePickups, _pickupList);
         }
 
-        private void InitializePool(List<ObjectPoolStruct> aThePool, Dictionary<GameObject, ObjectPool> aTheList)
+        private void InitializePool(List<ObjectPoolStruct> thePool, Dictionary<GameObject, ObjectPool> theList)
         {
-            foreach (ObjectPoolStruct aPool in aThePool)
+            foreach (ObjectPoolStruct pool in thePool)
             {
                 ObjectPool objectPool = gameObject.AddComponent<ObjectPool>();
-                objectPool.SetPrefab(aPool.ThePrefab);
-                objectPool.SetPoolSize(aPool.MinimumPoolSize);
-                objectPool.SetMaxPoolSize(aPool.MaximumPoolSize);
+                objectPool.Prefab = pool.ThePrefab;
+                objectPool.PoolSize = pool.MinimumPoolSize;
+                objectPool.MaxPoolSize = pool.MaximumPoolSize;
 
-                aTheList.Add(aPool.ThePrefab, objectPool);
+                theList.Add(pool.ThePrefab, objectPool);
             }
         }
 
         #endregion
-        #region Public Functions/Methods for use Outside of this Class
+        #region Public Methods: For External Interactions
 
-        public GameObject GetEnemy(GameObject aPrefab)
+        public GameObject GetEnemy(GameObject prefab)
         {
-            if (mEnemyList.TryGetValue(aPrefab, out ObjectPool objectPool))
+            if (_enemyList.TryGetValue(prefab, out ObjectPool objectPool))
             {
                 return objectPool.GetAPrefab();
             }
 
-            Debug.LogWarning($"There is no {aPrefab.name} Pool initialized!");
+            Debug.LogWarning($"There is no {prefab.name} Pool initialized!");
             return null;
         }
 
-        public GameObject GetPickup(GameObject aPrefab)
+        public GameObject GetPickup(GameObject prefab)
         {
-            if (mPickupList.TryGetValue(aPrefab, out ObjectPool objectPool))
+            if (_pickupList.TryGetValue(prefab, out ObjectPool objectPool))
             {
                 return objectPool.GetAPrefab();
             }
 
-            Debug.LogWarning($"There is no {aPrefab.name} Pool initialized!");
+            Debug.LogWarning($"There is no {prefab.name} Pool initialized!");
             return null;
         }
 
-        public GameObject GetProjectile(GameObject aPrefab)
+        public GameObject GetProjectile(GameObject prefab)
         {
-            if (mProjectileList.TryGetValue(aPrefab, out ObjectPool objectPool))
+            if (_projectileList.TryGetValue(prefab, out ObjectPool objectPool))
             {
                 return objectPool.GetAPrefab();
             }
 
-            Debug.LogWarning($"There is no {aPrefab.name} Pool initialized!");
+            Debug.LogWarning($"There is no {prefab.name} Pool initialized!");
             return null;
         }
 

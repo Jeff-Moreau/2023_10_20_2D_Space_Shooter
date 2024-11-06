@@ -635,12 +635,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a58823dd838fab4aae67239e13d9c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: 468051bbfd7dd654e8ca19a9de258401, type: 2}
-  MainAudioMixer: {fileID: 24100000, guid: 27152d95b982de941aa9efcbc45d326b, type: 2}
-  MusicSources:
+  _myData: {fileID: 11400000, guid: 468051bbfd7dd654e8ca19a9de258401, type: 2}
+  _mainAudioMixer: {fileID: 24100000, guid: 27152d95b982de941aa9efcbc45d326b, type: 2}
+  _musicSources:
   - {fileID: 2795821533870376884}
   - {fileID: 7019020620960399672}
-  SoundFXSources:
+  _soundFXSources:
   - {fileID: 4572961427747179149}
   - {fileID: 374630558717493341}
   - {fileID: 1353112104770761725}

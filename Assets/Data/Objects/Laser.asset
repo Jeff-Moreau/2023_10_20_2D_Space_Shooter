@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2efd5c4ba4d0e4ba53c3e7d959dfe9, type: 3}
   m_Name: Laser
   m_EditorClassIdentifier: 
-  PrefabToUse: {fileID: 2267739600030115732, guid: d43e1e62356ac064bb7fba2b4fa3d35a, type: 3}
-  MinimumSize: 10
-  MaximumSize: 20
+  _prefabToUse: {fileID: 2267739600030115732, guid: d43e1e62356ac064bb7fba2b4fa3d35a, type: 3}
+  _minimumSize: 1
+  _maximumSize: 10

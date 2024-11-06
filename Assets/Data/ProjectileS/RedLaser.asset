@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14215236cc4cf944d9bc5cf401b018b7, type: 3}
   m_Name: RedLaser
   m_EditorClassIdentifier: 
-  MovementSpeed: 20
-  Damage: 1
+  _movementSpeed: 50
+  _damage: 1

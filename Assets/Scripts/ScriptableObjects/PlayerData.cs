@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 31, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,19 +20,19 @@ namespace TrenchWars.Data
 	[CreateAssetMenu(fileName = "PlayerData", menuName = "Data/New PlayerData", order = 0)]
 	public class PlayerData : ScriptableObject
 	{
-		//VARIABLES
-		#region Inspector Variable Declarations and Initializations
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-		[SerializeField] private float MaxHealth = 5;
-		[SerializeField] private float MoveSpeed = 10;
+        [SerializeField] private float _maxHealth = 5;
+		[SerializeField] private float _moveSpeed = 10;
 
-		#endregion
+        #endregion
 
-		//GETTERS
-		#region Accessors/Getters
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
 
-		public float GetMaxHealth => MaxHealth;
-		public float GetMoveSpeed => MoveSpeed;
+        public float GetMaxHealth => _maxHealth;
+		public float GetMoveSpeed => _moveSpeed;
 		
 		#endregion
 	}

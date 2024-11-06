@@ -23,8 +23,8 @@ namespace TrenchWars
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private Data.ImageScrollData MyData = null;
-        [SerializeField] private RawImage MyImage = null;
+        [SerializeField] private Data.ImageScrollData _myData = null;
+        [SerializeField] private RawImage _myImage = null;
 
         #endregion
 
@@ -33,8 +33,8 @@ namespace TrenchWars
 
         private void Start()
         {
-            MyImage.texture = MyData.GetImage;
-            MyImage.color = MyData.GetImageTint;
+            _myImage.texture = _myData.GetImage;
+            _myImage.color = _myData.GetImageTint;
         }
 
         #endregion
@@ -42,7 +42,7 @@ namespace TrenchWars
 
         private void Update()
         {
-            MyImage.uvRect = new Rect(MyImage.uvRect.position + (new Vector2(MyData.GetScrollSpeed, 0) * Time.deltaTime), MyImage.uvRect.size);
+            _myImage.uvRect = new Rect(_myImage.uvRect.position + (new Vector2(_myData.GetScrollSpeed, 0) * Time.deltaTime), _myImage.uvRect.size);
         }
 
         #endregion

@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 5, 2024
+ * Date Last Modified: November 6, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -21,10 +21,10 @@ namespace TrenchWars
 {
     public class PlayerController : MonoBehaviour, ITakeDamage
     {
-        //VARIABLES
-        #region Private enum Variables/Fields used in this Class Only
+        //ENUMS
+        #region Private Enums: For Internal Use
 
-        private enum eProjectileSpawn
+        private enum ProjectileSpawn
         {
             Left,
             Middle,
@@ -32,52 +32,87 @@ namespace TrenchWars
         }
 
         #endregion
-        #region Private Variables/Fields Exposed to Inspector for Editing
+
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
         [Header("Player Information")]
-        [SerializeField] private Data.PlayerData MyData = null;
-        [SerializeField] private Animator MyAnimator = null;
-        [SerializeField] private Rigidbody2D MyRigidbody = null;
-        [SerializeField] private AudioSource MyAudioSource = null;
-        [SerializeField] private Renderer MyRenderer = null;
+        [SerializeField] private Data.PlayerData _myData = null;
+        [SerializeField] private Animator _myAnimator = null;
+        [SerializeField] private Rigidbody2D _myRigidbody = null;
+        [SerializeField] private AudioSource _myAudioSource = null; // change for multiple audios
+        [SerializeField] private Renderer _myRenderer = null;
 
         [Header("Object Refrences")]
-        [SerializeField] private GameObject ExplosionAnimation = null;
-        [SerializeField] private GameObject ScrapeLeftAnimation = null;
-        [SerializeField] private GameObject ScrapeRightAnimation = null;
-        [SerializeField] private List<GameObject> ProjectileSpawnPoints = null;
-        [SerializeField] private GameObject ProjectilePrefab = null;
-        [SerializeField] private GameObject Shield = null;
+        [SerializeField] private GameObject _explosionAnimation = null;
+        [SerializeField] private GameObject _scrapeLeftAnimation = null;
+        [SerializeField] private GameObject _scrapeRightAnimation = null;
+        [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
+        [SerializeField] private GameObject _projectilePrefab = null;
+        [SerializeField] private GameObject _shield = null;
 
         #endregion
-        #region Private Variables/Fields used in this Class Only
+        #region Private Fields: For Internal Use
 
-        private float mNewXPos;
-        private float mNewYPos;
-        private float mShipXPos;
-        private float mShipYPos;
-        private float mShootTimer;
-        private bool mCanUseSpecial;
-        private bool mCanTakeDamage;
-        private float mCurrentHealth;
-        private int mCurrentFirePosition;
-        private Coroutine mFillSpecialMeter;
-        private ObjectPoolManager mLevelObjectManager;
-        private Coroutine mFlash;
+        private float _newXPos;
+        private float _newYPos;
+        private float _shipXPos;
+        private float _shipYPos;
+        private float _shootTimer;
+        private bool _canUseSpecial;
+        private bool _canTakeDamage;
+        private float _currentHealth;
+        private int _currentFirePosition;
+        private Coroutine _fillSpecialMeter;
+        private ObjectPoolManager _levelObjectManager;
+        private Coroutine _flash;
 
         #endregion
 
-        public float GetCurrentHealth => mCurrentHealth;
+        //PROPERTIES
+        #region Public Properties: For Accessing Class Fields
 
-        //FUNCTIONS
-        #region Private Initialization Functions/Methods used in this Class Only
+        public float GetCurrentHealth => _currentHealth;
+
+        #endregion
+
+        //METHODS
+        #region Private Initialization Methods: For Class Setup
+
+        private void Start()
+        {
+            InitializeVariables();
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+
+            FillSpecial();
+        }
+
+        private void InitializeVariables()
+        {
+            _fillSpecialMeter = null;
+            _currentHealth = _myData.GetMaxHealth;
+            PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
+            _shipXPos = 0.0f;
+            _shipYPos = 0.0f;
+            _newXPos = 0.0f;
+            _newYPos = 0.0f;
+            _shootTimer = 0.3f;
+            _currentFirePosition = 0;
+            _canTakeDamage = true;
+            _canUseSpecial = _fillSpecialMeter == null ? false : true;
+        }
+
+        #endregion
+        #region Private Activation Methods: For Script Activation
 
         private void OnEnable()
         {
-            mLevelObjectManager = FindObjectOfType<ObjectPoolManager>();
-            PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+            _levelObjectManager = FindObjectOfType<ObjectPoolManager>();
+            PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
 
-            if (mLevelObjectManager == null)
+            if (_levelObjectManager == null)
             {
                 Debug.LogError("ObjectPoolManager not found in the scene!");
             }
@@ -92,44 +127,19 @@ namespace TrenchWars
             InputActions.SpecialKey -= Special;
         }
 
-        private void Start()
-        {
-            InitializeVariables();
-
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
-
-            FillSpecial();
-        }
-
-        private void InitializeVariables()
-        {
-            mFillSpecialMeter = null;
-            mCurrentHealth = MyData.GetMaxHealth;
-            PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
-            mShipXPos = 0.0f;
-            mShipYPos = 0.0f;
-            mNewXPos = 0.0f;
-            mNewYPos = 0.0f;
-            mShootTimer = 0.3f;
-            mCurrentFirePosition = 0;
-            mCanTakeDamage = true;
-            mCanUseSpecial = mFillSpecialMeter == null ? false : true;
-        }
-
         #endregion
-        #region Private Physics Functions/Methods used in this Class Only
+        #region Private Physics Methods: For Object Interactions
 
         private void OnCollisionStay2D(Collision2D aCollision)
         {
             if (aCollision.gameObject.CompareTag("LeftWall"))
             {
-                ScrapeLeftAnimation.SetActive(true);
+                _scrapeLeftAnimation.SetActive(true);
             }
 
             if (aCollision.gameObject.CompareTag("RightWall"))
             {
-                ScrapeRightAnimation.SetActive(true);
+                _scrapeRightAnimation.SetActive(true);
             }
         }
 
@@ -150,24 +160,24 @@ namespace TrenchWars
         {
             if (aCollision.gameObject.CompareTag("LeftWall"))
             {
-                ScrapeLeftAnimation.SetActive(false);
+                _scrapeLeftAnimation.SetActive(false);
             }
 
             if (aCollision.gameObject.CompareTag("RightWall"))
             {
-                ScrapeRightAnimation.SetActive(false);
+                _scrapeRightAnimation.SetActive(false);
             }
         }
 
         #endregion
-        #region Private Implementation Functions/Methods used in this Class Only
+        #region Private Real-Time Methods: For Per-Frame Game Logic
 
         void Update()
         {
-            mShootTimer += Time.deltaTime;
-            Debug.Log($"{mCurrentHealth}");
-            mShipXPos = Input.mousePosition.x;
-            mShipYPos = Input.mousePosition.y;
+            _shootTimer += Time.deltaTime;
+            Debug.Log($"{_currentHealth}");
+            _shipXPos = Input.mousePosition.x;
+            _shipYPos = Input.mousePosition.y;
 
             ChangeAnimations();
 
@@ -182,95 +192,98 @@ namespace TrenchWars
             Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
 
             // Apply velocity for movement
-            MyRigidbody.velocity = moveDirection * MyData.GetMoveSpeed;
+            _myRigidbody.velocity = moveDirection * _myData.GetMoveSpeed;
         }
 
         private void KeepPlayerInBounds()
         {
-            mNewXPos = mShipXPos <= Screen.width - Screen.width + 50
+            _newXPos = _shipXPos <= Screen.width - Screen.width + 50
                 ? 50
-                : mShipXPos >= (Screen.width - 50) ? Screen.width - 50 : Input.mousePosition.x;
+                : _shipXPos >= (Screen.width - 50) ? Screen.width - 50 : Input.mousePosition.x;
 
-            mNewYPos = mShipYPos <= Screen.height - Screen.height + 120
+            _newYPos = _shipYPos <= Screen.height - Screen.height + 120
                 ? 120
-                : mShipYPos >= (Screen.height - 400) ? Screen.height - 400 : Input.mousePosition.y;
+                : _shipYPos >= (Screen.height - 400) ? Screen.height - 400 : Input.mousePosition.y;
         }
 
         private void ChangeAnimations()
         {
             if (Input.GetAxis("Mouse X") <= -0.1 || Input.GetAxis("Horizontal") <= -0.1)
             {
-                MyAnimator.SetLayerWeight(1, 1);
-                MyAnimator.SetLayerWeight(2, 0);
+                _myAnimator.SetLayerWeight(1, 1);
+                _myAnimator.SetLayerWeight(2, 0);
             }
 
             if (Input.GetAxis("Mouse X") >= 0.1 || Input.GetAxis("Horizontal") <= 0.1)
             {
-                MyAnimator.SetLayerWeight(1, 0);
-                MyAnimator.SetLayerWeight(2, 1);
+                _myAnimator.SetLayerWeight(1, 0);
+                _myAnimator.SetLayerWeight(2, 1);
             }
 
             if (Input.GetAxis("Mouse X") == 0 || Input.GetAxis("Horizontal") <= 0)
             {
-                MyAnimator.SetLayerWeight(0, 1);
-                MyAnimator.SetLayerWeight(1, 0);
-                MyAnimator.SetLayerWeight(2, 0);
+                _myAnimator.SetLayerWeight(0, 1);
+                _myAnimator.SetLayerWeight(1, 0);
+                _myAnimator.SetLayerWeight(2, 0);
             }
         }
 
+        #endregion
+        #region Private Implementation Methods: For Class Use
+
         private void Special()
         {
-            if (mCanUseSpecial)
+            if (_canUseSpecial)
             {
                 var myProjectile = new GameObject[3];
 
-                for (int i = 0 ; i < ProjectileSpawnPoints.Count ; i++)
+                for (int i = 0 ; i < _projectileSpawnPoints.Count ; i++)
                 {
-                    myProjectile[i] = mLevelObjectManager.GetProjectile(ProjectilePrefab);
+                    myProjectile[i] = _levelObjectManager.GetProjectile(_projectilePrefab);
 
                     if (myProjectile[i] != null)
                     {
-                        myProjectile[i].GetComponent<ProjectileBase>().SetOwner(gameObject);
-                        myProjectile[i].transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
-                        mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
+                        myProjectile[i].GetComponent<ProjectileBase>().Owner = gameObject;
+                        myProjectile[i].transform.position = _projectileSpawnPoints[_currentFirePosition].transform.position;
+                        _currentFirePosition = (_currentFirePosition + 1) % _projectileSpawnPoints.Count;
                         myProjectile[i].SetActive(true);
                     }
                 }
 
-                mCanUseSpecial = false;
+                _canUseSpecial = false;
                 FillSpecial();
             }
         }
 
         private void Shoot()
         {
-            if (mShootTimer >= 0.3f)
+            if (_shootTimer >= 0.3f)
             {
-                GameObject myProjectile = mLevelObjectManager.GetProjectile(ProjectilePrefab);
+                GameObject myProjectile = _levelObjectManager.GetProjectile(_projectilePrefab);
 
                 if (myProjectile != null)
                 {
-                    myProjectile.GetComponent<ProjectileBase>().SetOwner(gameObject);
-                    myProjectile.transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
-                    mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
+                    myProjectile.GetComponent<ProjectileBase>().Owner = gameObject;
+                    myProjectile.transform.position = _projectileSpawnPoints[_currentFirePosition].transform.position;
+                    _currentFirePosition = (_currentFirePosition + 1) % _projectileSpawnPoints.Count;
                     myProjectile.SetActive(true);
-                    mShootTimer = 0;
+                    _shootTimer = 0;
                 }
             }
         }
 
         private void FillSpecial()
         {
-            if (mFillSpecialMeter != null)
+            if (_fillSpecialMeter != null)
             {
-                StopCoroutine(mFillSpecialMeter);
+                StopCoroutine(_fillSpecialMeter);
             }
 
-            mFillSpecialMeter = StartCoroutine(FillSlider());
+            _fillSpecialMeter = StartCoroutine(FillSlider());
         }
 
         #endregion
-        #region Private Coroutines continue until done without interuption
+        #region Private Coroutine Methods: for Asynchronous Operations
 
         private IEnumerator FillSlider()
         {
@@ -285,46 +298,58 @@ namespace TrenchWars
             }
 
             PlayerActions.SpecialTimer(1);
-            mCanUseSpecial = true;
-            mFillSpecialMeter = null;
+            _canUseSpecial = true;
+            _fillSpecialMeter = null;
         }
+
+        private IEnumerator Flash(int aFlashCount, float aDuration)
+        {
+            for (int i = 0 ; i < aFlashCount ; i++)
+            {
+                _myRenderer.enabled = !_myRenderer.enabled; // Toggle visibility
+                yield return new WaitForSeconds(aDuration);
+            }
+
+            _myRenderer.enabled = true; // Ensure it's visible at the end
+            _canTakeDamage = true;
+        }
+
         #endregion
-        #region Public Interface Functions/Methods
+        #region Public Methods: For External Interactions
 
         public void TakeDamage(float aDamage)
         {
-            if (mCanTakeDamage)
+            if (_canTakeDamage)
             {
-                if (mCurrentHealth - aDamage <= 0)
+                if (_currentHealth - aDamage <= 0)
                 {
                     PlayerActions.CurrentHealth?.Invoke(0);
-                    Instantiate(ExplosionAnimation, transform.position, transform.rotation);
-                    mCanTakeDamage = false;
+                    Instantiate(_explosionAnimation, transform.position, transform.rotation);
+                    _canTakeDamage = false;
 
-                    if (mFlash == null)
+                    if (_flash == null)
                     {
-                        mFlash = StartCoroutine(Flash(10, 0.4f));
+                        _flash = StartCoroutine(Flash(10, 0.4f));
                     }
                     else
                     {
-                        StopCoroutine(mFlash);
-                        mFlash = StartCoroutine(Flash(10, 0.4f));
+                        StopCoroutine(_flash);
+                        _flash = StartCoroutine(Flash(10, 0.4f));
                     }
-
                 }
                 else
                 {
-                    mCurrentHealth -= aDamage;
-                    PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+                    _currentHealth -= aDamage;
+                    PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
 
-                    if (mFlash == null)
+                    if (_flash == null)
                     {
-                        mFlash = StartCoroutine(Flash(2, 0.1f));
+                        _flash = StartCoroutine(Flash(2, 0.1f));
                     }
                     else
                     {
-                        StopCoroutine(mFlash);
-                        mFlash = StartCoroutine(Flash(2, 0.1f));
+                        StopCoroutine(_flash);
+                        _flash = StartCoroutine(Flash(2, 0.1f));
                     }
                 }
             }
@@ -332,26 +357,14 @@ namespace TrenchWars
 
         public void HealDamage(float aHeal)
         {
-            mCurrentHealth += aHeal;
+            _currentHealth += aHeal;
 
-            if (mCurrentHealth > MyData.GetMaxHealth)
+            if (_currentHealth > _myData.GetMaxHealth)
             {
-                mCurrentHealth = MyData.GetMaxHealth;
-                PlayerActions.CurrentHealth?.Invoke(mCurrentHealth / MyData.GetMaxHealth);
+                _currentHealth = _myData.GetMaxHealth;
+                PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
                 return;
             }
-        }
-
-        private IEnumerator Flash(int aFlashCount, float aDuration)
-        {
-            for (int i = 0 ; i < aFlashCount ; i++)
-            {
-                MyRenderer.enabled = !MyRenderer.enabled; // Toggle visibility
-                yield return new WaitForSeconds(aDuration);
-            }
-
-            MyRenderer.enabled = true; // Ensure it's visible at the end
-            mCanTakeDamage = true;
         }
 
         #endregion

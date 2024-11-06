@@ -19,7 +19,7 @@ namespace TrenchWars
 {
     public class SharkBoss : MonoBehaviour
     {
-        [SerializeField] private Data.TurretData MyData = null;
+        /*[SerializeField] private Data.TurretData MyData = null;
         //[SerializeField] private GameObject[] mLaserSpawns = null;
 
         private GameObject mPlayer;
@@ -74,6 +74,6 @@ namespace TrenchWars
                 mCurrentHealth -= 1;
                 aCollision.gameObject.SetActive(false);
             }
-        }
+        }*/
     }
 }
