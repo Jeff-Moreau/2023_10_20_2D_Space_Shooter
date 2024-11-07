@@ -17,14 +17,17 @@ using UnityEngine;
 
 namespace TrenchWars
 {
-    public class EnemyController : Entity
+    public class EnemyController : Entity, ITakeDamage
     {
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        //[SerializeField] private Data.TurretData _myData = null;
-        [SerializeField] private AudioSource _myAudioSource = null;
+        [Header("DATA >==============================================")]
+        [SerializeField] protected Data.TurretData _myData = null;
 
+        [Header("AUDIO >=============================================")]
+        [SerializeField] private AudioSource _audioSourceTakeDamage = null;
+        
         #endregion
         #region Private Fields: For Internal Use
 
@@ -67,7 +70,7 @@ namespace TrenchWars
             //Update score witha value
             LevelActions.DropAPickup?.Invoke(gameObject.transform, _myData.GetMovementSpeed);
             //Make this call from pooled explosions and not instantiate a new one
-            //Instantiate(_myData.GetExplosionAnimation, transform.position, transform.rotation);
+            Instantiate(_myData.GetExplosionAnimation, transform.position, transform.rotation);
             gameObject.SetActive(false);
             _currentHealth = _myData.GetMaxHealth;
         }
@@ -75,24 +78,22 @@ namespace TrenchWars
         #endregion
         #region Public Methods: For External Interactions
 
-        public void TakeDamage(float aDamage)
+        public void TakeDamage(float incomingDamage)
         {
             if (_canTakeDamage)
             {
-                //_myAudioSource.PlayOneShot(_myData.GetTakeDamageSound);
+                _currentHealth -= incomingDamage;
+                _audioSourceTakeDamage.PlayOneShot(_myData.GetTakeDamageSound);
 
-                if (_currentHealth - aDamage <= 0)
+                if (_currentHealth <= 0)
                 {
+                    _currentHealth = 0;
                     OnDeath();
-                }
-                else
-                {
-                    _currentHealth -= aDamage;
                 }
             }
         }
 
-        public void HealDamage(float aHeal)
+        public void HealDamage(float incomingHeal)
         {
             return;
         }

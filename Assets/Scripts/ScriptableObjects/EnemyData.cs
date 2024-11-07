@@ -18,15 +18,12 @@ using UnityEngine;
 namespace TrenchWars.Data
 {
     [CreateAssetMenu(fileName = "EnemyData", menuName = "Data/New EnemyData")]
-    public class EnemyData : ScriptableObject
+    public class EnemyData : EntityData
     {
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private string _name = "";
-        [SerializeField] private float _maxLife = 0.0f;
         [SerializeField] private float _maxShield = 0.0f;
-        [SerializeField] private float _movementSpeed = 0.0f;
         [SerializeField] private float _shootingSpeed = 0.0f;
 
         #endregion
@@ -34,10 +31,7 @@ namespace TrenchWars.Data
         //PROPERTIES
         #region Public Properties: For Accessing Class Fields
 
-        public string GetName => _name;
-        public float GetMaxLife => _maxLife;
         public float GetMaxShield => _maxShield;
-        public float GetMovementSpeed => _movementSpeed;
         public float GetShootingSpeed => _shootingSpeed;
 
         #endregion

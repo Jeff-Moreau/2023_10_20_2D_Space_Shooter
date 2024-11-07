@@ -113,7 +113,7 @@ namespace TrenchWars
 
         private void DropPickup(Transform dropLocation, float moveSpeed)
         {
-            Debug.Log(_playerHealth);
+            //Debug.Log(_playerHealth);
 
             if (_playerHealth < _thePlayerData.GetMaxHealth)
             {

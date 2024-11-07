@@ -24,7 +24,7 @@ namespace TrenchWars
 
         [SerializeField] private Data.TurretData _myData = null;
         [SerializeField] private GameObject _mySpawnPoint = null;
-        [SerializeField] private AudioSource _myAudioSource = null;
+        [SerializeField] private AudioSource _audioSourceWeaponSound = null;
 
         #endregion
         #region Private Fields: For Internal Use
@@ -75,9 +75,10 @@ namespace TrenchWars
                     //mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
                     myProjectile.SetActive(true);
                     _shootTimer = 0;
+                    Debug.Log("Shooting Shooting");
                 }
 
-                _myAudioSource.PlayOneShot(_myData.GetShootingSound);
+                _audioSourceWeaponSound.PlayOneShot(_myData.GetShootingSound);
                 _shootTimer = 1.5f;
             }
         }

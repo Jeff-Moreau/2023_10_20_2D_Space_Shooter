@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace TrenchWars
 {
-    public class PlayerController : Entity
+    public class PlayerController : Entity, ITakeDamage
     {
         //ENUMS
         #region Private Enums: For Internal Use
@@ -36,13 +36,10 @@ namespace TrenchWars
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [Header("Player Information")]
-        //[SerializeField] private Data.PlayerData _myData = null;
-        //[SerializeField] private Health _myHealth = null;
-        [SerializeField] private Animator _myAnimator = null;
-        [SerializeField] private Rigidbody2D _myRigidbody = null;
+        [Header("DATA >==============================================")]
+        [SerializeField] protected Data.PlayerData _myData = null;
+
         [SerializeField] private AudioSource _myAudioSource = null; // change for multiple audios
-        [SerializeField] private Renderer _myRenderer = null;
 
         [Header("Object Refrences")]
         [SerializeField] private GameObject _explosionAnimation = null;
@@ -62,7 +59,7 @@ namespace TrenchWars
         private float _shootTimer;
         private bool _canUseSpecial;
         private bool _canTakeDamage;
-        private float _currentHealth;
+        private float _myCurrentHealth;
         private int _currentFirePosition;
         private Coroutine _fillSpecialMeter;
         private ObjectPoolManager _levelObjectManager;
@@ -73,7 +70,7 @@ namespace TrenchWars
         //PROPERTIES
         #region Public Properties: For Accessing Class Fields
 
-        public float GetCurrentHealth => _currentHealth;
+        public float GetCurrentHealth => _myCurrentHealth;
 
         #endregion
 
@@ -83,9 +80,8 @@ namespace TrenchWars
         private void Start()
         {
             InitializeVariables();
-
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false; // should be in level or game manager
+            Cursor.lockState = CursorLockMode.Confined; // should be in level or game manager
 
             FillSpecial();
         }
@@ -93,8 +89,8 @@ namespace TrenchWars
         private void InitializeVariables()
         {
             _fillSpecialMeter = null;
-            _currentHealth = _myData.GetMaxHealth;
-            PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
+            _myCurrentHealth = _myData.GetMaxHealth;
+            PlayerActions.CurrentHealth?.Invoke(_myCurrentHealth / _myData.GetMaxHealth);
             _shipXPos = 0.0f;
             _shipYPos = 0.0f;
             _newXPos = 0.0f;
@@ -111,13 +107,13 @@ namespace TrenchWars
         private void OnEnable()
         {
             _levelObjectManager = FindObjectOfType<ObjectPoolManager>();
-            PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
 
             if (_levelObjectManager == null)
             {
                 Debug.LogError("ObjectPoolManager not found in the scene!");
             }
 
+            PlayerActions.CurrentHealth?.Invoke(_myCurrentHealth / _myData.GetMaxHealth);
             InputActions.FireKey += Shoot;
             InputActions.SpecialKey += Special;
         }
@@ -131,40 +127,40 @@ namespace TrenchWars
         #endregion
         #region Private Physics Methods: For Object Interactions
 
-        private void OnCollisionStay2D(Collision2D aCollision)
+        private void OnCollisionStay2D(Collision2D whatImTouching)
         {
-            if (aCollision.gameObject.CompareTag("LeftWall"))
+            if (whatImTouching.gameObject.CompareTag("LeftWall"))
             {
                 _scrapeLeftAnimation.SetActive(true);
             }
 
-            if (aCollision.gameObject.CompareTag("RightWall"))
+            if (whatImTouching.gameObject.CompareTag("RightWall"))
             {
                 _scrapeRightAnimation.SetActive(true);
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D aCollision)
+        private void OnCollisionEnter2D(Collision2D whatIHit)
         {
-            if (aCollision.gameObject.CompareTag("LeftWall"))
+            if (whatIHit.gameObject.CompareTag("LeftWall"))
             {
                 TakeDamage(1);
             }
 
-            if (aCollision.gameObject.CompareTag("RightWall"))
+            if (whatIHit.gameObject.CompareTag("RightWall"))
             {
                 TakeDamage(1);
             }
         }
 
-        private void OnCollisionExit2D(Collision2D aCollision)
+        private void OnCollisionExit2D(Collision2D whatIHit)
         {
-            if (aCollision.gameObject.CompareTag("LeftWall"))
+            if (whatIHit.gameObject.CompareTag("LeftWall"))
             {
                 _scrapeLeftAnimation.SetActive(false);
             }
 
-            if (aCollision.gameObject.CompareTag("RightWall"))
+            if (whatIHit.gameObject.CompareTag("RightWall"))
             {
                 _scrapeRightAnimation.SetActive(false);
             }
@@ -176,7 +172,6 @@ namespace TrenchWars
         void Update()
         {
             _shootTimer += Time.deltaTime;
-            Debug.Log($"{_currentHealth}");
             _shipXPos = Input.mousePosition.x;
             _shipYPos = Input.mousePosition.y;
 
@@ -318,12 +313,14 @@ namespace TrenchWars
         #endregion
         #region Public Methods: For External Interactions
 
-        public void TakeDamage(float aDamage)
+        public void TakeDamage(float incomingDamage)
         {
+            Debug.Log("Player Take Damage Called");
             if (_canTakeDamage)
             {
-                if (_currentHealth - aDamage <= 0)
+                if (_myCurrentHealth - incomingDamage <= 0)
                 {
+                    _myCurrentHealth = 0;
                     PlayerActions.CurrentHealth?.Invoke(0);
                     Instantiate(_explosionAnimation, transform.position, transform.rotation);
                     _canTakeDamage = false;
@@ -340,8 +337,9 @@ namespace TrenchWars
                 }
                 else
                 {
-                    _currentHealth -= aDamage;
-                    PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
+                    _myCurrentHealth -= incomingDamage;
+                    Debug.Log("Player got Hit");
+                    PlayerActions.CurrentHealth?.Invoke(_myCurrentHealth / _myData.GetMaxHealth);
 
                     if (_flash == null)
                     {
@@ -356,16 +354,10 @@ namespace TrenchWars
             }
         }
 
-        public void HealDamage(float aHeal)
+        public void HealDamage(float incomingHeal)
         {
-            _currentHealth += aHeal;
-
-            if (_currentHealth > _myData.GetMaxHealth)
-            {
-                _currentHealth = _myData.GetMaxHealth;
-                PlayerActions.CurrentHealth?.Invoke(_currentHealth / _myData.GetMaxHealth);
-                return;
-            }
+            _myCurrentHealth = Mathf.Min(_myCurrentHealth + incomingHeal, _myData.GetMaxHealth);
+            PlayerActions.CurrentHealth?.Invoke(_myCurrentHealth / _myData.GetMaxHealth);
         }
 
         #endregion

@@ -65,6 +65,7 @@ namespace TrenchWars
                     if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
                     {
                         targetHit.TakeDamage(_myData.GetDamage);
+                        Debug.Log("I Hit Enemy");
                         gameObject.SetActive(false);
                     }
                 }
@@ -76,6 +77,7 @@ namespace TrenchWars
                     if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
                     {
                         targetHit.TakeDamage(_myData.GetDamage);
+                        Debug.Log("I Hit Player");
                         gameObject.SetActive(false);
                     }
                 }

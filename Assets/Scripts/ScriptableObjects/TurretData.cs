@@ -18,14 +18,12 @@ using UnityEngine;
 namespace TrenchWars.Data
 {
     [CreateAssetMenu(fileName = "TurretData", menuName = "Data/New TurretData")]
-    public class TurretData : ScriptableObject
+    public class TurretData : EntityData
     {
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
         [SerializeField] private float _rateOfFire = 2f;
-        [SerializeField] private float _maxHealth = 3f;
-        [SerializeField] private float _moveSpeed = 1.2f;
         [SerializeField] private GameObject _projectileUsed = null;
         [SerializeField] private GameObject _explosionAnimation = null;
         [SerializeField] private AudioClip _takeDamageSound = null;
@@ -37,8 +35,6 @@ namespace TrenchWars.Data
         #region Public Properties: For Accessing Class Fields
 
         public float GetRateOfFire => _rateOfFire;
-        public float GetHealth => _maxHealth;
-        public float GetMoveSpeed => _moveSpeed;
         public GameObject GetProjectileUsed => _projectileUsed;
         public GameObject GetExplosionAnimation => _explosionAnimation;
         public AudioClip GetTakeDamageSound => _takeDamageSound;
