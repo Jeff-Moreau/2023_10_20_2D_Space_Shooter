@@ -24,7 +24,7 @@ namespace TrenchWars.Data
         #region Private Serialized Fields: For Inspector Editable Values
 
         [SerializeField] private float _maxShield = 0.0f;
-        [SerializeField] private float _shootingSpeed = 0.0f;
+        [SerializeField] private int _scoreValue = 0;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace TrenchWars.Data
         #region Public Properties: For Accessing Class Fields
 
         public float GetMaxShield => _maxShield;
-        public float GetShootingSpeed => _shootingSpeed;
+        public int GetScoreValue => _scoreValue;
 
         #endregion
     }

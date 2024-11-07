@@ -315,7 +315,6 @@ namespace TrenchWars
 
         public void TakeDamage(float incomingDamage)
         {
-            Debug.Log("Player Take Damage Called");
             if (_canTakeDamage)
             {
                 if (_myCurrentHealth - incomingDamage <= 0)
@@ -338,7 +337,6 @@ namespace TrenchWars
                 else
                 {
                     _myCurrentHealth -= incomingDamage;
-                    Debug.Log("Player got Hit");
                     PlayerActions.CurrentHealth?.Invoke(_myCurrentHealth / _myData.GetMaxHealth);
 
                     if (_flash == null)

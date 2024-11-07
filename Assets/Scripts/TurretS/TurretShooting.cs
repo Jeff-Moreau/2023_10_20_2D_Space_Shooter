@@ -75,10 +75,9 @@ namespace TrenchWars
                     //mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
                     myProjectile.SetActive(true);
                     _shootTimer = 0;
-                    Debug.Log("Shooting Shooting");
                 }
 
-                _audioSourceWeaponSound.PlayOneShot(_myData.GetShootingSound);
+                //_audioSourceWeaponSound.PlayOneShot(_myData.GetShootingSound);
                 _shootTimer = 1.5f;
             }
         }

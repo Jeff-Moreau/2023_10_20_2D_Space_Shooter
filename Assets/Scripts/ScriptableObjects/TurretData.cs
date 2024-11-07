@@ -27,7 +27,6 @@ namespace TrenchWars.Data
         [SerializeField] private GameObject _projectileUsed = null;
         [SerializeField] private GameObject _explosionAnimation = null;
         [SerializeField] private AudioClip _takeDamageSound = null;
-        [SerializeField] private AudioClip _shootingSound = null;
 
         #endregion
 
@@ -38,7 +37,6 @@ namespace TrenchWars.Data
         public GameObject GetProjectileUsed => _projectileUsed;
         public GameObject GetExplosionAnimation => _explosionAnimation;
         public AudioClip GetTakeDamageSound => _takeDamageSound;
-        public AudioClip GetShootingSound => _shootingSound;
 
         #endregion
     }

@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 6, 2024
+ * Date Last Modified: November 7, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -17,14 +17,13 @@ using UnityEngine;
 
 namespace TrenchWars
 {
-	public class ProjectileBase : MonoBehaviour
+	public class ProjectileBase : Entity
 	{
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
+        [Header("DATA >==============================================")]
         [SerializeField] protected Data.ProjectileData _myData = null;
-        [SerializeField] protected Rigidbody2D _myRigidbody = null;
-		[SerializeField] protected Animator _myAnimator = null;
 
         #endregion
         #region Private Fields: For Internal Use
@@ -65,8 +64,7 @@ namespace TrenchWars
                     if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
                     {
                         targetHit.TakeDamage(_myData.GetDamage);
-                        Debug.Log("I Hit Enemy");
-                        gameObject.SetActive(false);
+                        ResetObject();
                     }
                 }
             }
@@ -77,11 +75,20 @@ namespace TrenchWars
                     if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
                     {
                         targetHit.TakeDamage(_myData.GetDamage);
-                        Debug.Log("I Hit Player");
-                        gameObject.SetActive(false);
+                        ResetObject();
                     }
                 }
             }
+        }
+
+
+        #endregion
+        #region Private Implementation Methods: For Class Use
+
+        private void ResetObject()
+        {
+            transform.rotation = Quaternion.identity;
+            gameObject.SetActive(false);
         }
 
         #endregion
@@ -89,7 +96,7 @@ namespace TrenchWars
 
         protected virtual void OnBecameInvisible()
         {
-            gameObject.SetActive(false);
+            ResetObject();
         }
 
         #endregion

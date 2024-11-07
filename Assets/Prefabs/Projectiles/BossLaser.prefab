@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30709af6e8e27e74fa114c24babe105f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyData: {fileID: 11400000, guid: 59c38d5517fa7bb4cac32eefb6f2c9f1, type: 2}
-  MyRigidbody: {fileID: 4364296428143894316}
-  MyAnimator: {fileID: 0}
+  _myRenderer: {fileID: 1866676251519946118}
+  _myRigidbody: {fileID: 4364296428143894316}
+  _myAnimator: {fileID: 0}
+  _myData: {fileID: 11400000, guid: 59c38d5517fa7bb4cac32eefb6f2c9f1, type: 2}
