@@ -23,7 +23,7 @@ namespace TrenchWars.Data
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [SerializeField] private Texture _imageToUse = null;
+        [SerializeField] private Texture _textureToUse = null;
         [SerializeField] private float _scrollSpeed = 0.0f;
         [SerializeField] private Color _imageTint = Color.white;
 
@@ -32,7 +32,7 @@ namespace TrenchWars.Data
         //METHODS
         #region Public Properties: For Accessing Class Fields
 
-        public Texture GetImage => _imageToUse;
+        public Texture GetTexture => _textureToUse;
         public Color GetImageTint => _imageTint;
         public float GetScrollSpeed => _scrollSpeed;
 

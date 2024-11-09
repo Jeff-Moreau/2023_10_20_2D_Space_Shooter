@@ -18,14 +18,17 @@ using System.Collections;
 
 namespace TrenchWars
 {
-    public class Explosion : MonoBehaviour
+    public class Explosion : Entity
     {
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
+        [Space(10)]
+        [Header("AUDIO >=============================================")]
         [SerializeField] private AudioSource _myAudioSource = null;
-        [SerializeField] private Animator _myAnimator = null;
         [SerializeField] private AudioClip _theExplosionSound = null;
+        [Space(10)]
+        [Header("ANIMATION >=========================================")]
         [SerializeField] private AnimationClip _theExplosionAnimation = null;
 
         #endregion
@@ -67,7 +70,10 @@ namespace TrenchWars
 
         private IEnumerator AnimationFinishedPlaying(float animationLength)
         {
+            // Wait for this
             yield return new WaitForSeconds(animationLength);
+
+            // Then do this
             gameObject.SetActive(false);
         }
 

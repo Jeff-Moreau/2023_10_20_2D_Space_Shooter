@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 5, 2024
+ * Date Last Modified: November 7, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -82,21 +82,19 @@ namespace TrenchWars.Manager
         //FIELDS
         #region Private Constants: For Class-Specific Fixed Values
 
-        private const float MAX_VOLUME = 1.0f;
-        private const float MIN_VOLUME = 0.0f;
+        private const float VOLUME_MAX = 1.0f;
+        private const float VOLUME_OFF = 0.0f;
         
         #endregion
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [Space(10)]
-        [Header("DATA REQUIRED >======================---")]
+        [Header("DATA >==============================================")]
         [SerializeField] private Data.AudioData _myData = null;
-        [SerializeField] private AudioMixer _mainAudioMixer = null;
         [Space(10)]
-        [Header("MUSIC SOURCES >======================---")]
+        [Header("SOUND COMPONENTS >==================================")]
+        [SerializeField] private AudioMixer _mainAudioMixer = null;
         [NonReorderable]
         [SerializeField] private AudioSource[] _musicSources = null;
-        [Header("SOUNDFX SOURCES >======================---")]
         [NonReorderable]
         [SerializeField] private AudioSource[] _soundFXSources = null;
 
@@ -128,11 +126,11 @@ namespace TrenchWars.Manager
         private void PlayNewMusic(Music musicToPlay, MusicSource sourceToUse)
         {
             // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+            AudioSource musicSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
 
-            newSource.clip = _myData.GetMusicList[(int)musicToPlay];
-            newSource.loop = true;
-            newSource.Play();
+            musicSource.clip = _myData.GetMusicList[(int)musicToPlay];
+            musicSource.loop = true;
+            musicSource.Play();
         }
 
         #endregion
@@ -140,53 +138,62 @@ namespace TrenchWars.Manager
 
         private IEnumerator FadeInMusic(float fadeDuration, float targetVolume, MusicSource sourceToUse)
         {
+            // Happens when called
             // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+            AudioSource musicSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
 
             for (float time = 0 ; time < fadeDuration ; time += Time.deltaTime)
             {
-                newSource.volume = Mathf.Lerp(MIN_VOLUME, targetVolume, time / fadeDuration);
+                musicSource.volume = Mathf.Lerp(VOLUME_OFF, targetVolume, time / fadeDuration);
 
+                // Wait for this to complete
                 yield return null;
             }
 
-            newSource.volume = targetVolume;
+            // Then do this after waiting
+            musicSource.volume = targetVolume;
         }
 
         private IEnumerator FadeOutAndStopMusic(float fadeDuration)
         {
+            // Happens when called
             // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = _musicSources[(int)MusicSource.Normal].isPlaying ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+            AudioSource musicSource = _musicSources[(int)MusicSource.Normal].isPlaying ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
 
-            float currentVolume = newSource.volume;
+            float currentVolume = musicSource.volume;
 
             for (float time = 0 ; time < fadeDuration ; time += Time.deltaTime)
             {
-                newSource.volume = Mathf.Lerp(currentVolume, MIN_VOLUME, time / fadeDuration);
+                musicSource.volume = Mathf.Lerp(currentVolume, VOLUME_OFF, time / fadeDuration);
 
+                // Wait for this to complete
                 yield return null;
             }
 
-            newSource.volume = MIN_VOLUME;
-            newSource.Stop();
+            // Then do this after waiting
+            musicSource.volume = VOLUME_OFF;
+            musicSource.Stop();
         }
 
         private IEnumerator FadeOutAndPlayNewMusic(float fadeDuration, Music musicToPlay, MusicSource sourceToUse, bool shouldFadeIn = false)
         {
+            // Happens when called
             // Will need to change the way this works if more than 2 Music Sources
-            AudioSource newSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
+            AudioSource musicSource = sourceToUse == MusicSource.Normal ? _musicSources[(int)MusicSource.Normal] : _musicSources[(int)MusicSource.EchoNormal];
 
-            float currentVolume = newSource.volume;
+            float currentVolume = musicSource.volume;
 
             for (float time = 0 ; time < fadeDuration ; time += Time.deltaTime)
             {
-                newSource.volume = Mathf.Lerp(currentVolume, MIN_VOLUME, time / fadeDuration);
+                musicSource.volume = Mathf.Lerp(currentVolume, VOLUME_OFF, time / fadeDuration);
 
+                // Wait for this to complete
                 yield return null;
             }
 
-            newSource.volume = MIN_VOLUME;
-            newSource.Stop();
+            // Then do this after waiting
+            musicSource.volume = VOLUME_OFF;
+            musicSource.Stop();
 
             PlayMusic(musicToPlay, sourceToUse, shouldFadeIn);
         }
@@ -225,24 +232,24 @@ namespace TrenchWars.Manager
             {
                 Debug.LogWarning($"{_myData.GetMusicList[(int)musicToPlay].name} <color=yellow>Was not found, Stopping Music!</color>");
 
-                foreach (AudioSource aSource in _musicSources)
+                foreach (AudioSource musicSource in _musicSources)
                 {
-                    aSource.Stop();
+                    musicSource.Stop();
                 }
 
                 return;
             }
 
-            foreach (AudioSource aSource in _musicSources)
+            foreach (AudioSource musicSource in _musicSources)
             {
-                if (aSource.isPlaying)
+                if (musicSource.isPlaying)
                 {
                     if (_fadeMusic != null)
                     {
                         StopCoroutine(_fadeMusic);
                     }
 
-                    _fadeMusic = StartCoroutine(FadeOutAndPlayNewMusic(_myData.GetMusicFadeDuration, musicToPlay, sourceToUse, shouldFadeIn));
+                    _fadeMusic = StartCoroutine(FadeOutAndPlayNewMusic(_myData.GetMusicInFadeDuration, musicToPlay, sourceToUse, shouldFadeIn));
 
                     return;
                 }
@@ -250,9 +257,9 @@ namespace TrenchWars.Manager
 
             if (shouldFadeIn)
             {
-                foreach (AudioSource aSource in _musicSources)
+                foreach (AudioSource musicSource in _musicSources)
                 {
-                    aSource.volume = MIN_VOLUME;
+                    musicSource.volume = VOLUME_OFF;
                 }
 
                 PlayNewMusic(musicToPlay, sourceToUse);
@@ -262,7 +269,7 @@ namespace TrenchWars.Manager
                     StopCoroutine(_fadeMusic);
                 }
 
-                _fadeMusic = StartCoroutine(FadeInMusic(_myData.GetMusicFadeDuration, MAX_VOLUME, sourceToUse));
+                _fadeMusic = StartCoroutine(FadeInMusic(_myData.GetMusicInFadeDuration, VOLUME_MAX, sourceToUse));
 
                 return;
             }
@@ -286,35 +293,35 @@ namespace TrenchWars.Manager
                     StopCoroutine(_fadeMusic);
                 }
 
-                _fadeMusic = StartCoroutine(FadeOutAndStopMusic(_myData.GetMusicFadeDuration));
+                _fadeMusic = StartCoroutine(FadeOutAndStopMusic(_myData.GetMusicInFadeDuration));
             }
             else
             {
-                foreach (AudioSource aSource in _musicSources)
+                foreach (AudioSource musicSource in _musicSources)
                 {
-                    aSource.Stop();
+                    musicSource.Stop();
                 }
             }
         }
 
-        public void AdjustMasterVolume(float amount)
+        public void AdjustMasterVolume(float sliderValue)
         {
-            _mainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(amount) * 20);
+            _mainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(sliderValue) * 20);
         }
 
-        public void AdjustMusicVolume(float amount)
+        public void AdjustMusicVolume(float sliderValue)
         {
-            _mainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(amount) * 20);
+            _mainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(sliderValue) * 20);
         }
 
-        public void AdjustSoundFXVolume(float amount)
+        public void AdjustSoundFXVolume(float sliderValue)
         {
-            _mainAudioMixer.SetFloat("SoundFXVolume", Mathf.Log10(amount) * 20);
+            _mainAudioMixer.SetFloat("SoundFXVolume", Mathf.Log10(sliderValue) * 20);
         }
 
-        public void AdjustAmbientVolume(float amount)
+        public void AdjustAmbientVolume(float sliderValue)
         {
-            _mainAudioMixer.SetFloat("AmbientVolume", Mathf.Log10(amount) * 20);
+            _mainAudioMixer.SetFloat("AmbientVolume", Mathf.Log10(sliderValue) * 20);
         }
 
         #endregion

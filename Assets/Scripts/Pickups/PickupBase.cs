@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 6, 2024
+ * Date Last Modified: November 7, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -17,11 +17,12 @@ using UnityEngine;
 
 namespace TrenchWars
 {
-	public class PickupBase : MonoBehaviour
+	public class PickupBase : Entity
 	{
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
+        [Header("DATA >==============================================")]
         [SerializeField] protected Data.PickupData _myData = null;
 
         #endregion

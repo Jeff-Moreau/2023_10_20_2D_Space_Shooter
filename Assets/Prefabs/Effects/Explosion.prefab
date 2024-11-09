@@ -203,8 +203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7685e771a02eb641bb165cdd88c8e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myAudioSource: {fileID: -6714196165388737492}
+  _myRenderer: {fileID: 939959162143278316}
+  _myRigidbody: {fileID: 0}
   _myAnimator: {fileID: 6175806293556970055}
+  _myAudioSource: {fileID: -6714196165388737492}
   _theExplosionSound: {fileID: 8300000, guid: 1c6a79ca6e44f9f4d91f0fa053bce9c7, type: 3}
   _theExplosionAnimation: {fileID: 7400000, guid: d990dec6d6def7b41a2f4fc00008da14, type: 2}
 --- !u!82 &-6714196165388737492

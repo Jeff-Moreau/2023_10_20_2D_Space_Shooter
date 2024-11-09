@@ -33,7 +33,7 @@ namespace TrenchWars
 
         private void Start()
         {
-            _myImage.texture = _myData.GetImage;
+            _myImage.texture = _myData.GetTexture;
             _myImage.color = _myData.GetImageTint;
         }
 

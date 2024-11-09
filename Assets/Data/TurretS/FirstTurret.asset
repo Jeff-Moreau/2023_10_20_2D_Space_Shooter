@@ -15,8 +15,7 @@ MonoBehaviour:
   _name: Turret
   _maxHealth: 3
   _movementSpeed: 1
-  _rateOfFire: 2
+  _rateOfFire: 0
   _projectileUsed: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
   _explosionAnimation: {fileID: 5701922424162114191, guid: 6ff522a2a0b3b2940b63ec64c3ca25b3, type: 3}
   _takeDamageSound: {fileID: 8300000, guid: 1d545128890227048b24dd09eed4f936, type: 3}
-  _shootingSound: {fileID: 8300000, guid: bcd3eddc5fdb8b847a8917c39b78c8c6, type: 3}

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7ffd00b0a7ba944b075687019cb1ce, type: 3}
   m_Name: AudioData
   m_EditorClassIdentifier: 
-  _musicFadeDuration: 2
+  _musicFadeInDuration: 2
+  _musicFadeOutDuration: 1
   _musicList:
   - {fileID: 0}
   - {fileID: 8300000, guid: 5aae24d7a9373ed4bb79d13e63a1fa23, type: 3}

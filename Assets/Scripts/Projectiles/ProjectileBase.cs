@@ -20,6 +20,13 @@ namespace TrenchWars
 	public class ProjectileBase : Entity
 	{
         //FIELDS
+        #region Private Constants: For Class-Specific Fixed Values
+
+        private const string ENEMY = "Enemy";
+        private const string LEFT_WALL = "LeftWall";
+        private const string RIGHT_WALL = "RightWall";
+
+        #endregion
         #region Private Serialized Fields: For Inspector Editable Values
 
         [Header("DATA >==============================================")]
@@ -28,7 +35,7 @@ namespace TrenchWars
         #endregion
         #region Private Fields: For Internal Use
 
-        protected GameObject _owner;
+        protected GameObject _myOwner;
 
         #endregion
 
@@ -37,8 +44,8 @@ namespace TrenchWars
 
         public GameObject Owner
         {
-            get => _owner;
-            set => _owner = value;
+            get => _myOwner;
+            set => _myOwner = value;
         }
 
         #endregion
@@ -55,26 +62,42 @@ namespace TrenchWars
         #endregion
         #region Private Physics Methods: For Object Interactions
 
-        protected virtual void OnTriggerEnter2D(Collider2D hitTarget)
+        protected virtual void OnTriggerEnter2D(Collider2D iHitSomething)
         {
-            if (_owner.CompareTag("Enemy"))
+            GameObject objectIHit = iHitSomething.gameObject;
+
+            if (_myOwner.CompareTag(ENEMY))
             {
-                if (hitTarget.gameObject != _owner && !hitTarget.gameObject.CompareTag("Enemy"))
+                if (objectIHit != _myOwner && !objectIHit.CompareTag(ENEMY))
                 {
-                    if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
+                    if (objectIHit.TryGetComponent<ITakeDamage>(out ITakeDamage makeTheObject))
                     {
-                        targetHit.TakeDamage(_myData.GetDamage);
+                        makeTheObject.TakeDamage(_myData.GetDamage);
+                        ResetObject();
+                    }
+                    else if (objectIHit.CompareTag(LEFT_WALL) || objectIHit.CompareTag(RIGHT_WALL))
+                    {
+                        // make this its own explosion with no sound
+                        GameObject impact = Instantiate(_myData.GetImpactAnimation, transform.position, transform.rotation);
+                        impact.transform.localScale = transform.localScale;
                         ResetObject();
                     }
                 }
             }
             else
             {
-                if (hitTarget.gameObject != _owner)
+                if (objectIHit != _myOwner)
                 {
-                    if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
+                    if (objectIHit.TryGetComponent<ITakeDamage>(out ITakeDamage makeTheObject))
                     {
-                        targetHit.TakeDamage(_myData.GetDamage);
+                        makeTheObject.TakeDamage(_myData.GetDamage);
+                        ResetObject();
+                    }
+                    else if (objectIHit.CompareTag(LEFT_WALL) || objectIHit.CompareTag(RIGHT_WALL))
+                    {
+                        // make this its own explosion with no sound
+                        GameObject impact = Instantiate(_myData.GetImpactAnimation, transform.position, transform.rotation);
+                        impact.transform.localScale = transform.localScale;
                         ResetObject();
                     }
                 }

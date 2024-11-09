@@ -25,6 +25,7 @@ namespace TrenchWars.Data
 
         [SerializeField] private float _movementSpeed = 0.0f;
         [SerializeField] private float _damage = 1.0f;
+        [SerializeField] private GameObject _impactAnimation = null;
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace TrenchWars.Data
 
         public float GetDamage => _damage;
         public float GetMovementSpeed => _movementSpeed;
+        public GameObject GetImpactAnimation => _impactAnimation;
 
         #endregion
     }

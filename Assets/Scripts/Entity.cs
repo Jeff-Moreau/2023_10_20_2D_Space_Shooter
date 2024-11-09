@@ -28,10 +28,5 @@ namespace TrenchWars
         [SerializeField] protected Animator _myAnimator = null;
 
         #endregion
-        #region Private Fields: For Internal Use
-
-        // private int _myInt;  // Example
-
-        #endregion
     }
 }

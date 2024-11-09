@@ -2346,7 +2346,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -2361,7 +2361,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 1
   orthographic size: 8
   m_Depth: 0
@@ -5487,8 +5487,8 @@ MonoBehaviour:
     MinimumPoolSize: 5
     MaximumPoolSize: 15
   - ThePrefab: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-    MinimumPoolSize: 2
-    MaximumPoolSize: 10
+    MinimumPoolSize: 4
+    MaximumPoolSize: 20
   _theEnemies:
   - ThePrefab: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
     MinimumPoolSize: 2

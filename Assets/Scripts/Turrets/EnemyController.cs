@@ -7,13 +7,15 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 7, 2024
+ * Date Last Modified: November 8, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TrenchWars
 {
@@ -24,24 +26,35 @@ namespace TrenchWars
 
         [Header("DATA >==============================================")]
         [SerializeField] private Data.TurretData _myData = null;
-        [SerializeField] private Data.WeaponData _myMainWeapon = null;
-        [SerializeField] private Data.WeaponData _mySecondaryWeapon = null;
-
-        [Header("SPAWN POINTS >======================================")]
-        [SerializeField] private GameObject _mySpawnPoint = null;
-
+        [SerializeField] private Data.WeaponData _myMainWeaponData = null;
+        [SerializeField] private Data.WeaponData _mySecondaryWeaponData = null;
+        [Space(10)]
         [Header("AUDIO >=============================================")]
         [SerializeField] private AudioSource _audioSourceTakeDamage = null;
         [SerializeField] private AudioSource _audioSourceWeaponSound = null;
+        [Space(10)]
+        [Header("SPAWN POINTS >======================================")]
+        [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
+        [Space(10)]
+        [Header("COLLIDERSS >========================================")]
+        [SerializeField] protected BoxCollider2D _myTriggerCollider = null;
 
         #endregion
         #region Private Fields: For Internal Use
 
-        private float _currentHealth;
-        private bool _canTakeDamage;
+        private int _currentFirePosition;
+
         private bool _canFireWeapon;
-        private float _shootTimer;
+        private bool _canTakeDamage;
+        private bool _isWeaponFiring;
+
+        private float _currentHealth;
+        private float _fireWeaponTimer;
+
+        private Coroutine _weaponActive;
+
         private GameObject _thePlayer;
+
         private ObjectPoolManager _levelObjectManager;
 
         #endregion
@@ -49,11 +62,28 @@ namespace TrenchWars
         //METHOD
         #region Private Initialization Methods: For Class Setup
 
+        private void Awake()
+        {
+            _levelObjectManager = FindObjectOfType<ObjectPoolManager>();
+
+            if (_levelObjectManager == null)
+            {
+                Debug.Log($"{gameObject.name} Cannot find the Level Object Manager!");
+            }
+        }
+
         private void Start()
         {
-            _currentHealth = _myData.GetMaxHealth;
+            InitializeFields();
+        }
+
+        private void InitializeFields()
+        {
             _canTakeDamage = false;
             _canFireWeapon = false;
+            _isWeaponFiring = false;
+            _currentFirePosition = 0;
+            _currentHealth = _myData.GetMaxHealth;
         }
 
         #endregion
@@ -62,14 +92,11 @@ namespace TrenchWars
         private void OnEnable()
         {
             _thePlayer = GameObject.FindGameObjectWithTag("Player");
-            _levelObjectManager = FindObjectOfType<ObjectPoolManager>();
-
-            if (_levelObjectManager == null)
-            {
-                Debug.Log($"{gameObject.name} Cannot find the Level Object Manager!");
-            }
-
-            _shootTimer = Random.Range(0.5f, 2.5f);
+            _fireWeaponTimer = 2.0f;
+            _weaponActive = null;
+            _isWeaponFiring = false;
+            _myTriggerCollider.enabled = true;
+            _myRenderer.enabled = true;
         }
 
         #endregion
@@ -78,29 +105,33 @@ namespace TrenchWars
         private void Update()
         {
             transform.position -= new Vector3(0, _myData.GetMovementSpeed * Time.deltaTime, 0);
-            _shootTimer -= Time.deltaTime;
+
             TargetPlayer();
-            ShootPlayer();
+
+            if (_canFireWeapon && !_isWeaponFiring)
+            {
+                if (_weaponActive != null)
+                {
+                    StopCoroutine(_weaponActive);
+                    _weaponActive = StartCoroutine(WeaponBurst());
+                }
+                else
+                {
+                    _weaponActive = StartCoroutine(WeaponBurst());
+                }
+            }
         }
 
-        private void ShootPlayer()
+        private void FireWeapon()
         {
-            if (_shootTimer <= 0 && _canFireWeapon)
+            GameObject myProjectile = _levelObjectManager.GetProjectile(_myMainWeaponData.GetProjectileType);
+
+            if (myProjectile != null)
             {
-                GameObject myProjectile = _levelObjectManager.GetProjectile(_myMainWeapon.GetProjectileType);
-
-                if (myProjectile != null)
-                {
-                    myProjectile.GetComponent<ProjectileBase>().Owner = transform.gameObject;
-                    myProjectile.transform.SetPositionAndRotation(_mySpawnPoint.transform.position, _mySpawnPoint.transform.rotation);
-                    //myProjectile.transform.position = ProjectileSpawnPoints[mCurrentFirePosition].transform.position;
-                    //mCurrentFirePosition = (mCurrentFirePosition + 1) % ProjectileSpawnPoints.Count;
-                    myProjectile.SetActive(true);
-                    _shootTimer = 0;
-                }
-
-                _audioSourceWeaponSound.PlayOneShot(_myMainWeapon.GetFireSound);
-                _shootTimer = _myMainWeapon.GetFireRate;
+                myProjectile.GetComponent<ProjectileBase>().Owner = transform.gameObject;
+                myProjectile.transform.SetPositionAndRotation(_projectileSpawnPoints[_currentFirePosition].transform.position, _projectileSpawnPoints[_currentFirePosition].transform.rotation);
+                _currentFirePosition = (_currentFirePosition + 1) % _projectileSpawnPoints.Count;
+                myProjectile.SetActive(true);
             }
         }
 
@@ -110,7 +141,7 @@ namespace TrenchWars
             {
                 Vector3 rotation = _thePlayer.transform.position - transform.position;
                 float zAxisRotation = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0, 0, zAxisRotation - 90);
+                transform.rotation = Quaternion.Euler(0, 0, zAxisRotation);
             }
             else
             {
@@ -137,8 +168,44 @@ namespace TrenchWars
             LevelActions.DropAPickup?.Invoke(gameObject.transform, _myData.GetMovementSpeed);
             //Make this call from pooled explosions and not instantiate a new one
             Instantiate(_myData.GetExplosionAnimation, transform.position, transform.rotation);
-            gameObject.SetActive(false);
+            StartCoroutine(WaitForSoundToStop());
             _currentHealth = _myData.GetMaxHealth;
+        }
+
+        #endregion
+        #region Private Coroutine Methods: for Asynchronous Operations
+
+        private IEnumerator WeaponBurst()
+        {
+            // Happens when called
+            _isWeaponFiring = true;
+            _audioSourceWeaponSound.PlayOneShot(_myMainWeaponData.GetFireSound);
+
+            for (int i = 0 ; i < 4 ; i++)
+            {
+                FireWeapon();
+                // Wait for this to happen
+                yield return new WaitForSeconds(_myMainWeaponData.GetFireRate);
+            }
+
+            // Wait for this to happen
+            yield return new WaitForSeconds(_fireWeaponTimer);
+
+            // Then do this after waiting
+            _isWeaponFiring = false;
+        }
+
+        private IEnumerator WaitForSoundToStop()
+        {
+            // Happens when called
+            _myTriggerCollider.enabled = false;
+            _myRenderer.enabled = false;
+
+            // Wait for this to happen
+            yield return new WaitUntil(() => !_audioSourceWeaponSound.isPlaying && !_audioSourceTakeDamage.isPlaying);
+
+            // Then do this after waiting
+            gameObject.SetActive(false);
         }
 
         #endregion
@@ -169,10 +236,17 @@ namespace TrenchWars
 
         private void OnBecameInvisible()
         {
-            gameObject.SetActive(false);
-            _canTakeDamage = false;
             _canFireWeapon = false;
+            _canTakeDamage = false;
             _currentHealth = _myData.GetMaxHealth;
+            if (!_audioSourceWeaponSound.isPlaying && !_audioSourceTakeDamage.isPlaying)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                StartCoroutine(WaitForSoundToStop());
+            }
         }
 
         #endregion

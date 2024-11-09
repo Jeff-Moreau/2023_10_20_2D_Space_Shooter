@@ -48,22 +48,32 @@ namespace TrenchWars
         [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
         [SerializeField] private GameObject _projectilePrefab = null;
         [SerializeField] private GameObject _shield = null;
+        [SerializeField] private GameObject _weaponAttachmentPoint = null;
+        [SerializeField] private GameObject _startingWeapon = null;
 
         #endregion
         #region Private Fields: For Internal Use
+
+        private int _currentFirePosition;
+
+        private bool _canUseSpecial;
+        private bool _canTakeDamage;
 
         private float _newXPos;
         private float _newYPos;
         private float _shipXPos;
         private float _shipYPos;
         private float _shootTimer;
-        private bool _canUseSpecial;
-        private bool _canTakeDamage;
         private float _myCurrentHealth;
-        private int _currentFirePosition;
-        private Coroutine _fillSpecialMeter;
-        private ObjectPoolManager _levelObjectManager;
+
         private Coroutine _flash;
+        private Coroutine _fillSpecialMeter;
+
+        private GameObject _currentWeapon;
+
+        private WeaponBase _currentWeaponScript;
+
+        private ObjectPoolManager _levelObjectManager;
 
         #endregion
 
@@ -99,6 +109,7 @@ namespace TrenchWars
             _currentFirePosition = 0;
             _canTakeDamage = true;
             _canUseSpecial = _fillSpecialMeter == null ? false : true;
+            EquipWeapon(_startingWeapon);
         }
 
         #endregion
@@ -253,19 +264,7 @@ namespace TrenchWars
 
         private void Shoot()
         {
-            if (_shootTimer >= 0.3f)
-            {
-                GameObject myProjectile = _levelObjectManager.GetProjectile(_projectilePrefab);
-
-                if (myProjectile != null)
-                {
-                    myProjectile.GetComponent<ProjectileBase>().Owner = gameObject;
-                    myProjectile.transform.position = _projectileSpawnPoints[_currentFirePosition].transform.position;
-                    _currentFirePosition = (_currentFirePosition + 1) % _projectileSpawnPoints.Count;
-                    myProjectile.SetActive(true);
-                    _shootTimer = 0;
-                }
-            }
+            _currentWeaponScript.FireWeapon(gameObject);
         }
 
         private void FillSpecial()
@@ -356,6 +355,18 @@ namespace TrenchWars
         {
             _myCurrentHealth = Mathf.Min(_myCurrentHealth + incomingHeal, _myData.GetMaxHealth);
             PlayerActions.CurrentHealth?.Invoke(_myCurrentHealth / _myData.GetMaxHealth);
+        }
+
+        public void EquipWeapon(GameObject newWeapon)
+        {
+            if (_currentWeapon != null)
+            {
+                Destroy(_currentWeapon);
+            }
+
+            _currentWeapon = Instantiate(newWeapon, _weaponAttachmentPoint.transform.position, _weaponAttachmentPoint.transform.rotation);
+            _currentWeapon.transform.SetParent(_weaponAttachmentPoint.transform);
+            _currentWeaponScript = _currentWeapon.GetComponent<WeaponBase>();
         }
 
         #endregion
