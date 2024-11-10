@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 5, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -23,7 +23,9 @@ namespace TrenchWars
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
+        [Header("DATA >==============================================")]
         [SerializeField] private Data.ImageScrollData _myData = null;
+        [Header("IMAGES >============================================")]
         [SerializeField] private RawImage _myImage = null;
 
         #endregion
@@ -32,6 +34,11 @@ namespace TrenchWars
         #region Private Initialization Methods: For Class Setup
 
         private void Start()
+        {
+            InitializeFields();
+        }
+
+        private void InitializeFields()
         {
             _myImage.texture = _myData.GetTexture;
             _myImage.color = _myData.GetImageTint;

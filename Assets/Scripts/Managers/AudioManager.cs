@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 7, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -90,7 +90,6 @@ namespace TrenchWars.Manager
 
         [Header("DATA >==============================================")]
         [SerializeField] private Data.AudioData _myData = null;
-        [Space(10)]
         [Header("SOUND COMPONENTS >==================================")]
         [SerializeField] private AudioMixer _mainAudioMixer = null;
         [NonReorderable]

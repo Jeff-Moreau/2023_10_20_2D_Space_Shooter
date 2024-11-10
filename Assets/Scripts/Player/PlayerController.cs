@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 6, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -15,7 +15,6 @@
 
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace TrenchWars
 {
@@ -34,22 +33,28 @@ namespace TrenchWars
         #endregion
 
         //FIELDS
+        #region Private Constants: For Class-Specific Fixed Values
+
+        private const string MOUSE_X = "Mouse X";
+        private const string VERTIVAL = "Vertical";
+        private const string LEFT_WALL = "LeftWall";
+        private const string RIGHT_WALL = "RightWall";
+        private const string HORIZONTAL = "Horizontal";
+
+        #endregion
         #region Private Serialized Fields: For Inspector Editable Values
 
         [Header("DATA >==============================================")]
         [SerializeField] protected Data.PlayerData _myData = null;
-
-        [SerializeField] private AudioSource _myAudioSource = null; // change for multiple audios
-
-        [Header("Object Refrences")]
+        [Header("SPAWN POINTS >======================================")]
+        [SerializeField] private GameObject _startingWeapon = null;
+        [SerializeField] private GameObject _weaponAttachmentPoint = null;
+        [Header("ANIMATION >=========================================")]
         [SerializeField] private GameObject _explosionAnimation = null;
         [SerializeField] private GameObject _scrapeLeftAnimation = null;
         [SerializeField] private GameObject _scrapeRightAnimation = null;
-        [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
-        [SerializeField] private GameObject _projectilePrefab = null;
-        [SerializeField] private GameObject _shield = null;
-        [SerializeField] private GameObject _weaponAttachmentPoint = null;
-        [SerializeField] private GameObject _startingWeapon = null;
+        [Header("AUDIO >=============================================")]
+        [SerializeField] private AudioSource _myAudioSource = null; // change for multiple audios
 
         #endregion
         #region Private Fields: For Internal Use
@@ -89,14 +94,14 @@ namespace TrenchWars
 
         private void Start()
         {
-            InitializeVariables();
+            InitializeFields();
             Cursor.visible = false; // should be in level or game manager
             Cursor.lockState = CursorLockMode.Confined; // should be in level or game manager
 
             FillSpecial();
         }
 
-        private void InitializeVariables()
+        private void InitializeFields()
         {
             _fillSpecialMeter = null;
             _myCurrentHealth = _myData.GetMaxHealth;
@@ -140,12 +145,12 @@ namespace TrenchWars
 
         private void OnCollisionStay2D(Collision2D whatImTouching)
         {
-            if (whatImTouching.gameObject.CompareTag("LeftWall"))
+            if (whatImTouching.gameObject.CompareTag(LEFT_WALL))
             {
                 _scrapeLeftAnimation.SetActive(true);
             }
 
-            if (whatImTouching.gameObject.CompareTag("RightWall"))
+            if (whatImTouching.gameObject.CompareTag(RIGHT_WALL))
             {
                 _scrapeRightAnimation.SetActive(true);
             }
@@ -153,12 +158,12 @@ namespace TrenchWars
 
         private void OnCollisionEnter2D(Collision2D whatIHit)
         {
-            if (whatIHit.gameObject.CompareTag("LeftWall"))
+            if (whatIHit.gameObject.CompareTag(LEFT_WALL))
             {
                 TakeDamage(1);
             }
 
-            if (whatIHit.gameObject.CompareTag("RightWall"))
+            if (whatIHit.gameObject.CompareTag(RIGHT_WALL))
             {
                 TakeDamage(1);
             }
@@ -166,12 +171,12 @@ namespace TrenchWars
 
         private void OnCollisionExit2D(Collision2D whatIHit)
         {
-            if (whatIHit.gameObject.CompareTag("LeftWall"))
+            if (whatIHit.gameObject.CompareTag(LEFT_WALL))
             {
                 _scrapeLeftAnimation.SetActive(false);
             }
 
-            if (whatIHit.gameObject.CompareTag("RightWall"))
+            if (whatIHit.gameObject.CompareTag(RIGHT_WALL))
             {
                 _scrapeRightAnimation.SetActive(false);
             }
@@ -192,8 +197,8 @@ namespace TrenchWars
 
             //MyRigidbody.position = Camera.main.ScreenToWorldPoint(new Vector3(mNewXPos, mNewYPos, -Camera.main.transform.position.z));
 
-            float moveX = Input.GetAxis("Horizontal"); // Left thumbstick X-axis
-            float moveY = Input.GetAxis("Vertical");   // Left thumbstick Y-axis
+            float moveX = Input.GetAxis(HORIZONTAL); // Left thumbstick X-axis
+            float moveY = Input.GetAxis(VERTIVAL);   // Left thumbstick Y-axis
 
             // Calculate movement direction
             Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
@@ -215,19 +220,19 @@ namespace TrenchWars
 
         private void ChangeAnimations()
         {
-            if (Input.GetAxis("Mouse X") <= -0.1 || Input.GetAxis("Horizontal") <= -0.1)
+            if (Input.GetAxis(MOUSE_X) <= -0.1 || Input.GetAxis(HORIZONTAL) <= -0.1)
             {
                 _myAnimator.SetLayerWeight(1, 1);
                 _myAnimator.SetLayerWeight(2, 0);
             }
 
-            if (Input.GetAxis("Mouse X") >= 0.1 || Input.GetAxis("Horizontal") <= 0.1)
+            if (Input.GetAxis(MOUSE_X) >= 0.1 || Input.GetAxis(HORIZONTAL) <= 0.1)
             {
                 _myAnimator.SetLayerWeight(1, 0);
                 _myAnimator.SetLayerWeight(2, 1);
             }
 
-            if (Input.GetAxis("Mouse X") == 0 || Input.GetAxis("Horizontal") <= 0)
+            if (Input.GetAxis(MOUSE_X) == 0 || Input.GetAxis(HORIZONTAL) <= 0)
             {
                 _myAnimator.SetLayerWeight(0, 1);
                 _myAnimator.SetLayerWeight(1, 0);
@@ -240,7 +245,7 @@ namespace TrenchWars
 
         private void Special()
         {
-            if (_canUseSpecial)
+            /*if (_canUseSpecial)
             {
                 var myProjectile = new GameObject[3];
 
@@ -259,7 +264,7 @@ namespace TrenchWars
 
                 _canUseSpecial = false;
                 FillSpecial();
-            }
+            }*/
         }
 
         private void Shoot()

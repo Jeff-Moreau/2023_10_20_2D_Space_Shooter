@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 6, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -32,9 +32,9 @@ namespace TrenchWars.Data
 		//PROPERTIES
 		#region Public Properties: For Accessing Class Fields
 
-		public GameObject GetPrefab => _prefabToUse;
 		public int GetMinimumSize => _minimumSize;
 		public int GetMaximumSize => _maximumSize;
+		public GameObject GetPrefab => _prefabToUse;
 		
 		#endregion
 	}

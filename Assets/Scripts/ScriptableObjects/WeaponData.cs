@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 7, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,18 +20,18 @@ namespace TrenchWars.Data
 	[CreateAssetMenu(fileName = "WeaponData", menuName = "Data/New WeaponData", order = 0)]
 	public class WeaponData : ScriptableObject
 	{
-        //FIELDS
-        #region Private Serialized Fields: For Inspector Editable Values
+		//FIELDS
+		#region Private Serialized Fields: For Inspector Editable Values
 
-        [Header("GENERAL INFO >======================================")]
-        [SerializeField] private string _name = "";
+		[Header("GENERAL INFO >======================================")]
+		[SerializeField] private string _name = "";
 		[SerializeField] private Texture2D _iconImage = null;
 		[SerializeField] private string _shortDescription = "";
 		[SerializeField] private string _longDescription = "";
-
-        [Header("PROJECTILE INFO >=====================================")]
+		[Header("PROJECTILE INFO >===================================")]
+		[SerializeField] private float _fireRate = 0.0f;
 		[SerializeField] private GameObject _projectileType = null;
-        [SerializeField] private float _fireRate = 0.0f;
+		[Header("AUDIO >=============================================")]
 		[SerializeField] private AudioClip _fireSound = null;
 
         #endregion

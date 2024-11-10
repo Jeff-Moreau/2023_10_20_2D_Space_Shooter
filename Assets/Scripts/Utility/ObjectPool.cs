@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 6, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -25,7 +25,9 @@ namespace TrenchWars
 
         private int _maxPoolSize;
         private int _prefabPoolSize;
+
         private GameObject _thePrefab;
+
         private List<GameObject> _prefabList;
 
         #endregion
@@ -62,11 +64,11 @@ namespace TrenchWars
 
         private void Awake()
         {
-            InitializeVariables();
+            InitializeFields();
             InitializePrefabPool();
         }
 
-        private void InitializeVariables()
+        private void InitializeFields()
         {
             _thePrefab = null;
             _maxPoolSize = 4; // scriptable object

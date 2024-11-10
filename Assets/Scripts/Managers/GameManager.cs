@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 5, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -64,7 +64,7 @@ namespace TrenchWars.Manager
         #endregion
         #region Private Fields: For Internal Use
 
-        private int _currenLives; //Should be a Scriptable object
+        private int _currentLives; //Should be a Scriptable object
 		private int _currentScore;
 		private GameObject _currentLevel;
 
@@ -81,8 +81,8 @@ namespace TrenchWars.Manager
 
 		public int Lives
 		{
-			get => _currenLives;
-			set => _currenLives = value;
+			get => _currentLives;
+			set => _currentLives = value;
 		}
 
         #endregion
@@ -98,7 +98,7 @@ namespace TrenchWars.Manager
         private void Start()
 		{
 			LoadEssentials();
-			InitializeVariables();
+			InitializeFields();
 		}
 
 		private void LoadEssentials()
@@ -131,9 +131,9 @@ namespace TrenchWars.Manager
             }
         }
 
-		private void InitializeVariables()
+		private void InitializeFields()
 		{
-			_currenLives = 3;
+			_currentLives = 3;
 			_currentScore = 0;
 			_currentLevel = _theLevels[(int)Level.LevelOne];
 		}

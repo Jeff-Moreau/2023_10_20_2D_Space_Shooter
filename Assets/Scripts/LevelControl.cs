@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 6, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -22,22 +22,26 @@ namespace TrenchWars
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
+        [Header("DATA >==============================================")]
         [SerializeField] private Data.LevelData _myData = null;
         [SerializeField] private Data.PlayerData _thePlayerData = null;
+        [Header("SPAWN LOCATIONS >===================================")]
         [SerializeField] private GameObject _playerSpawnLocation = null;
-        [SerializeField] private GameObject _thePlayer = null;
         [SerializeField] private GameObject[] _turretSpawnLocations = null;
+        [Header("OBJECT REFERENCES >=================================")]
         [SerializeField] private ObjectPoolManager _levelObjectManager = null;
+        [SerializeField] private GameObject _thePlayer = null;
         [SerializeField] private GameObject _theTurret = null; // Use object pool for this
         [SerializeField] private GameObject _theHealthPickup = null; // Use object pool for this
 
         #endregion
         #region Private Fields: For Internal Use
 
+        private int _currentEnemyKills;
+
         private float _spawnTimer;
         private float _playerHealth;
         private float _spawnTimeLimit;
-        private int _currentEnemyKills;
 
         #endregion
 
@@ -46,10 +50,10 @@ namespace TrenchWars
 
         private void Start()
         {
-            InitializeVariables();
+            InitializeFields();
         }
 
-        private void InitializeVariables()
+        private void InitializeFields()
         {
             _spawnTimeLimit = 5; // Scriptable Object for this
             _currentEnemyKills = 0;

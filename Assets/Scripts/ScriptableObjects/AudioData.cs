@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 7, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -23,14 +23,12 @@ namespace TrenchWars.Data
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [Header("MUSIC STUFF >=======================================")]
+        [Header("MUSIC SETTINGS >====================================")]
         [SerializeField, Min(0f)] private float _musicFadeInDuration = 2.0f;
         [SerializeField, Min(0f)] private float _musicFadeOutDuration = 1.0f;
-        [Space(10)]
         [Header("MUSIC CLIPS >=======================================")]
         [NonReorderable]
         [SerializeField] private AudioClip[] _musicList = null;
-        [Space(10)]
         [Header("SOUNDFX CLIPS >=====================================")]
         [NonReorderable]
         [SerializeField] private AudioClip[] _soundFXList = null;

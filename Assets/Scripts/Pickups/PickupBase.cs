@@ -20,6 +20,11 @@ namespace TrenchWars
 	public class PickupBase : Entity
 	{
         //FIELDS
+        #region Private Constants: For Class-Specific Fixed Values
+
+        private const string PLAYER = "Player";
+
+        #endregion
         #region Private Serialized Fields: For Inspector Editable Values
 
         [Header("DATA >==============================================")]
@@ -30,13 +35,13 @@ namespace TrenchWars
         //METHODS
         #region Private Physics Methods: For Object Interactions
 
-        protected virtual void OnTriggerEnter2D(Collider2D hitTarget)
+        protected virtual void OnTriggerEnter2D(Collider2D iHitSomething)
         {
-			if (hitTarget.gameObject.CompareTag("Player"))
+			if (iHitSomething.gameObject.CompareTag(PLAYER))
             {
-                if (hitTarget.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage targetHit))
+                if (iHitSomething.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage makeTheObject))
                 {
-                    targetHit.HealDamage(_myData.GetHealAmount);
+                    makeTheObject.HealDamage(_myData.GetHealAmount);
                     gameObject.SetActive(false);
                 }
             }

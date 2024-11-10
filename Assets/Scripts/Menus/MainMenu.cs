@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 6, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -24,10 +24,12 @@ namespace TrenchWars
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
+        [Header("OBJECT REFERENCES >=================================")]
         [SerializeField] private GameObject _theMainMenuScreen = null;
         [SerializeField] private GameObject _theSettingsScreen = null;
         [SerializeField] private GameObject _theHighScoreScreen = null;
         [SerializeField] private GameObject _theHUD = null;
+        [Header("SLIDERS >===========================================")]
         [SerializeField] private Slider _masterVolumeSlider = null;
         [SerializeField] private Slider _musicVolumeSlider = null;
         [SerializeField] private Slider _soundFXVolumeSlider = null;
@@ -45,10 +47,10 @@ namespace TrenchWars
 
         private void Start()
         {
-            InitializeVariables();
+            InitializeFields();
         }
 
-        private void InitializeVariables()
+        private void InitializeFields()
         {
             _buttonIsPushed = false;
             Manager.AudioManager.Access.PlayMusic(Music.MainMenu, MusicSource.Normal, true);

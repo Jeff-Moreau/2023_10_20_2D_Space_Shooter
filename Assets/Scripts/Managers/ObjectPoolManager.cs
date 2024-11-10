@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: October 30, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -30,9 +30,9 @@ namespace TrenchWars
         #endregion
         #region Private Fields: For Internal Use
 
-        private Dictionary<GameObject, ObjectPool> _projectileList;
         private Dictionary<GameObject, ObjectPool> _enemyList;
         private Dictionary<GameObject, ObjectPool> _pickupList;
+        private Dictionary<GameObject, ObjectPool> _projectileList;
 
         #endregion
 

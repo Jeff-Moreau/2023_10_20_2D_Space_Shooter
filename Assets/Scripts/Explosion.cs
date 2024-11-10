@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 5, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -23,13 +23,11 @@ namespace TrenchWars
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 
-        [Space(10)]
+        [Header("ANIMATION >=========================================")]
+        [SerializeField] private AnimationClip _theExplosionAnimation = null;
         [Header("AUDIO >=============================================")]
         [SerializeField] private AudioSource _myAudioSource = null;
         [SerializeField] private AudioClip _theExplosionSound = null;
-        [Space(10)]
-        [Header("ANIMATION >=========================================")]
-        [SerializeField] private AnimationClip _theExplosionAnimation = null;
 
         #endregion
         #region Private Fields: For Internal Use

@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 9, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -20,11 +20,13 @@ namespace TrenchWars
 {
 	public class WeaponBase : Entity
 	{
-		//FIELDS
-		#region Private Serialized Fields: For Inspector Editable Values
+        //FIELDS
+        #region Private Serialized Fields: For Inspector Editable Values
 
-		[SerializeField] private Data.WeaponData _myData = null;
-		[SerializeField] private List<GameObject> _projectileSpawnPoints = null;
+        [Header("DATA >==============================================")]
+        [SerializeField] private Data.WeaponData _myData = null;
+        [Header("SPAWN POINTS >======================================")]
+        [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
 
         #endregion
         #region Private Fields: For Internal Use
@@ -52,12 +54,12 @@ namespace TrenchWars
 		
 		private void Start()
 		{
-			InitializeVariables();
+			InitializeFields();
 		}
 		
-		private void InitializeVariables()
+		private void InitializeFields()
 		{
-            _shootTimer = 0.3f;
+            _shootTimer = _myData.GetFireRate;
             _currentFirePosition = 0;
 		}
 
@@ -75,7 +77,7 @@ namespace TrenchWars
         public void FireWeapon(GameObject owner)
 		{
             // replace with coroutine
-            if (_shootTimer >= 0.3f)
+            if (_shootTimer >= _myData.GetFireRate)
             {
                 GameObject myProjectile = _levelObjectManager.GetProjectile(_myData.GetProjectileType);
 

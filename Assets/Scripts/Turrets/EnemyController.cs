@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 8, 2024
+ * Date Last Modified: November 10, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -28,16 +28,13 @@ namespace TrenchWars
         [SerializeField] private Data.TurretData _myData = null;
         [SerializeField] private Data.WeaponData _myMainWeaponData = null;
         [SerializeField] private Data.WeaponData _mySecondaryWeaponData = null;
-        [Space(10)]
+        [Header("COLLIDERS >=========================================")]
+        [SerializeField] protected BoxCollider2D _myTriggerCollider = null;
+        [Header("SPAWN POINTS >======================================")]
+        [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
         [Header("AUDIO >=============================================")]
         [SerializeField] private AudioSource _audioSourceTakeDamage = null;
         [SerializeField] private AudioSource _audioSourceWeaponSound = null;
-        [Space(10)]
-        [Header("SPAWN POINTS >======================================")]
-        [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
-        [Space(10)]
-        [Header("COLLIDERSS >========================================")]
-        [SerializeField] protected BoxCollider2D _myTriggerCollider = null;
 
         #endregion
         #region Private Fields: For Internal Use
@@ -95,8 +92,8 @@ namespace TrenchWars
             _fireWeaponTimer = 2.0f;
             _weaponActive = null;
             _isWeaponFiring = false;
-            _myTriggerCollider.enabled = true;
             _myRenderer.enabled = true;
+            _myTriggerCollider.enabled = true;
         }
 
         #endregion
