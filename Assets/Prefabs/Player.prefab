@@ -492,7 +492,7 @@ MonoBehaviour:
   _myRigidbody: {fileID: 6749970917849943780}
   _myAnimator: {fileID: 7252998887308666199}
   _myData: {fileID: 11400000, guid: 1b8220254893ec94787e3af0ac1dd006, type: 2}
-  _startingWeapon: {fileID: 2056904979092354962, guid: 991f1fe52487c624aab40d9d349df4b9, type: 3}
+  _startingWeapon: {fileID: 2056904979092354962, guid: 8e9ac0edac52eba4e806eea0335680c0, type: 3}
   _weaponAttachmentPoint: {fileID: 6196587922244670583}
   _explosionAnimation: {fileID: 5701922424162114191, guid: 6ff522a2a0b3b2940b63ec64c3ca25b3, type: 3}
   _scrapeLeftAnimation: {fileID: 2119251169034370117}

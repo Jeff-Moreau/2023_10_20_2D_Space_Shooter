@@ -15,6 +15,17 @@
  
 using UnityEngine;
 
+#region Public Enums: For Cross-Class References
+
+public enum PickupType
+{
+    Health,
+    Damage,
+    Weapon
+}
+
+#endregion
+
 namespace TrenchWars
 {
 	public class PickupBase : Entity
@@ -37,13 +48,31 @@ namespace TrenchWars
 
         protected virtual void OnTriggerEnter2D(Collider2D iHitSomething)
         {
-			if (iHitSomething.gameObject.CompareTag(PLAYER))
+            switch (_myData.GetPickupType)
             {
-                if (iHitSomething.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage makeTheObject))
-                {
-                    makeTheObject.HealDamage(_myData.GetHealAmount);
-                    gameObject.SetActive(false);
-                }
+                case PickupType.Health:
+                    if (iHitSomething.gameObject.CompareTag(PLAYER))
+                    {
+                        if (iHitSomething.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage makeTheObject))
+                        {
+                            makeTheObject.HealDamage(_myData.GetHealAmount);
+                            gameObject.SetActive(false);
+                        }
+                    }
+
+                    break;
+                case PickupType.Damage:
+                    break;
+                case PickupType.Weapon:
+                    if (iHitSomething.gameObject.CompareTag(PLAYER))
+                    {
+                        iHitSomething.GetComponent<PlayerController>().EquipWeapon(_myData.GetWeaponType);
+                        gameObject.SetActive(false);
+                    }
+
+                    break;
+                default:
+                    break;
             }
         }
 

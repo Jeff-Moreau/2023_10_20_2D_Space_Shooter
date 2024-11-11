@@ -5470,6 +5470,7 @@ MonoBehaviour:
   _thePlayer: {fileID: 4905264917827988983, guid: 0ae75121a35081749bb1bc53456afc6e, type: 3}
   _theTurret: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
   _theHealthPickup: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
+  _theWeaponTwoUpgrade: {fileID: 3202620689567084073, guid: ee87504caf48b854fbe4f62965625b48, type: 3}
 --- !u!114 &1204568934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5495,6 +5496,9 @@ MonoBehaviour:
     MaximumPoolSize: 5
   _thePickups:
   - ThePrefab: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
+    MinimumPoolSize: 1
+    MaximumPoolSize: 2
+  - ThePrefab: {fileID: 3202620689567084073, guid: ee87504caf48b854fbe4f62965625b48, type: 3}
     MinimumPoolSize: 1
     MaximumPoolSize: 2
 --- !u!1 &1214442564

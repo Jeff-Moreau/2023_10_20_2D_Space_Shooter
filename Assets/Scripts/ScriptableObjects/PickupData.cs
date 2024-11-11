@@ -25,6 +25,8 @@ namespace TrenchWars.Data
 
         [SerializeField] private float _moveSpeed = 0.0f;
 		[SerializeField] private float _healAmount = -0.0f;
+		[SerializeField] private GameObject _weaponType = null;
+		[SerializeField] private PickupType _pickupType = PickupType.Health;
 
         #endregion
 
@@ -33,6 +35,8 @@ namespace TrenchWars.Data
 
         public float GetMoveSpeed => _moveSpeed;
 		public float GetHealAmount => _healAmount;
+		public GameObject GetWeaponType => _weaponType;
+		public PickupType GetPickupType => _pickupType;
 		
 		#endregion
 	}

@@ -33,6 +33,7 @@ namespace TrenchWars
         [SerializeField] private GameObject _thePlayer = null;
         [SerializeField] private GameObject _theTurret = null; // Use object pool for this
         [SerializeField] private GameObject _theHealthPickup = null; // Use object pool for this
+        [SerializeField] private GameObject _theWeaponTwoUpgrade = null;
 
         #endregion
         #region Private Fields: For Internal Use
@@ -123,9 +124,24 @@ namespace TrenchWars
             {
                 float randomChance = Random.Range(0, 100);
 
-                if (randomChance <= 30)
+                if (randomChance <= 50)
                 {
                     GameObject newPickup = _levelObjectManager.GetPickup(_theHealthPickup);
+
+                    if (newPickup != null)
+                    {
+                        newPickup.transform.SetPositionAndRotation(dropLocation.position, dropLocation.rotation);
+                        newPickup.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                float randomChance = Random.Range(0, 100);
+
+                if (randomChance <= 30)
+                {
+                    GameObject newPickup = _levelObjectManager.GetPickup(_theWeaponTwoUpgrade);
 
                     if (newPickup != null)
                     {
