@@ -5493,8 +5493,8 @@ MonoBehaviour:
     MinimumPoolSize: 5
     MaximumPoolSize: 15
   - ThePrefab: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-    MinimumPoolSize: 4
-    MaximumPoolSize: 20
+    MinimumPoolSize: 20
+    MaximumPoolSize: 100
   _theEnemies:
   - ThePrefab: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
     MinimumPoolSize: 2

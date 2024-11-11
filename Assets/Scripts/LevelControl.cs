@@ -102,15 +102,32 @@ namespace TrenchWars
 
             if (_spawnTimer >= _spawnTimeLimit)
             {
-                GameObject newTurret = _levelObjectManager.GetEnemy(_newShip);
+                float randomSelect = Random.Range(0, 100);
                 int randomSpawn = Random.Range(0, 3);
 
-                if (newTurret != null)
+                if (randomSelect <= 70)
                 {
-                    newTurret.transform.position = _turretSpawnLocations[randomSpawn].transform.position;
-                    newTurret.SetActive(true);
-                    _spawnTimer = 0;
-                    _spawnTimeLimit = Random.Range(3, 10);
+                    GameObject newTurret = _levelObjectManager.GetEnemy(_newShip);
+
+                    if (newTurret != null)
+                    {
+                        newTurret.transform.position = _turretSpawnLocations[randomSpawn].transform.position;
+                        newTurret.SetActive(true);
+                        _spawnTimer = 0;
+                        _spawnTimeLimit = Random.Range(2, 4);
+                    }
+                }
+                else
+                {
+                    GameObject newTurret = _levelObjectManager.GetEnemy(_theTurret);
+
+                    if (newTurret != null)
+                    {
+                        newTurret.transform.position = _turretSpawnLocations[randomSpawn].transform.position;
+                        newTurret.SetActive(true);
+                        _spawnTimer = 0;
+                        _spawnTimeLimit = Random.Range(2, 4);
+                    }
                 }
             }
         }
