@@ -23,7 +23,8 @@ using TMPro;
 public enum EnemyType
 {
     Turret,
-    Ship
+    ShipOne,
+    ShipTwo
 }
 
 #endregion
@@ -55,9 +56,8 @@ namespace TrenchWars
         private bool _canFireWeapon;
         private bool _canTakeDamage;
         private bool _isWeaponFiring;
-
+        private bool _movingDown;
         private float _currentHealth;
-        private float _fireWeaponTimer;
 
         private Coroutine _weaponActive;
 
@@ -69,6 +69,8 @@ namespace TrenchWars
         private ObjectPoolManager _levelObjectManager;
         private LevelControl _levelControl;
         private Vector3 _randomPatternOffset;
+        private Vector3 _startPosition;
+        private Vector3 _previousPosition;
 
         #endregion
 
@@ -94,6 +96,8 @@ namespace TrenchWars
         private void InitializeFields()
         {
             _canTakeDamage = false;
+            _movingDown = false;
+            _startPosition = transform.position;
             //_canFireWeapon = false;
             _isWeaponFiring = false;
             _currentFirePosition = 0;
@@ -107,12 +111,13 @@ namespace TrenchWars
         {
             EquipWeapon(_mainWeapon);
             _thePlayer = GameObject.FindGameObjectWithTag("Player");
-            _fireWeaponTimer = 2.0f;
             _weaponActive = null;
             _isWeaponFiring = false;
             _myRenderer.enabled = true;
             _myTriggerCollider.enabled = true;
             _randomPatternOffset = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+            _movingDown = false;
+            _previousPosition = transform.position;
         }
 
         #endregion
@@ -120,15 +125,15 @@ namespace TrenchWars
 
         private void Update()
         {
-            TargetPlayer();
-
             switch (_myData.GetEnemyType)
             {
                 case EnemyType.Turret:
+                    TargetPlayer();
                     transform.position -= new Vector3(0, _myData.GetMovementSpeed * _levelControl.LevelSpeed * Time.deltaTime, 0);
                     break;
 
-                case EnemyType.Ship:
+                case EnemyType.ShipOne:
+                    TargetPlayer();
                     Vector3 directionToPlayer = _thePlayer.transform.position - transform.position;
                     Vector3 patternMovement = _randomPatternOffset * 0.75f;
                     Vector3 targetPosition = _thePlayer.transform.position + patternMovement;
@@ -136,11 +141,61 @@ namespace TrenchWars
                     transform.position += _myData.GetMovementSpeed * Time.deltaTime * movementDirection;
                     break;
 
+                case EnemyType.ShipTwo:
+                    if (!_movingDown)
+                    {
+                        MoveInRandomPattern();
+                        CheckHalfwayPoint();
+                    }
+                    else
+                    {
+                        MoveDownwards();
+                    }
+
+                    RotateTowardsMovementDirection();
+
+                    break;
+
                 default:
                     break;
             }
 
-            _currentWeaponScript.FireWeapon(gameObject);
+            if (_mainWeapon != null)
+            {
+                _currentWeaponScript.FireWeapon(gameObject);
+            }
+        }
+
+        void MoveInRandomPattern()
+        {
+            float xOffset = Mathf.Sin(Time.time * _myData.GetMovementSpeed) * 4f;
+            transform.position = new Vector3(_startPosition.x + xOffset, transform.position.y - (_myData.GetMovementSpeed * 2 * Time.deltaTime), 0);
+        }
+
+        void CheckHalfwayPoint()
+        {
+            if (transform.position.y <= _thePlayer.transform.position.y)
+            {
+                _movingDown = true;
+            }
+        }
+
+        void MoveDownwards()
+        {
+            transform.position += _myData.GetMovementSpeed * 5 * Time.deltaTime * Vector3.down;
+        }
+
+        void RotateTowardsMovementDirection()
+        {
+            Vector3 movementDirection = transform.position - _previousPosition;
+
+            if (movementDirection != Vector3.zero)
+            {
+                float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
+
+            _previousPosition = transform.position;
         }
 
         private void TargetPlayer()
@@ -176,9 +231,12 @@ namespace TrenchWars
                 Destroy(_currentWeapon);
             }
 
-            _currentWeapon = Instantiate(newWeapon, _weaponAttachmentPoint.transform.position, _weaponAttachmentPoint.transform.rotation);
-            _currentWeapon.transform.SetParent(_weaponAttachmentPoint.transform);
-            _currentWeaponScript = _currentWeapon.GetComponent<WeaponBase>();
+            if (_weaponAttachmentPoint != null)
+            {
+                _currentWeapon = Instantiate(newWeapon, _weaponAttachmentPoint.transform.position, _weaponAttachmentPoint.transform.rotation);
+                _currentWeapon.transform.SetParent(_weaponAttachmentPoint.transform);
+                _currentWeaponScript = _currentWeapon.GetComponent<WeaponBase>();
+            }
         }
 
         private void OnDeath()
