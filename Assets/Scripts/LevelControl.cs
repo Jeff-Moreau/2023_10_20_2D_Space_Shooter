@@ -33,6 +33,7 @@ namespace TrenchWars
         [SerializeField] private ObjectPoolManager _levelObjectManager = null;
         [SerializeField] private GameObject _thePlayer = null;
         [SerializeField] private GameObject _theTurret = null; // Use object pool for this
+        [SerializeField] private GameObject _newShip = null;
         [SerializeField] private GameObject _theHealthPickup = null; // Use object pool for this
         [SerializeField] private GameObject _theWeaponTwoUpgrade = null;
         [SerializeField] private float _levelSpeed = 1;
@@ -101,7 +102,7 @@ namespace TrenchWars
 
             if (_spawnTimer >= _spawnTimeLimit)
             {
-                GameObject newTurret = _levelObjectManager.GetEnemy(_theTurret);
+                GameObject newTurret = _levelObjectManager.GetEnemy(_newShip);
                 int randomSpawn = Random.Range(0, 3);
 
                 if (newTurret != null)

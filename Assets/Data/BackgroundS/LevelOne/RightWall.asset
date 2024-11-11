@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RightWall
   m_EditorClassIdentifier: 
   _textureToUse: {fileID: 2800000, guid: 5b492a24fb645ba4fbbe7bba05d78948, type: 3}
-  _scrollSpeed: 0
+  _scrollSpeed: -0.1
   _imageTint: {r: 1, g: 1, b: 1, a: 1}

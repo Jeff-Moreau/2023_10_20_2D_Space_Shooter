@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0e6992b0721134c9aaf5dffbea3395, type: 3}
   m_Name: Interceptor
   m_EditorClassIdentifier: 
-  unitName: Interceptor
-  unitAnimationController: {fileID: 0}
-  unitMaxLife: 100
-  unitSpeed: 10
-  unitFireSpeed: 5
-  unitMaxShield: 30
+  _name: 
+  _maxHealth: 2
+  _movementSpeed: 3
+  _maxShield: 0
+  _scoreValue: 0
+  _enemyType: 1
+  _explosionAnimation: {fileID: 5701922424162114191, guid: 6ff522a2a0b3b2940b63ec64c3ca25b3, type: 3}
+  _takeDamageSound: {fileID: 0}

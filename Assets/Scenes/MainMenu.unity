@@ -2149,6 +2149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _myData: {fileID: 11400000, guid: 1cba0ec10fc92cb47aec690d1eff4c4d, type: 2}
   _myImage: {fileID: 374703753}
+  _levelControl: {fileID: 1204568933}
 --- !u!114 &374703753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3359,6 +3360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _myData: {fileID: 11400000, guid: 5164963ef60fde74f81e3f21e59cd3db, type: 2}
   _myImage: {fileID: 564806658}
+  _levelControl: {fileID: 1204568933}
 --- !u!114 &564806658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3551,6 +3553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _myData: {fileID: 11400000, guid: 8c5ded8df289d874883c1337cea7be78, type: 2}
   _myImage: {fileID: 656446724}
+  _levelControl: {fileID: 1204568933}
 --- !u!114 &656446724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5469,8 +5472,10 @@ MonoBehaviour:
   _levelObjectManager: {fileID: 1204568934}
   _thePlayer: {fileID: 4905264917827988983, guid: 0ae75121a35081749bb1bc53456afc6e, type: 3}
   _theTurret: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
+  _newShip: {fileID: 3863884969384650663, guid: c49e9d5c8904dea46b21cb5d3ed9cc01, type: 3}
   _theHealthPickup: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
   _theWeaponTwoUpgrade: {fileID: 3202620689567084073, guid: ee87504caf48b854fbe4f62965625b48, type: 3}
+  _levelSpeed: 1
 --- !u!114 &1204568934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5492,6 +5497,9 @@ MonoBehaviour:
     MaximumPoolSize: 20
   _theEnemies:
   - ThePrefab: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
+    MinimumPoolSize: 2
+    MaximumPoolSize: 5
+  - ThePrefab: {fileID: 3863884969384650663, guid: c49e9d5c8904dea46b21cb5d3ed9cc01, type: 3}
     MinimumPoolSize: 2
     MaximumPoolSize: 5
   _thePickups:
@@ -6289,6 +6297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _myData: {fileID: 11400000, guid: 5ba3b578b7f94df418b226b0c48f20d3, type: 2}
   _myImage: {fileID: 1326351587}
+  _levelControl: {fileID: 1204568933}
 --- !u!114 &1326351587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8605,6 +8614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _myData: {fileID: 11400000, guid: 26801de8c4007a744aec3ece805ee72e, type: 2}
   _myImage: {fileID: 1829503834}
+  _levelControl: {fileID: 1204568933}
 --- !u!114 &1829503834
 MonoBehaviour:
   m_ObjectHideFlags: 0

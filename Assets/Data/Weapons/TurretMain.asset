@@ -16,6 +16,6 @@ MonoBehaviour:
   _iconImage: {fileID: 0}
   _shortDescription: 
   _longDescription: 
+  _fireRate: 1
   _projectileType: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-  _fireRate: 0.025
   _fireSound: {fileID: 8300000, guid: bcd3eddc5fdb8b847a8917c39b78c8c6, type: 3}

@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 7, 2024
+ * Date Last Modified: November 11, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -42,8 +42,21 @@ namespace TrenchWars
         [SerializeField] protected Data.PickupData _myData = null;
 
         #endregion
+        #region Private Fields: For Internal Use
+
+        private LevelControl _levelControl;
+
+        #endregion
 
         //METHODS
+        #region Private Initialization Methods: For Class Setup
+
+        protected void Awake()
+        {
+            _levelControl = FindAnyObjectByType<LevelControl>();
+        }
+
+        #endregion
         #region Private Physics Methods: For Object Interactions
 
         protected virtual void OnTriggerEnter2D(Collider2D iHitSomething)
@@ -92,7 +105,7 @@ namespace TrenchWars
 
         protected virtual void Update()
 		{
-            transform.position -= new Vector3(0, _myData.GetMoveSpeed * Time.deltaTime, 0); // get speed from object that dropped you
+            transform.position -= new Vector3(0, _myData.GetMoveSpeed * _levelControl.LevelSpeed * Time.deltaTime, 0); // get speed from object that dropped you
         }
 
         #endregion
