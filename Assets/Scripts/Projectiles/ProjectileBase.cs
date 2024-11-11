@@ -55,8 +55,14 @@ namespace TrenchWars
 
         protected virtual void OnEnable()
 		{
-            Vector2 direction = transform.up;
-            _myRigidbody.velocity = direction.normalized * _myData.GetMovementSpeed;
+            _myRigidbody.velocity = Vector2.zero;
+            /*Vector2 direction = transform.right;
+            _myRigidbody.velocity = direction.normalized * _myData.GetMovementSpeed;*/
+        }
+
+        public void Launch(Vector2 direction)
+        {
+            _myRigidbody.velocity = direction * _myData.GetMovementSpeed;
         }
 
         #endregion

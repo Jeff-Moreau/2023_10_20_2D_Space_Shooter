@@ -492,18 +492,12 @@ MonoBehaviour:
   _myRigidbody: {fileID: 6749970917849943780}
   _myAnimator: {fileID: 7252998887308666199}
   _myData: {fileID: 11400000, guid: 1b8220254893ec94787e3af0ac1dd006, type: 2}
-  _myAudioSource: {fileID: 3319533932063544608}
+  _startingWeapon: {fileID: 2056904979092354962, guid: 991f1fe52487c624aab40d9d349df4b9, type: 3}
+  _weaponAttachmentPoint: {fileID: 6196587922244670583}
   _explosionAnimation: {fileID: 5701922424162114191, guid: 6ff522a2a0b3b2940b63ec64c3ca25b3, type: 3}
   _scrapeLeftAnimation: {fileID: 2119251169034370117}
   _scrapeRightAnimation: {fileID: 1984295139487985868}
-  _projectileSpawnPoints:
-  - {fileID: 2038808886213820148}
-  - {fileID: 5946317199603229639}
-  - {fileID: 8700964718252314685}
-  _projectilePrefab: {fileID: 2267739600030115732, guid: d43e1e62356ac064bb7fba2b4fa3d35a, type: 3}
-  _shield: {fileID: 0}
-  _weaponAttachmentPoint: {fileID: 6196587922244670583}
-  _startingWeapon: {fileID: 2056904979092354962, guid: 8e9ac0edac52eba4e806eea0335680c0, type: 3}
+  _myAudioSource: {fileID: 3319533932063544608}
 --- !u!82 &3319533932063544608
 AudioSource:
   m_ObjectHideFlags: 0

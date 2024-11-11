@@ -127,6 +127,7 @@ namespace TrenchWars
             {
                 myProjectile.GetComponent<ProjectileBase>().Owner = transform.gameObject;
                 myProjectile.transform.SetPositionAndRotation(_projectileSpawnPoints[_currentFirePosition].transform.position, _projectileSpawnPoints[_currentFirePosition].transform.rotation);
+                myProjectile.transform.rotation = _projectileSpawnPoints[_currentFirePosition].transform.rotation;
                 _currentFirePosition = (_currentFirePosition + 1) % _projectileSpawnPoints.Count;
                 myProjectile.SetActive(true);
             }

@@ -14,7 +14,7 @@
  ****************************************************************************************/
 
 using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace TrenchWars
 {
@@ -26,14 +26,14 @@ namespace TrenchWars
         [Header("DATA >==============================================")]
         [SerializeField] private Data.WeaponData _myData = null;
         [Header("SPAWN POINTS >======================================")]
-        [SerializeField] private List<GameObject> _projectileSpawnPoints = null;
+        [SerializeField] private GameObject[] _projectileSpawnPoints = null;
+        [Header("AUDIO >=============================================")]
+        [SerializeField] private AudioSource _myAudioSource = null;
 
         #endregion
         #region Private Fields: For Internal Use
 
-        private int _currentFirePosition;
-
-        private float _shootTimer;
+        private bool _isFiring;
 
         private ObjectPoolManager _levelObjectManager;
 
@@ -59,16 +59,7 @@ namespace TrenchWars
 		
 		private void InitializeFields()
 		{
-            _shootTimer = _myData.GetFireRate;
-            _currentFirePosition = 0;
-		}
-
-        #endregion
-        #region Private Real-Time Methods: For Per-Frame Game Logic
-
-        private void Update()
-		{
-			_shootTimer += Time.deltaTime;
+            _isFiring = false;
 		}
 
         #endregion
@@ -76,20 +67,38 @@ namespace TrenchWars
 
         public void FireWeapon(GameObject owner)
 		{
-            // replace with coroutine
-            if (_shootTimer >= _myData.GetFireRate)
+            if (!_isFiring)
+            {
+                StartCoroutine(Firing(owner));
+            }
+        }
+
+        #endregion
+        #region Private Coroutine Methods: for Asynchronous Operations
+
+        private IEnumerator Firing(GameObject owner)
+        {
+            _isFiring = true;
+            _myAudioSource.PlayOneShot(_myData.GetFireSound);
+
+            for (int i = 0 ; i < _projectileSpawnPoints.Length ; i++)
             {
                 GameObject myProjectile = _levelObjectManager.GetProjectile(_myData.GetProjectileType);
 
                 if (myProjectile != null)
                 {
                     myProjectile.GetComponent<ProjectileBase>().Owner = owner;
-                    myProjectile.transform.position = _projectileSpawnPoints[_currentFirePosition].transform.position;
-                    _currentFirePosition = (_currentFirePosition + 1) % _projectileSpawnPoints.Count;
+                    myProjectile.transform.position = _projectileSpawnPoints[i].transform.position;
+                    myProjectile.transform.rotation = _projectileSpawnPoints[i].transform.rotation;
+                    Vector2 launchDirection = _projectileSpawnPoints[i].transform.right;
                     myProjectile.SetActive(true);
-                    _shootTimer = 0;
+                    myProjectile.GetComponent<ProjectileBase>().Launch(launchDirection);
                 }
             }
+
+            yield return new WaitForSeconds(_myData.GetFireRate);
+
+            _isFiring = false;
         }
 
         #endregion

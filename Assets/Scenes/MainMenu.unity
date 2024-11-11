@@ -5462,12 +5462,12 @@ MonoBehaviour:
   _myData: {fileID: 11400000, guid: d6e21a5bf373361438b55590b9ebea63, type: 2}
   _thePlayerData: {fileID: 11400000, guid: 1b8220254893ec94787e3af0ac1dd006, type: 2}
   _playerSpawnLocation: {fileID: 1533821948}
-  _thePlayer: {fileID: 4905264917827988983, guid: 0ae75121a35081749bb1bc53456afc6e, type: 3}
   _turretSpawnLocations:
   - {fileID: 1483550896}
   - {fileID: 765237157}
   - {fileID: 257977711}
   _levelObjectManager: {fileID: 1204568934}
+  _thePlayer: {fileID: 4905264917827988983, guid: 0ae75121a35081749bb1bc53456afc6e, type: 3}
   _theTurret: {fileID: 3863884969384650663, guid: 79d9bdbb090e1b04c8c54d1d90ae2ebe, type: 3}
   _theHealthPickup: {fileID: 3202620689567084073, guid: b66001bf7a54e4b43a9556eb59fb7991, type: 3}
 --- !u!114 &1204568934
