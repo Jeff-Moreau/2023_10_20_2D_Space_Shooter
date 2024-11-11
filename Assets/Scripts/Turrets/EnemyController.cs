@@ -53,6 +53,7 @@ namespace TrenchWars
         private GameObject _thePlayer;
 
         private ObjectPoolManager _levelObjectManager;
+        private LevelControl _levelControl;
 
         #endregion
 
@@ -62,6 +63,7 @@ namespace TrenchWars
         private void Awake()
         {
             _levelObjectManager = FindObjectOfType<ObjectPoolManager>();
+            _levelControl = FindAnyObjectByType<LevelControl>();
 
             if (_levelObjectManager == null)
             {
@@ -101,7 +103,7 @@ namespace TrenchWars
 
         private void Update()
         {
-            transform.position -= new Vector3(0, _myData.GetMovementSpeed * Time.deltaTime, 0);
+            transform.position -= new Vector3(0, _myData.GetMovementSpeed * _levelControl.LevelSpeed * Time.deltaTime, 0);
 
             TargetPlayer();
 

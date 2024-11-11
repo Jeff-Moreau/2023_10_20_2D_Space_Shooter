@@ -27,9 +27,14 @@ namespace TrenchWars
         [SerializeField] private Data.ImageScrollData _myData = null;
         [Header("IMAGES >============================================")]
         [SerializeField] private RawImage _myImage = null;
+        [SerializeField] private LevelControl _levelControl = null;
 
         #endregion
+        #region Private Fields: For Internal Use
 
+        private float _levelSpeed;
+
+        #endregion
         //METHODS
         #region Private Initialization Methods: For Class Setup
 
@@ -49,7 +54,7 @@ namespace TrenchWars
 
         private void Update()
         {
-            _myImage.uvRect = new Rect(_myImage.uvRect.position + (new Vector2(_myData.GetScrollSpeed, 0) * Time.deltaTime), _myImage.uvRect.size);
+            _myImage.uvRect = new Rect(_myImage.uvRect.position + (new Vector2(_myData.GetScrollSpeed * _levelControl.LevelSpeed, 0) * Time.deltaTime), _myImage.uvRect.size);
         }
 
         #endregion

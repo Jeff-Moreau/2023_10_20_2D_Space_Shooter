@@ -51,28 +51,39 @@ namespace TrenchWars
             switch (_myData.GetPickupType)
             {
                 case PickupType.Health:
-                    if (iHitSomething.gameObject.CompareTag(PLAYER))
-                    {
-                        if (iHitSomething.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage makeTheObject))
-                        {
-                            makeTheObject.HealDamage(_myData.GetHealAmount);
-                            gameObject.SetActive(false);
-                        }
-                    }
-
+                    HealthPickup(iHitSomething);
                     break;
+
                 case PickupType.Damage:
                     break;
-                case PickupType.Weapon:
-                    if (iHitSomething.gameObject.CompareTag(PLAYER))
-                    {
-                        iHitSomething.GetComponent<PlayerController>().EquipWeapon(_myData.GetWeaponType);
-                        gameObject.SetActive(false);
-                    }
 
+                case PickupType.Weapon:
+                    WeaponPickup(iHitSomething);
                     break;
+
                 default:
                     break;
+            }
+        }
+
+        private void WeaponPickup(Collider2D iHitSomething)
+        {
+            if (iHitSomething.gameObject.CompareTag(PLAYER))
+            {
+                iHitSomething.GetComponent<PlayerController>().EquipWeapon(_myData.GetWeaponType);
+                gameObject.SetActive(false);
+            }
+        }
+
+        private void HealthPickup(Collider2D iHitSomething)
+        {
+            if (iHitSomething.gameObject.CompareTag(PLAYER))
+            {
+                if (iHitSomething.gameObject.TryGetComponent<ITakeDamage>(out ITakeDamage makeTheObject))
+                {
+                    makeTheObject.HealDamage(_myData.GetHealAmount);
+                    gameObject.SetActive(false);
+                }
             }
         }
 

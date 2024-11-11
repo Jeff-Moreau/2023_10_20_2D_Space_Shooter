@@ -7,13 +7,14 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 10, 2024
+ * Date Last Modified: November 11, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
  ****************************************************************************************/
 
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace TrenchWars
 {
@@ -34,6 +35,7 @@ namespace TrenchWars
         [SerializeField] private GameObject _theTurret = null; // Use object pool for this
         [SerializeField] private GameObject _theHealthPickup = null; // Use object pool for this
         [SerializeField] private GameObject _theWeaponTwoUpgrade = null;
+        [SerializeField] private float _levelSpeed = 1;
 
         #endregion
         #region Private Fields: For Internal Use
@@ -43,6 +45,15 @@ namespace TrenchWars
         private float _spawnTimer;
         private float _playerHealth;
         private float _spawnTimeLimit;
+
+        #endregion
+        #region Public Properties: For Accessing Class Fields
+
+        public float LevelSpeed
+        {
+            get => _levelSpeed;
+            set => _levelSpeed = value;
+        }
 
         #endregion
 
@@ -118,37 +129,45 @@ namespace TrenchWars
 
         private void DropPickup(Transform dropLocation, float moveSpeed)
         {
-            //Debug.Log(_playerHealth);
+            float randomChance = Random.Range(0, 100);
 
             if (_playerHealth < _thePlayerData.GetMaxHealth)
             {
-                float randomChance = Random.Range(0, 100);
-
                 if (randomChance <= 50)
                 {
-                    GameObject newPickup = _levelObjectManager.GetPickup(_theHealthPickup);
+                    float secondRandomChance = Random.Range(0, 100);
 
-                    if (newPickup != null)
+                    if (secondRandomChance <= 80)
                     {
-                        newPickup.transform.SetPositionAndRotation(dropLocation.position, dropLocation.rotation);
-                        newPickup.SetActive(true);
+                        GameObject newPickup = _levelObjectManager.GetPickup(_theHealthPickup);
+
+                        DropSelectedPickup(dropLocation, newPickup);
+                    }
+                    else
+                    {
+                        GameObject newPickup = _levelObjectManager.GetPickup(_theWeaponTwoUpgrade);
+
+                        DropSelectedPickup(dropLocation, newPickup);
                     }
                 }
             }
             else
             {
-                float randomChance = Random.Range(0, 100);
-
                 if (randomChance <= 30)
                 {
                     GameObject newPickup = _levelObjectManager.GetPickup(_theWeaponTwoUpgrade);
 
-                    if (newPickup != null)
-                    {
-                        newPickup.transform.SetPositionAndRotation(dropLocation.position, dropLocation.rotation);
-                        newPickup.SetActive(true);
-                    }
+                    DropSelectedPickup(dropLocation, newPickup);
                 }
+            }
+        }
+
+        private static void DropSelectedPickup(Transform dropLocation, GameObject newPickup)
+        {
+            if (newPickup != null)
+            {
+                newPickup.transform.position = dropLocation.position;
+                newPickup.SetActive(true);
             }
         }
 
