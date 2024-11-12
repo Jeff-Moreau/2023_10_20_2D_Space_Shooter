@@ -82,6 +82,14 @@ namespace TrenchWars
             return null;
         }
 
+        public GameObject GetRandomEnemy()
+        {
+            var key = new List<GameObject>(_enemyList.Keys);
+            int randomEnemy = Random.Range(0, key.Count);
+            GameObject randomkey = key[randomEnemy];
+            return GetEnemy(randomkey);
+        }
+
         public GameObject GetPickup(GameObject prefab)
         {
             if (_pickupList.TryGetValue(prefab, out ObjectPool objectPool))

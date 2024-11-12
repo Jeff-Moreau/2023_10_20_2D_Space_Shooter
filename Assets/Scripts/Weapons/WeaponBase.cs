@@ -18,8 +18,8 @@ using System.Collections;
 
 namespace TrenchWars
 {
-	public class WeaponBase : Entity
-	{
+    public class WeaponBase : Entity
+    {
         //FIELDS
         #region Private Serialized Fields: For Inspector Editable Values
 

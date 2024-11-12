@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c9dca6bc8d545b4fb0bffdd7f6377e1, type: 3}
-  m_Name: TurretMain
+  m_Name: QuadCannonData
   m_EditorClassIdentifier: 
-  _name: Main Weapon
+  _name: Quad Cannon
   _iconImage: {fileID: 0}
-  _shortDescription: 
+  _shortDescription: Shoots 4 Cannon Shots.
   _longDescription: 
   _fireRate: 1
   _projectileType: {fileID: 2267739600030115732, guid: 82b373339280c864c97d1c21e56a09d9, type: 3}
-  _fireSound: {fileID: 8300000, guid: bcd3eddc5fdb8b847a8917c39b78c8c6, type: 3}
+  _fireSound: {fileID: 0}

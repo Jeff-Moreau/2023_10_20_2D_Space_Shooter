@@ -7,7 +7,7 @@
  * Description:
  ****************************************************************************************
  * Modified By: Jeff Moreau
- * Date Last Modified: November 10, 2024
+ * Date Last Modified: November 12, 2024
  ****************************************************************************************
  * TODO:
  * Known Bugs:
@@ -15,8 +15,6 @@
 
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 
 #region Public Enums: For Cross-Class References
 
@@ -37,50 +35,45 @@ namespace TrenchWars
         #region Private Serialized Fields: For Inspector Editable Values
 
         [Header("DATA >==============================================")]
-        [SerializeField] private Data.EnemyData _myData = null;
-        [SerializeField] private Data.WeaponData _myMainWeaponData = null;
-        [SerializeField] private Data.WeaponData _mySecondaryWeaponData = null;
+        [SerializeField] protected Data.EnemyData _myData = null;
+        [SerializeField] protected Data.WeaponData _myMainWeaponData = null;
         [Header("COLLIDERS >=========================================")]
         [SerializeField] protected BoxCollider2D _myTriggerCollider = null;
         [Header("SPAWN POINTS >======================================")]
-        [SerializeField] private GameObject _mainWeapon = null;
-        [SerializeField] private GameObject _weaponAttachmentPoint = null;
+        [SerializeField] protected GameObject _mainWeapon = null;
+        [SerializeField] protected GameObject _weaponAttachmentPoint = null;
         [Header("AUDIO >=============================================")]
-        [SerializeField] private AudioSource _audioSourceTakeDamage = null;
-        [SerializeField] private AudioSource _audioSourceWeaponSound = null;
+        [SerializeField] protected AudioSource _audioSourceTakeDamage = null;
+        [SerializeField] protected AudioSource _audioSourceWeaponSound = null;
         #endregion
         #region Private Fields: For Internal Use
 
-        private int _currentFirePosition;
+        private bool _movingDown; // Ship Two
+        protected bool _canTakeDamage; // All enemies
 
-        private bool _canFireWeapon;
-        private bool _canTakeDamage;
-        private bool _isWeaponFiring;
-        private bool _movingDown;
-        private float _currentHealth;
+        protected float _currentHealth; // All enemies
 
-        private Coroutine _weaponActive;
+        private Vector3 _startPosition; // Ship Two
+        private Vector3 _previousPosition; // Ship Two
+        private Vector3 _randomPatternOffset; // Ship Two
 
-        private GameObject _thePlayer;
+        protected GameObject _thePlayer; // All enemies
         private GameObject _currentWeapon;
 
         private WeaponBase _currentWeaponScript;
 
-        private ObjectPoolManager _levelObjectManager;
-        private LevelControl _levelControl;
-        private Vector3 _randomPatternOffset;
-        private Vector3 _startPosition;
-        private Vector3 _previousPosition;
+        protected LevelControl _levelControl; // All enemies
+
+        protected ObjectPoolManager _levelObjectManager; // All enemies
 
         #endregion
 
         //METHOD
         #region Private Initialization Methods: For Class Setup
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _levelObjectManager = FindObjectOfType<ObjectPoolManager>();
-            _levelControl = FindAnyObjectByType<LevelControl>();
 
             if (_levelObjectManager == null)
             {
@@ -88,48 +81,50 @@ namespace TrenchWars
             }
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             InitializeFields();
         }
 
-        private void InitializeFields()
+        protected virtual void InitializeFields()
         {
-            _canTakeDamage = false;
             _movingDown = false;
-            _startPosition = transform.position;
-            //_canFireWeapon = false;
-            _isWeaponFiring = false;
-            _currentFirePosition = 0;
+            _canTakeDamage = false;
+            _startPosition = transform.position; // Ship Two
             _currentHealth = _myData.GetMaxHealth;
         }
 
         #endregion
         #region Private Activation Methods: For Script Activation
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
-            EquipWeapon(_mainWeapon);
-            _thePlayer = GameObject.FindGameObjectWithTag("Player");
-            _weaponActive = null;
-            _isWeaponFiring = false;
+            _levelControl = FindObjectOfType<LevelControl>();
+
+            if (_levelObjectManager == null)
+            {
+                Debug.Log($"{gameObject.name} Cannot find the Level Controller!");
+            }
+
+            _movingDown = false;
             _myRenderer.enabled = true;
             _myTriggerCollider.enabled = true;
-            _randomPatternOffset = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
-            _movingDown = false;
             _previousPosition = transform.position;
+            _thePlayer = GameObject.FindGameObjectWithTag("Player");
+            _randomPatternOffset = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+            EquipWeapon(_mainWeapon);
         }
 
         #endregion
         #region Private Real-Time Methods: For Per-Frame Game Logic
 
-        private void Update()
+        protected virtual void Update()
         {
             switch (_myData.GetEnemyType)
             {
                 case EnemyType.Turret:
-                    TargetPlayer();
-                    transform.position -= new Vector3(0, _myData.GetMovementSpeed * _levelControl.LevelSpeed * Time.deltaTime, 0);
+/*                    TargetPlayer();
+                    transform.position -= new Vector3(0, _myData.GetMovementSpeed * _levelControl.LevelSpeed * Time.deltaTime, 0);*/
                     break;
 
                 case EnemyType.ShipOne:
@@ -198,7 +193,7 @@ namespace TrenchWars
             _previousPosition = transform.position;
         }
 
-        private void TargetPlayer()
+        protected void TargetPlayer()
         {
             if (_thePlayer != null)
             {
@@ -215,7 +210,7 @@ namespace TrenchWars
         #endregion
         #region Private Activation Methods: For Script Activation
 
-        private void OnBecameVisible()
+        protected void OnBecameVisible()
         {
             _canTakeDamage = true;
             //_canFireWeapon = true;
@@ -224,7 +219,7 @@ namespace TrenchWars
         #endregion
         #region Private Implementation Methods: For Class Use
 
-        private void EquipWeapon(GameObject newWeapon)
+        protected void EquipWeapon(GameObject newWeapon)
         {
             if (_currentWeapon != null)
             {
@@ -234,12 +229,13 @@ namespace TrenchWars
             if (_weaponAttachmentPoint != null)
             {
                 _currentWeapon = Instantiate(newWeapon, _weaponAttachmentPoint.transform.position, _weaponAttachmentPoint.transform.rotation);
+                _currentWeapon.GetComponent<SpriteRenderer>().sortingOrder = _myRenderer.sortingOrder + 1;
                 _currentWeapon.transform.SetParent(_weaponAttachmentPoint.transform);
                 _currentWeaponScript = _currentWeapon.GetComponent<WeaponBase>();
             }
         }
 
-        private void OnDeath()
+        protected void OnDeath()
         {
             LevelActions.UpdateEnemiesKilled?.Invoke();
             //Update score with a value
@@ -253,7 +249,7 @@ namespace TrenchWars
         #endregion
         #region Private Coroutine Methods: for Asynchronous Operations
 
-        private IEnumerator WaitForSoundToStop()
+        protected IEnumerator WaitForSoundToStop()
         {
             // Happens when called
             _myTriggerCollider.enabled = false;
@@ -269,7 +265,7 @@ namespace TrenchWars
         #endregion
         #region Public Methods: For External Interactions
 
-        public void TakeDamage(float incomingDamage)
+        public virtual void TakeDamage(float incomingDamage)
         {
             if (_canTakeDamage)
             {
@@ -284,7 +280,7 @@ namespace TrenchWars
             }
         }
 
-        public void HealDamage(float incomingHeal)
+        public virtual void HealDamage(float incomingHeal)
         {
             return;
         }
@@ -292,9 +288,8 @@ namespace TrenchWars
         #endregion
         #region Private Deactivation Methods: For Class Exit and Cleanup
 
-        private void OnBecameInvisible()
+        protected void OnBecameInvisible()
         {
-            //_canFireWeapon = false;
             _canTakeDamage = false;
             _currentHealth = _myData.GetMaxHealth;
             if (!_audioSourceWeaponSound.isPlaying && !_audioSourceTakeDamage.isPlaying)

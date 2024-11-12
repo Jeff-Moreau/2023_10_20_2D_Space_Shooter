@@ -370,6 +370,7 @@ namespace TrenchWars
             }
 
             _currentWeapon = Instantiate(newWeapon, _weaponAttachmentPoint.transform.position, _weaponAttachmentPoint.transform.rotation);
+            _currentWeapon.GetComponent<SpriteRenderer>().sortingOrder = _myRenderer.sortingOrder + 1;
             _currentWeapon.transform.SetParent(_weaponAttachmentPoint.transform);
             _currentWeaponScript = _currentWeapon.GetComponent<WeaponBase>();
         }

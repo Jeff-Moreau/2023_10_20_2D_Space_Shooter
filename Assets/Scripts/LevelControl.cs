@@ -14,7 +14,6 @@
  ****************************************************************************************/
 
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace TrenchWars
 {
@@ -68,7 +67,7 @@ namespace TrenchWars
 
         private void InitializeFields()
         {
-            _spawnTimeLimit = 5; // Scriptable Object for this
+            _spawnTimeLimit = 2; // Scriptable Object for this
             _currentEnemyKills = 0;
             _spawnTimer = _spawnTimeLimit;
             _playerHealth = _thePlayerData.GetMaxHealth;
@@ -105,16 +104,16 @@ namespace TrenchWars
                 float randomSelect = Random.Range(0, 100);
                 int randomSpawn = Random.Range(0, 3);
 
-                if (randomSelect <= 70)
+                if (randomSelect <= 90)
                 {
-                    GameObject newTurret = _levelObjectManager.GetEnemy(_newShip);
+                    GameObject newTurret = _levelObjectManager.GetRandomEnemy();
 
                     if (newTurret != null)
                     {
                         newTurret.transform.position = _turretSpawnLocations[randomSpawn].transform.position;
                         newTurret.SetActive(true);
                         _spawnTimer = 0;
-                        _spawnTimeLimit = Random.Range(2, 4);
+                        _spawnTimeLimit = Random.Range(1, 2);
                     }
                 }
                 else
@@ -126,7 +125,7 @@ namespace TrenchWars
                         newTurret.transform.position = _turretSpawnLocations[randomSpawn].transform.position;
                         newTurret.SetActive(true);
                         _spawnTimer = 0;
-                        _spawnTimeLimit = Random.Range(2, 4);
+                        _spawnTimeLimit = Random.Range(1, 2);
                     }
                 }
             }
