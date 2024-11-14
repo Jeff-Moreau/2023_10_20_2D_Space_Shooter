@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1920834974759692624}
   - component: {fileID: 5320184270277613674}
-  - component: {fileID: -9020115581006898615}
+  - component: {fileID: 9018961578340124837}
   - component: {fileID: 364869581333948190}
   - component: {fileID: 4539501749519045730}
   - component: {fileID: 2647856640083758824}
@@ -90,8 +90,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &-9020115581006898615
-BoxCollider2D:
+--- !u!58 &9018961578340124837
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -122,19 +122,9 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.06395623}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.78, y: 0.77}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.15, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.6465261, y: 0.6420875}
-  m_EdgeRadius: 0
+  m_Radius: 0.35
 --- !u!114 &364869581333948190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +151,7 @@ MonoBehaviour:
   - {x: 0.38999987, y: -0.38500023, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 142720
+  m_InstanceId: 32422
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.38999987, y: 0.38500023, z: 0}
@@ -181,8 +171,7 @@ MonoBehaviour:
   _myRigidbody: {fileID: 0}
   _myAnimator: {fileID: 0}
   _myData: {fileID: 11400000, guid: 6aab68edfc0605c41a9d7b9b29da61ce, type: 2}
-  _myMainWeaponData: {fileID: 11400000, guid: 133a1aa8381aa1b448776f7b213d3e08, type: 2}
-  _myTriggerCollider: {fileID: -9020115581006898615}
+  _myTriggerCollider: {fileID: 9018961578340124837}
   _mainWeapon: {fileID: 2056904979092354962, guid: a39dc2dca7a5caf4298c55adb409a29f, type: 3}
   _weaponAttachmentPoint: {fileID: 7166481223427660982}
   _audioSourceTakeDamage: {fileID: 2647856640083758824}

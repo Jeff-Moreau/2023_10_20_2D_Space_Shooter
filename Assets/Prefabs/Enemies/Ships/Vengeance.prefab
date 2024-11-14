@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1920834974759692624}
   - component: {fileID: 5320184270277613674}
-  - component: {fileID: -9020115581006898615}
+  - component: {fileID: 7951066393353783483}
   - component: {fileID: 364869581333948190}
   - component: {fileID: 4539501749519045730}
   - component: {fileID: 2647856640083758824}
@@ -90,8 +90,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &-9020115581006898615
-BoxCollider2D:
+--- !u!58 &7951066393353783483
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -122,19 +122,9 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.06395623}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.78, y: 0.77}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.15, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.6465261, y: 0.6420875}
-  m_EdgeRadius: 0
+  m_Radius: 0.35
 --- !u!114 &364869581333948190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +151,7 @@ MonoBehaviour:
   - {x: 0.38999987, y: -0.38500023, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 145556
+  m_InstanceId: 32652
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.38999987, y: 0.38500023, z: 0}
@@ -181,8 +171,7 @@ MonoBehaviour:
   _myRigidbody: {fileID: 0}
   _myAnimator: {fileID: 0}
   _myData: {fileID: 11400000, guid: f95974ff2ef9ddc4fbe7ae23de78f6c5, type: 2}
-  _myMainWeaponData: {fileID: 11400000, guid: 133a1aa8381aa1b448776f7b213d3e08, type: 2}
-  _myTriggerCollider: {fileID: -9020115581006898615}
+  _myTriggerCollider: {fileID: 7951066393353783483}
   _mainWeapon: {fileID: 0}
   _weaponAttachmentPoint: {fileID: 0}
   _audioSourceTakeDamage: {fileID: 2647856640083758824}

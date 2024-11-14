@@ -19,18 +19,6 @@ namespace TrenchWars
 {
 	public class Turret : EnemyController
 	{
-		//FIELDS
-		#region Private Serialized Fields: For Inspector Editable Values
-		
-		// [SerializeField] private GameObject _myObject = null;  // Example
-		
-		#endregion
-		#region Private Fields: For Internal Use
-		
-		// private int _myInt;  // Example
-		
-		#endregion
-		
 		//METHODS
 		#region Private Initialization Methods: For Class Setup
 		

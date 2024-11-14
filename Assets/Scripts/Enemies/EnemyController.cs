@@ -36,9 +36,8 @@ namespace TrenchWars
 
         [Header("DATA >==============================================")]
         [SerializeField] protected Data.EnemyData _myData = null;
-        [SerializeField] protected Data.WeaponData _myMainWeaponData = null;
         [Header("COLLIDERS >=========================================")]
-        [SerializeField] protected BoxCollider2D _myTriggerCollider = null;
+        [SerializeField] protected CircleCollider2D _myTriggerCollider = null;
         [Header("SPAWN POINTS >======================================")]
         [SerializeField] protected GameObject _mainWeapon = null;
         [SerializeField] protected GameObject _weaponAttachmentPoint = null;
@@ -123,13 +122,10 @@ namespace TrenchWars
             switch (_myData.GetEnemyType)
             {
                 case EnemyType.Turret:
-/*                    TargetPlayer();
-                    transform.position -= new Vector3(0, _myData.GetMovementSpeed * _levelControl.LevelSpeed * Time.deltaTime, 0);*/
                     break;
 
                 case EnemyType.ShipOne:
                     TargetPlayer();
-                    Vector3 directionToPlayer = _thePlayer.transform.position - transform.position;
                     Vector3 patternMovement = _randomPatternOffset * 0.75f;
                     Vector3 targetPosition = _thePlayer.transform.position + patternMovement;
                     Vector3 movementDirection = (targetPosition - transform.position).normalized;
